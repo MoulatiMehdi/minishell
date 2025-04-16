@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   garbge_collector.h                                 :+:      :+:    :+:   */
+/*   collector.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:09:45 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/04/16 16:09:45 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/04/16 19:31:31 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GARBGE_COLLECTOR_H
-# define GARBGE_COLLECTOR_H
+#ifndef COLLECTOR_H
 
-# define GARBDE_COLLECTOR_H
+# define COLLECTOR_H
 
+# include "libft/libft.h"
 # include <stdlib.h>
 
 void	ft_free(void *addr);
