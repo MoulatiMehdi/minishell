@@ -29,7 +29,7 @@ typedef enum e_state
 
 t_token *tokenize(const char *line);
 void add_token(t_token **head, const char *start, int len);
-int is_double_operator(char c1, char c2);
+int is_double_operator(const char *str, int length);
 int is_operator_char(char c);
 
 #endif

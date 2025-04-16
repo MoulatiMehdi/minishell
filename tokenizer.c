@@ -5,9 +5,22 @@ int is_operator_char(char c)
 	return (c == '|' || c == '<' || c == '>' || c == '&');
 }
 
-int is_double_operator(char c1, char c2)
+int is_double_operator(const char *str, int length)
 {
-	return (c1 == c2 && is_operator_char(c1));
+	static const char *operators[] = {
+		">>",
+		"<<",
+		"||",
+		"&&",
+		NULL};
+	int i = 0;
+	while (operators[i])
+	{
+		if (strncmp(str, operators[i], length) == 0)
+			return 1;
+		i++;
+	}
+	return 0;
 }
 
 void add_token(t_token **head, const char *start, int len)
@@ -51,7 +64,7 @@ t_token *tokenize(const char *line)
 	{
 		curr = line[i];
 
-		if (state == STATE_OPERATOR && is_double_operator(line[token_start], curr))
+		if (state == STATE_OPERATOR && is_double_operator(line + token_start, 2))
 		{
 			add_token(&head, &line[token_start], 2);
 			i++;
@@ -125,4 +138,21 @@ t_token *tokenize(const char *line)
 		add_token(&head, &line[token_start], 1);
 
 	return head;
+}
+
+int main(void)
+{
+	const char *input = "echo \"'nested' \"quotes\"\" 'a\"b\"c' \"a'b'c\"";
+	t_token *tokens = tokenize(input);
+	t_token *tmp = tokens;
+
+	printf("Input: %s\n\n", input);
+	printf("Tokens:\n");
+	while (tmp)
+	{
+		printf(" - %-20.*s | Length: %2d\n",
+			   (int)tmp->length, tmp->value, (int)tmp->length);
+		tmp = tmp->next;
+	}
+	return 0;
 }
