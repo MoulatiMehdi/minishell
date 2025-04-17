@@ -1,31 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tokenizer.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: okhourss <okhourss@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/16 22:23:41 by okhourss          #+#    #+#             */
+/*   Updated: 2025/04/17 13:39:21 by okhourss         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "tokenizer.h"
 
-int is_operator_char(char c)
+t_token	*add_token(t_token **head, t_token *last, const char *start, int len)
 {
-	return (c == '|' || c == '<' || c == '>' || c == '&');
-}
+	t_token	*new;
 
-int is_double_operator(const char *str, int length)
-{
-	static const char *operators[] = {
-		">>",
-		"<<",
-		"||",
-		"&&",
-		NULL};
-	int i = 0;
-	while (operators[i])
-	{
-		if (strncmp(str, operators[i], length) == 0)
-			return 1;
-		i++;
-	}
-	return 0;
-}
-
-void add_token(t_token **head, const char *start, int len)
-{
-	t_token *new = malloc(sizeof(t_token));
+	new = malloc(sizeof(t_token));
 	new->value = start;
 	new->length = len;
 	new->type = -1;
@@ -33,126 +24,100 @@ void add_token(t_token **head, const char *start, int len)
 	if (!*head)
 		*head = new;
 	else
-	{
-		t_token *tmp = *head;
-		while (tmp->next)
-			tmp = tmp->next;
-		tmp->next = new;
-	}
+		last->next = new;
+	return (new);
 }
 
-int collect_quoted(const char *line, int i, char quote, const char **out)
+int	handle_quoted_token(t_tokenizer *t)
 {
-	int start = i++;
-	while (line[i] && line[i] != quote)
-		i++;
-	if (!line[i])
-		return -1;
-	*out = &line[start];
-	return i - start + 1;
+	const char	*quoted;
+	int			len;
+	char		curr;
+
+	curr = t->line[t->i];
+	if (curr != '\'' && curr != '"')
+		return (0);
+	if (t->state == STATE_WORD)
+	{
+		t->last = add_token(&t->head, t->last, &t->line[t->start], t->i
+				- t->start);
+		t->state = STATE_NONE;
+	}
+	len = collect_quoted(t->line, t->i, curr, &quoted);
+	if (len == -1)
+	{
+		printf("Unclosed quote\n");
+		return (-1);
+	}
+	t->last = add_token(&t->head, t->last, quoted, len);
+	t->i += len;
+	return (1);
 }
 
-t_token *tokenize(const char *line)
+int	handle_operator_token(t_tokenizer *t)
 {
-	t_token *head = NULL;
-	t_state state = STATE_NONE;
-	int token_start = 0;
-	int i = 0;
-	char curr;
-
-	while (line[i])
+	if (t->state == STATE_OPERATOR && is_double_operator(&t->line[t->start]))
 	{
-		curr = line[i];
-
-		if (state == STATE_OPERATOR && is_double_operator(line + token_start, 2))
-		{
-			add_token(&head, &line[token_start], 2);
-			i++;
-			state = STATE_NONE;
-			continue;
-		}
-		if (state == STATE_OPERATOR)
-		{
-			add_token(&head, &line[token_start], 1);
-			state = STATE_NONE;
-			continue;
-		}
-
-		if (curr == '\'' || curr == '"')
-		{
-			if (state == STATE_WORD)
-			{
-				add_token(&head, &line[token_start], i - token_start);
-				state = STATE_NONE;
-			}
-			const char *quoted;
-			int len = collect_quoted(line, i, curr, &quoted);
-			if (len == -1)
-			{
-				printf("Error: quote not closed\n");
-				return NULL;
-			}
-			add_token(&head, quoted, len);
-			i += len;
-			continue;
-		}
-
-		if (is_operator_char(curr))
-		{
-			if (state == STATE_WORD)
-			{
-				add_token(&head, &line[token_start], i - token_start);
-				state = STATE_NONE;
-			}
-			token_start = i;
-			state = STATE_OPERATOR;
-			i++;
-			continue;
-		}
-
-		if (curr == ' ' || curr == '\t')
-		{
-			if (state == STATE_WORD)
-			{
-				add_token(&head, &line[token_start], i - token_start);
-				state = STATE_NONE;
-			}
-			i++;
-			continue;
-		}
-
-		if (state == STATE_WORD)
-		{
-			i++;
-			continue;
-		}
-
-		token_start = i;
-		state = STATE_WORD;
-		i++;
+		t->last = add_token(&t->head, t->last, &t->line[t->start], 2);
+		t->i += 1;
+		t->state = STATE_NONE;
+		return (1);
 	}
-
-	if (state == STATE_WORD)
-		add_token(&head, &line[token_start], i - token_start);
-	else if (state == STATE_OPERATOR)
-		add_token(&head, &line[token_start], 1);
-
-	return head;
+	if (t->state == STATE_OPERATOR)
+	{
+		t->last = add_token(&t->head, t->last, &t->line[t->start], 1);
+		t->state = STATE_NONE;
+		return (1);
+	}
+	if (is_operator_char(t->line[t->i]))
+	{
+		if (t->state == STATE_WORD)
+			t->last = add_token(&t->head, t->last, &t->line[t->start], t->i
+					- t->start);
+		t->start = t->i++;
+		t->state = STATE_OPERATOR;
+		return (1);
+	}
+	return (0);
 }
 
-int main(void)
+int	handle_whitespace_token(t_tokenizer *t)
 {
-	const char *input = "echo \"'nested' \"quotes\"\" 'a\"b\"c' \"a'b'c\"";
-	t_token *tokens = tokenize(input);
-	t_token *tmp = tokens;
-
-	printf("Input: %s\n\n", input);
-	printf("Tokens:\n");
-	while (tmp)
+	if (t->line[t->i] == ' ' || t->line[t->i] == '\t')
 	{
-		printf(" - %-20.*s | Length: %2d\n",
-			   (int)tmp->length, tmp->value, (int)tmp->length);
-		tmp = tmp->next;
+		if (t->state == STATE_WORD)
+			t->last = add_token(&t->head, t->last, &t->line[t->start], t->i
+					- t->start);
+		t->i++;
+		t->state = STATE_NONE;
+		return (1);
 	}
-	return 0;
+	return (0);
+}
+
+t_token	*tokenize(const char *line)
+{
+	t_tokenizer	t;
+	char		c;
+	int			quote_status;
+
+	init_token(&t, line);
+	while (t.line[t.i])
+	{
+		c = t.line[t.i];
+		if (handle_operator_token(&t) || handle_whitespace_token(&t))
+			continue ;
+		quote_status = handle_quoted_token(&t);
+		if (quote_status == -1)
+			return (NULL);
+		if (quote_status == 1)
+			continue ;
+		if (should_start_word(t.state, c))
+		{
+			t.start = t.i;
+			t.state = STATE_WORD;
+		}
+		t.i++;
+	}
+	return (finalize_token(&t));
 }

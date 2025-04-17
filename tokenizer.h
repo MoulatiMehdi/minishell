@@ -1,35 +1,66 @@
-#ifndef TOKENIZER_H
-#define TOKENIZER_H
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tokenizer.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: okhourss <okhourss@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/16 22:23:37 by okhourss          #+#    #+#             */
+/*   Updated: 2025/04/17 13:38:46 by okhourss         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#ifndef TOKENIZER_H
+# define TOKENIZER_H
+
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
 
 typedef enum e_token_type
 {
 	TOKEN_WORD,
 	TOKEN_OPERATOR,
 	TOKEN_QUOTED_STRING
-} t_token_type;
+}					t_token_type;
 
 typedef struct s_token
 {
-	const char *value;
-	t_token_type type;
-	size_t length;
-	struct s_token *next;
-} t_token;
+	const char		*value;
+	t_token_type	type;
+	size_t			length;
+	struct s_token	*next;
+}					t_token;
 
 typedef enum e_state
 {
 	STATE_NONE,
 	STATE_WORD,
 	STATE_OPERATOR
-} t_state;
+}					t_state;
 
-t_token *tokenize(const char *line);
-void add_token(t_token **head, const char *start, int len);
-int is_double_operator(const char *str, int length);
-int is_operator_char(char c);
+typedef struct s_tokenizer
+{
+	const char		*line;
+	int				i;
+	int				start;
+	t_state			state;
+	t_token			*head;
+	t_token			*last;
+}					t_tokenizer;
+
+t_token				*add_token(t_token **head, t_token *last, const char *start,
+						int len);
+int					handle_quoted_token(t_tokenizer *t);
+int					handle_operator_token(t_tokenizer *t);
+int					handle_whitespace_token(t_tokenizer *t);
+t_token				*tokenize(const char *line);
+int					is_operator_char(char c);
+int					is_double_operator(const char *str);
+int					collect_quoted(const char *line, int i, char quote,
+						const char **start);
+void				init_token(t_tokenizer *t, const char *line);
+int					should_start_word(t_state state, char c);
+t_token				*finalize_token(t_tokenizer *t);
 
 #endif
