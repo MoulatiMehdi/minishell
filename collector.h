@@ -6,7 +6,7 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:09:45 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/04/16 19:31:31 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/04/17 10:43:30 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 # define COLLECTOR_H
 
-# include "libft/libft.h"
+# include "libft.h"
 # include <stdlib.h>
 
 void	ft_free(void *addr);
