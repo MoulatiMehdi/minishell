@@ -18,7 +18,7 @@ int	is_operator_char(char c)
 		|| c == ')');
 }
 
-int	is_double_operator(const char *str)
+int	ft_str_isoperator(const char *str)
 {
 	static const char	*ops[] = {">>", "<<", "||", "&&", NULL};
 	int					i;

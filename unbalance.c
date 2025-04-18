@@ -15,7 +15,7 @@
 /*
  * Return the characters that is unbalanced
  */
-char	ft_unbalanced_find(const char *str)
+static char	ft_unbalanced_find(const char *str)
 {
 	long	count_parens;
 	size_t	i;
@@ -43,13 +43,16 @@ char	ft_unbalanced_find(const char *str)
 	return ((count_parens != 0) * '(');
 }
 
-void	*ft_error_unbalance(char c)
+int	is_unbalance(const char *str)
 {
+	char	c;
+
+	c = ft_unbalanced_find(str);
 	if (c == '(' || c == ')')
 		write(2, "Syntax error : Unbalanced parentheses\n", 38);
 	if (c == '"')
 		write(2, "Syntax error : Unbalanced double quotes\n", 40);
 	if (c == '\'')
 		write(2, "Syntax error : Unbalanced single quotes\n", 40);
-	return (NULL);
+	return (c != '\0');
 }
