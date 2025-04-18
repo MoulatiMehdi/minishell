@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 12:55:33 by okhourss          #+#    #+#             */
-/*   Updated: 2025/04/17 13:38:28 by okhourss         ###   ########.fr       */
+/*   Updated: 2025/04/18 11:24:12 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 int	is_operator_char(char c)
 {
-	return (c == '|' || c == '<' || c == '>' || c == '&');
+	return (c == '|' || c == '<' || c == '>' || c == '&' || c == '('
+		|| c == ')');
 }
 
 int	is_double_operator(const char *str)

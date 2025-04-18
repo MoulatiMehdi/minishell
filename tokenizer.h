@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 22:23:37 by okhourss          #+#    #+#             */
-/*   Updated: 2025/04/17 13:38:46 by okhourss         ###   ########.fr       */
+/*   Updated: 2025/04/18 11:28:34 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,5 @@ void				init_token(t_tokenizer *t, const char *line);
 int					should_start_word(t_state state, char c);
 t_token				*finalize_token(t_tokenizer *t);
 
+int					is_balanced(char *str);
 #endif
