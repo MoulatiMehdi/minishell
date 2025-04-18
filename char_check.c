@@ -40,3 +40,7 @@ int	ft_char_iseoi(char c)
 {
 	return (c == '\0');
 }
+
+int	ft_char_isword(char c)
+{
+}

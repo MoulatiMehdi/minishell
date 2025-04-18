@@ -23,14 +23,14 @@ void	init_token(t_tokenizer *t, const char *line)
 	t->last = NULL;
 }
 
-t_token	*ft_token_new(char *value)
+t_token	*ft_token_new(const char *value, size_t length)
 {
 	t_token	*token_new;
 
 	token_new = malloc(sizeof(t_token *));
 	token_new->next = NULL;
-	token_new->length = 0;
-	token_new->type = 0;
+	token_new->length = length;
+	token_new->type = -1;
 	token_new->value = value;
 	return (token_new);
 }
@@ -56,7 +56,7 @@ void	ft_token_addeoi(t_token **head)
 {
 	t_token	*token;
 
-	token = ft_token_new(NULL);
+	token = ft_token_new(NULL, 0);
 	if (token == NULL)
 		return ;
 	token->type = TOKEN_EOI;

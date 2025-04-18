@@ -68,7 +68,7 @@ t_token				*finalize_token(t_tokenizer *t);
 
 int					is_unbalance(const char *str);
 
-t_token				*ft_token_new(char *value);
+t_token				*ft_token_new(const char *value, size_t length);
 void				ft_token_push(t_token **head, t_token *new_elem);
 void				ft_token_addeoi(t_token **head);
 #endif

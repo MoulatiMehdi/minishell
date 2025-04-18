@@ -6,94 +6,32 @@
 /*   By: okhourss <okhourss@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 22:23:41 by okhourss          #+#    #+#             */
-/*   Updated: 2025/04/18 12:17:29 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/04/18 18:47:11 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "char.h"
+#include "libft/libft.h"
 #include "tokenizer.h"
 
-t_token	*add_token(t_token **head, t_token *last, const char *start, int len)
+void	ft_token_name(t_token **token, const char *str)
 {
-	t_token	*new;
+	size_t	i;
 
-	new = malloc(sizeof(t_token));
-	new->value = start;
-	new->length = len;
-	new->type = -1;
-	new->next = NULL;
-	if (!*head)
-		*head = new;
-	else
-		last->next = new;
-	return (new);
-}
-
-int	handle_quoted_token(t_tokenizer *t)
-{
-	const char	*quoted;
-	int			len;
-	char		curr;
-
-	curr = t->line[t->i];
-	if (curr != '\'' && curr != '"')
-		return (0);
-	if (t->state == STATE_WORD)
+	i = 0;
+	if (*token == NULL)
+		*token = ft_token_new(str, 1);
+	i++;
+	if (!ft_isalpha(str[i]) && str[i] != '_')
+		return ;
+	i++;
+	(*token)->length++;
+	while (ft_isalnum(str[i]) || str[i] == '_')
 	{
-		t->last = add_token(&t->head, t->last, &t->line[t->start], t->i
-				- t->start);
-		t->state = STATE_NONE;
+		(*token)->length++;
+		i++;
 	}
-	len = collect_quoted(t->line, t->i, curr, &quoted);
-	if (len == -1)
-	{
-		printf("Unclosed quote\n");
-		return (-1);
-	}
-	t->last = add_token(&t->head, t->last, quoted, len);
-	t->i += len;
-	return (1);
-}
-
-int	handle_operator_token(t_tokenizer *t)
-{
-	if (t->state == STATE_OPERATOR && ft_str_isoperator(&t->line[t->start]))
-	{
-		t->last = add_token(&t->head, t->last, &t->line[t->start], 2);
-		t->i += 1;
-		t->state = STATE_NONE;
-		return (1);
-	}
-	if (t->state == STATE_OPERATOR)
-	{
-		t->last = add_token(&t->head, t->last, &t->line[t->start], 1);
-		t->state = STATE_NONE;
-		return (1);
-	}
-	if (is_operator_char(t->line[t->i]))
-	{
-		if (t->state == STATE_WORD)
-			t->last = add_token(&t->head, t->last, &t->line[t->start], t->i
-					- t->start);
-		t->start = t->i++;
-		t->state = STATE_OPERATOR;
-		return (1);
-	}
-	return (0);
-}
-
-int	handle_whitespace_token(t_tokenizer *t)
-{
-	if (t->line[t->i] == ' ' || t->line[t->i] == '\t')
-	{
-		if (t->state == STATE_WORD)
-			t->last = add_token(&t->head, t->last, &t->line[t->start], t->i
-					- t->start);
-		t->i++;
-		t->state = STATE_NONE;
-		return (1);
-	}
-	return (0);
+	return ;
 }
 
 t_token	*tokenize(const char *line)
@@ -133,10 +71,38 @@ t_token	*tokenize(const char *line)
 		}
 		if (ft_char_isquote(char_curr))
 		{
+			while (line[i])
+			{
+				token_curr->length++;
+				i++;
+				if (line[i] == char_curr)
+					break ;
+			}
+			i++;
+			token_curr->length++;
+			continue ;
 		}
 		if (ft_char_isdollar(char_curr))
 		{
+			ft_token_name(&token_curr, &line[i]);
+			continue ;
 		}
+		if (ft_char_isoperator(char_curr))
+		{
+			ft_token_push(&token_head, token_curr);
+			i++;
+			token_curr = ft_token_new(&line[i], 1);
+			i++;
+			continue ;
+		}
+		if (ft_char_isblank(char_curr))
+		{
+			ft_token_push(&token_head, token_curr);
+			token_curr = NULL;
+			i++;
+			continue ;
+		}
+		token_curr = ft_token_new(&line[i], 1);
 	}
 	return (token_head);
 }
