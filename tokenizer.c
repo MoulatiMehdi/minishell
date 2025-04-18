@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 22:23:41 by okhourss          #+#    #+#             */
-/*   Updated: 2025/04/17 13:39:21 by okhourss         ###   ########.fr       */
+/*   Updated: 2025/04/18 12:17:29 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,9 @@ t_token	*tokenize(const char *line)
 	char		c;
 	int			quote_status;
 
+	c = ft_unbalanced_find(line);
+	if (c)
+		return (ft_error_unbalance(c));
 	init_token(&t, line);
 	while (t.line[t.i])
 	{

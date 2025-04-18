@@ -16,6 +16,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
+# include <unistd.h>
 
 typedef enum e_token_type
 {
@@ -63,5 +64,6 @@ void				init_token(t_tokenizer *t, const char *line);
 int					should_start_word(t_state state, char c);
 t_token				*finalize_token(t_tokenizer *t);
 
-int					is_balanced(char *str);
+char				ft_unbalanced_find(const char *str);
+void				*ft_error_unbalance(char c);
 #endif

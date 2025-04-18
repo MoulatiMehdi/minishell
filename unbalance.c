@@ -12,7 +12,10 @@
 
 #include "tokenizer.h"
 
-int	is_balanced(char *str)
+/*
+ * Return the characters that is unbalanced
+ */
+char	ft_unbalanced_find(const char *str)
 {
 	long	count_parens;
 	size_t	i;
@@ -26,16 +29,27 @@ int	is_balanced(char *str)
 		count_parens += (c == '(');
 		count_parens -= (c == ')');
 		if (count_parens < 0)
-			return (0);
+			return (')');
 		if (c == '"' || c == '\'')
 		{
 			i++;
 			while (str[i] && str[i] != c)
 				i++;
 			if (str[i] != c)
-				return (0);
+				return (c);
 		}
 		i++;
 	}
-	return (count_parens == 0);
+	return ((count_parens != 0) * '(');
+}
+
+void	*ft_error_unbalance(char c)
+{
+	if (c == '(' || c == ')')
+		write(2, "Syntax error : Unbalanced parentheses\n", 38);
+	if (c == '"')
+		write(2, "Syntax error : Unbalanced double quotes\n", 40);
+	if (c == '\'')
+		write(2, "Syntax error : Unbalanced single quotes\n", 40);
+	return (NULL);
 }
