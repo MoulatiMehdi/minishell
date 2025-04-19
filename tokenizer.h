@@ -13,6 +13,7 @@
 #ifndef TOKENIZER_H
 # define TOKENIZER_H
 
+# include "collector.h"
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>

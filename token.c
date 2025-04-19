@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 12:52:38 by okhourss          #+#    #+#             */
-/*   Updated: 2025/04/19 16:06:16 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/04/19 16:29:51 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_token	*ft_token_new(const char *value, size_t length)
 {
 	t_token	*token_new;
 
-	token_new = malloc(sizeof(t_token));
+	token_new = ft_malloc(sizeof(t_token));
 	if (token_new == NULL)
 		return (NULL);
 	token_new->next = NULL;
