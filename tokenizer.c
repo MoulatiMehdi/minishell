@@ -28,10 +28,27 @@ void	ft_token_name(t_token **token, const char *str)
 	(*token)->length++;
 	while (ft_isalnum(str[i]) || str[i] == '_')
 	{
-		(*token)->length++;
 		i++;
 	}
+	(*token)->length += i;
 	return ;
+}
+
+void	ft_token_quote(t_token **token, const char *str)
+{
+	size_t	i;
+	char	char_curr;
+
+	i = 0;
+	char_curr = str[i];
+	while (str[i])
+	{
+		i++;
+		if (str[i] == char_curr)
+			break ;
+	}
+	i++;
+	(*token)->length += i;
 }
 
 t_token	*tokenize(const char *line)
@@ -71,15 +88,7 @@ t_token	*tokenize(const char *line)
 		}
 		if (ft_char_isquote(char_curr))
 		{
-			while (line[i])
-			{
-				token_curr->length++;
-				i++;
-				if (line[i] == char_curr)
-					break ;
-			}
-			i++;
-			token_curr->length++;
+			ft_token_quote(&token_curr, &line[i]);
 			continue ;
 		}
 		if (ft_char_isdollar(char_curr))
