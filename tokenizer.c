@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 22:23:41 by okhourss          #+#    #+#             */
-/*   Updated: 2025/04/19 17:05:23 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/04/19 18:00:46 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,16 @@ static void	ft_token_expansion(t_token **token_curr, const char *line,
 
 static void	ft_token_quote(t_token **token_curr, const char *line, size_t *i)
 {
+	char	c;
+
 	if (!*token_curr)
 		*token_curr = ft_token_new(&line[*i], 0);
+	c = line[*i];
 	while (line[*i])
 	{
 		(*token_curr)->length++;
 		(*i)++;
-		if (ft_char_isquote(line[*i]))
+		if (line[*i] == c)
 			break ;
 	}
 	(*i)++;
