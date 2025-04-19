@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 22:23:41 by okhourss          #+#    #+#             */
-/*   Updated: 2025/04/19 13:04:59 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/04/19 15:16:14 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ t_token	*tokenize(const char *line)
 {
 	t_token	*token_head;
 	t_token	*token_curr;
+	t_token	*token_last;
 	char	char_curr;
 	size_t	i;
 
