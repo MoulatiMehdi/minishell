@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 22:23:41 by okhourss          #+#    #+#             */
-/*   Updated: 2025/04/19 16:11:11 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/04/19 17:05:23 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ static void	ft_token_quote(t_token **token_curr, const char *line, size_t *i)
 			break ;
 	}
 	(*i)++;
+	(*token_curr)->length++;
 }
 
 static int	ft_token_operator(t_token **token_head, t_token **token_curr,
