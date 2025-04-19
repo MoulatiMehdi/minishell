@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 22:23:37 by okhourss          #+#    #+#             */
-/*   Updated: 2025/04/18 13:46:07 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/04/19 11:26:30 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,6 @@ typedef struct s_tokenizer
 	t_token			*last;
 }					t_tokenizer;
 
-t_token				*add_token(t_token **head, t_token *last, const char *start,
-						int len);
 int					handle_quoted_token(t_tokenizer *t);
 int					handle_operator_token(t_tokenizer *t);
 int					handle_whitespace_token(t_tokenizer *t);
@@ -71,4 +69,7 @@ int					is_unbalance(const char *str);
 t_token				*ft_token_new(const char *value, size_t length);
 void				ft_token_push(t_token **head, t_token *new_elem);
 void				ft_token_addeoi(t_token **head);
+
+void				ft_token_expansion(t_token **token, const char *str);
+void				ft_token_quote(t_token **token, const char *str);
 #endif

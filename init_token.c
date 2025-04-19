@@ -27,7 +27,9 @@ t_token	*ft_token_new(const char *value, size_t length)
 {
 	t_token	*token_new;
 
-	token_new = malloc(sizeof(t_token *));
+	token_new = malloc(sizeof(t_token));
+	if (token_new == NULL)
+		return (NULL);
 	token_new->next = NULL;
 	token_new->length = length;
 	token_new->type = -1;

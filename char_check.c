@@ -6,7 +6,7 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 13:33:02 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/04/18 13:33:02 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/04/19 11:21:58 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,4 @@ int	ft_char_isquote(char c)
 int	ft_char_iseoi(char c)
 {
 	return (c == '\0');
-}
-
-int	ft_char_isword(char c)
-{
 }
