@@ -6,7 +6,7 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 13:33:02 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/04/19 11:21:58 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/04/19 13:06:11 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	ft_char_isnewline(char c)
 int	ft_char_isoperator(char c)
 {
 	return (c == '"' || c == '\'' || c == ')' || c == '(' || c == '|'
-		|| c == '&');
+		|| c == '&' || c == '<' || c == '>');
 }
 
 int	ft_char_isdollar(char c)

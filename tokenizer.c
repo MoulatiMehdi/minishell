@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 22:23:41 by okhourss          #+#    #+#             */
-/*   Updated: 2025/04/19 11:42:55 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/04/19 13:04:59 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,71 +68,87 @@ void	ft_token_operator(t_token **token, const char *str)
 
 t_token	*tokenize(const char *line)
 {
-	size_t	i;
 	t_token	*token_head;
 	t_token	*token_curr;
-	char	char_prev;
 	char	char_curr;
+	size_t	i;
 
-	i = 0;
-	char_curr = '\0';
-	token_head = NULL;
-	token_curr = NULL;
 	if (is_unbalance(line))
 		return (NULL);
+	i = 0;
+	token_curr = NULL;
+	token_head = NULL;
 	while (1)
 	{
-		char_prev = char_curr;
-		char_curr = line[i];
-		if (ft_char_iseoi(char_curr))
+		if (line[i] == '\0')
 		{
-			if (token_curr != NULL)
+			if (token_curr)
 				ft_token_push(&token_head, token_curr);
 			ft_token_addeoi(&token_head);
 			break ;
 		}
-		else if (ft_char_isoperator(char_prev))
+		if (ft_str_isoperator(&line[i]))
 		{
-			if (ft_str_isoperator(token_curr->value))
-			{
-				token_curr->length++;
-				i++;
-				char_curr = line[i];
-				continue ;
-			}
-			else
-			{
+			if (token_curr)
 				ft_token_push(&token_head, token_curr);
-				token_curr = NULL;
-			}
+			ft_token_push(&token_head, ft_token_new(&line[i], 2));
+			token_curr = NULL;
+			i += 2;
+			continue ;
 		}
-		if (ft_char_isquote(char_curr))
+		if (ft_char_isoperator(line[i]) && line[i] != '&')
 		{
-			ft_token_quote(&token_curr, &line[i]);
-		}
-		else if (ft_char_isdollar(char_curr))
-		{
-			ft_token_expansion(&token_curr, &line[i]);
-		}
-		else if (ft_char_isoperator(char_curr))
-		{
-			ft_token_push(&token_head, token_curr);
-			token_curr = ft_token_new(&line[i + token_curr->length], 1);
-		}
-		else if (ft_char_isblank(char_curr))
-		{
-			ft_token_push(&token_head, token_curr);
+			if (token_curr)
+				ft_token_push(&token_head, token_curr);
+			ft_token_push(&token_head, ft_token_new(&line[i], 1));
 			token_curr = NULL;
 			i++;
 			continue ;
 		}
-		else if (token_curr == NULL)
-			token_curr = ft_token_new(&line[i], 1);
-		else
+		if (ft_char_isquote(line[i]))
+		{
+			if (!token_curr)
+				token_curr = ft_token_new(&line[i], 0);
+			while (line[i])
+			{
+				token_curr->length++;
+				i++;
+				if (ft_char_isquote(line[i]))
+					break ;
+			}
+			i++;
+			continue ;
+		}
+		if (ft_char_isdollar(line[i]))
+		{
+			if (token_curr == NULL)
+				token_curr = ft_token_new(&line[i], 0);
 			token_curr->length++;
-		if (token_curr)
-			i += token_curr->length;
-		char_curr = line[i];
+			i++;
+			if (!ft_isalpha(line[i]) && line[i] != '_')
+				continue ;
+			i++;
+			(token_curr)->length++;
+			while (ft_isalnum(line[i]) || line[i] == '_')
+			{
+				i++;
+				(token_curr)->length++;
+			}
+			continue ;
+		}
+		if (ft_char_isblank(line[i]))
+		{
+			if (token_curr)
+				ft_token_push(&token_head, token_curr);
+			token_curr = NULL;
+			while (ft_char_isblank(line[i]))
+				i++;
+			continue ;
+		}
+		if (!token_curr)
+			token_curr = ft_token_new(&line[i], 0);
+		token_curr->length++;
+		i++;
 	}
 	return (token_head);
 }

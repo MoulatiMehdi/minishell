@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 
+char	str[1024];
 int	main(int argc, char **argv)
 {
 	t_token	*tokens;
@@ -20,7 +21,11 @@ int	main(int argc, char **argv)
 		if (tmp->type == TOKEN_EOI)
 			printf("\tEND_OF_INPUT\n");
 		else
-			printf("\t%s\n", strndup(tmp->value, tmp->length));
+		{
+			strncpy(str, tmp->value, tmp->length);
+			str[tmp->length] = 0;
+			printf("\t%s\n", str);
+		}
 		tmp = tmp->next;
 	}
 	return (0);

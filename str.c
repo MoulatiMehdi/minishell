@@ -8,7 +8,7 @@ int	ft_str_isoperator(const char *str)
 	i = 0;
 	while (operators[i])
 	{
-		if (strncmp(str, operators[i], 2))
+		if (strncmp(str, operators[i], 2) == 0)
 			return (1);
 		i++;
 	}
