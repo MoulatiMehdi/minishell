@@ -1,27 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_token.c                                       :+:      :+:    :+:   */
+/*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: okhourss <okhourss@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 12:52:38 by okhourss          #+#    #+#             */
-/*   Updated: 2025/04/18 13:21:56 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/04/19 16:06:16 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokenizer.h"
-#include <stdlib.h>
-
-void	init_token(t_tokenizer *t, const char *line)
-{
-	t->line = line;
-	t->i = 0;
-	t->start = 0;
-	t->state = STATE_NONE;
-	t->head = NULL;
-	t->last = NULL;
-}
 
 t_token	*ft_token_new(const char *value, size_t length)
 {
@@ -39,25 +28,23 @@ t_token	*ft_token_new(const char *value, size_t length)
 
 void	ft_token_push(t_token **head, t_token *new_elem)
 {
-	t_token	*p;
+	static t_token	*last = NULL;
 
 	if (!head || !new_elem)
 		return ;
 	if (*head == NULL)
-	{
 		*head = new_elem;
-		return ;
-	}
-	p = *head;
-	while (p->next)
-		p = p->next;
-	p->next = new_elem;
+	else
+		last->next = new_elem;
+	last = new_elem;
 }
 
-void	ft_token_addeoi(t_token **head)
+void	ft_token_addeoi(t_token **head, t_token *token_curr)
 {
 	t_token	*token;
 
+	if (token_curr)
+		ft_token_push(head, token_curr);
 	token = ft_token_new(NULL, 0);
 	if (token == NULL)
 		return ;

@@ -1,23 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   char.h                                             :+:      :+:    :+:   */
+/*   token_str.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/18 13:35:13 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/04/18 13:35:13 by mmoulati         ###   ########.fr       */
+/*   Created: 2025/04/19 16:20:44 by mmoulati          #+#    #+#             */
+/*   Updated: 2025/04/19 16:20:45 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CHAR_H
-# define CHAR_H
+#include <string.h>
 
-int	ft_char_isblank(char c);
-int	ft_char_isnewline(char c);
-int	ft_char_isoperator(char c);
-int	ft_char_isdollar(char c);
-int	ft_char_isquote(char c);
-int	ft_char_iseoi(char c);
+int	ft_str_isoperator(const char *str)
+{
+	size_t				i;
+	static const char	*operators[] = {">>", "<<", "||", "&&", 0};
 
-#endif // !CHAR_H
+	i = 0;
+	while (operators[i])
+	{
+		if (strncmp(str, operators[i], 2) == 0)
+			return (1);
+		i++;
+	}
+	return (0);
+}

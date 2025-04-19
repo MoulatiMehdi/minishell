@@ -12,9 +12,6 @@
 
 #include "tokenizer.h"
 
-/*
- * Return the characters that is unbalanced
- */
 static char	ft_unbalanced_find(const char *str)
 {
 	long	count_parens;
