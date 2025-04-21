@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 22:23:37 by okhourss          #+#    #+#             */
-/*   Updated: 2025/04/21 13:07:01 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/04/21 18:17:18 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ typedef enum e_token_type
 	TOKEN_OR,
 	TOKEN_AND,
 	TOKEN_PIPE,
+	TOKEN_PARENS_OPEN,
+	TOKEN_PARENS_CLOSE,
 	TOKEN_REDIRECT_IN,
 	TOKEN_REDIRECT_OUT,
 	TOKEN_REDIRECT_APPEND,
