@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 12:52:38 by okhourss          #+#    #+#             */
-/*   Updated: 2025/04/19 16:29:51 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/04/21 14:43:01 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_token	*ft_token_new(const char *value, size_t length)
 		return (NULL);
 	token_new->next = NULL;
 	token_new->length = length;
-	token_new->type = -1;
+	token_new->type = TOKEN_UNKNOWN;
 	token_new->value = value;
 	return (token_new);
 }

@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 22:23:37 by okhourss          #+#    #+#             */
-/*   Updated: 2025/04/21 11:30:36 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/04/21 13:07:01 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 
 typedef enum e_token_type
 {
+	TOKEN_UNKNOWN,
 	TOKEN_WORD,
 	TOKEN_OR,
 	TOKEN_AND,
