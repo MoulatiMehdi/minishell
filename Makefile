@@ -16,7 +16,7 @@ NAME = tokenizer
 all : $(NAME) 
 
 $(NAME) : $(OBJS) $(LIBFT) 
-	$(CC) $(CCFLAGS) $^ -o $@ -lft -Llibft  $(addprefix -I,$(DEPS))
+	$(CC) $(CCFLAGS) $^ -o $@ -lft -Llibft  -lreadline $(addprefix -I,$(DEPS))
  
 $(LIBFT) :  
 		make -C libft --no-print-directory
