@@ -6,12 +6,14 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 17:09:35 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/04/21 18:32:20 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/04/22 11:20:45 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "collector.h"
 #include "lexer.h"
 #include "tokenizer.h"
+#include <readline/readline.h>
 #include <unistd.h>
 
 char	*ft_token_type(t_token *token)
@@ -45,22 +47,29 @@ char	*ft_token_type(t_token *token)
 	}
 }
 
-int	main(int argc, char *argv[])
+int	main(void)
 {
 	t_token	*token;
-	int		len;
-	char	str[1024];
+	char	*str;
+	char	*lexeme;
 
-	bzero(str, 1024);
-	len = read(0, str, 1024);
-	str[len - 1] = '\0';
-	token = tokenize(str);
-	lexer(token);
-	while (token)
+	while (1)
 	{
-		printf("%20s : %s\n", ft_token_type(token), strndup(token->value,
-				token->length));
-		token = token->next;
+		str = readline(" \033[32mMinishell\033[0m\033[31m>\033[0m ");
+		if (str == NULL)
+			break ;
+		token = tokenize(str);
+		lexer(token);
+		while (token)
+		{
+			lexeme = strndup(token->value, token->length);
+			printf("%20s : %s\n", ft_token_type(token), lexeme);
+			free(lexeme);
+			token = token->next;
+		}
+		token = NULL;
+		free(str);
+		ft_clear();
 	}
 	return (0);
 }
