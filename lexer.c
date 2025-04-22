@@ -6,7 +6,7 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 12:55:36 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/04/21 18:21:37 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/04/22 08:06:03 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ void	lexer(t_token *head)
 	while (head && head->type != TOKEN_EOI)
 	{
 		head->type = TOKEN_WORD;
-		if (ft_strncmp("||", head->value, head->length) == 0)
+		if (ft_strncmp("||", head->value, 2) == 0)
 			head->type = TOKEN_OR;
-		else if (ft_strncmp("&&", head->value, head->length) == 0)
+		else if (ft_strncmp("&&", head->value, 2) == 0)
 			head->type = TOKEN_AND;
-		else if (ft_strncmp("<<", head->value, head->length) == 0)
+		else if (ft_strncmp("<<", head->value, 2) == 0)
 			head->type = TOKEN_REDIRECT_HERE;
-		else if (ft_strncmp(">>", head->value, head->length) == 0)
+		else if (ft_strncmp(">>", head->value, 2) == 0)
 			head->type = TOKEN_REDIRECT_APPEND;
 		else if (ft_strncmp("<", head->value, head->length) == 0)
 			head->type = TOKEN_REDIRECT_IN;
