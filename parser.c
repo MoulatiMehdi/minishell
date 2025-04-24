@@ -14,6 +14,9 @@
 #include "tokenizer.h"
 # include "libft/libft.h"
 
+
+t_ast	*ft_ast_andor(t_token **token);
+
 t_ast_type	ft_ast_fromtoken(t_token_type type)
 {
     if (type == TOKEN_OR)
@@ -29,12 +32,10 @@ t_ast	*ft_ast_simplecommand(t_token **token)
 {
     t_token_type	token_type;
     t_ast			*node;
-    
+
     if (*token == NULL)
         return (NULL);
     node = ft_ast_new(AST_SIMPLE_COMMAND); 
-    if(node == NULL)
-        return NULL;
     while(1)
     {
         token_type = (*token)->type;
@@ -48,7 +49,7 @@ t_ast	*ft_ast_simplecommand(t_token **token)
         }
         else 
             break;
-         *token = (*token)->next;
+        *token = (*token)->next;
     }
     if(node->redirect == NULL && node->args == NULL)
         return ft_ast_free(node);
@@ -57,35 +58,41 @@ t_ast	*ft_ast_simplecommand(t_token **token)
 
 t_ast	*ft_ast_subshell(t_token **token)
 {
+    t_ast * parent_node;
+    t_ast * child_node;
+    if(!*token || (*token)->type != TOKEN_PARENS_OPEN)
+        return NULL;
+    *token = (*token)->next; 
+    child_node = ft_ast_andor(token); 
+    if(!child_node || (*token)->type != TOKEN_PARENS_CLOSE)
+        return ft_ast_free(child_node);
+    *token = (*token)->next; 
+    parent_node = ft_ast_new(AST_SUBSHELL);
+    ft_lstadd_back(&parent_node->children,ft_lstnew(child_node));
+    return parent_node;
 }
 
 t_ast	*ft_ast_command(t_token **token)
 {
     t_ast			*node;
-   
+    t_token_type token_type;
     if (*token == NULL)
         return (NULL);
     node = ft_ast_simplecommand(token);
     if(node)
         return node;
-    /*node = ft_ast_subshell(token);*/
-    /*if(node)*/
-    /*{*/
-    /*    while(1)*/
-    /*    {*/
-    /*        if(ft_token_isredirection(*token))*/
-    /*        {*/
-    /*            *token = (*token)->next;*/
-    /*            if((*token)->type != TOKEN_WORD)*/
-    /*            {*/
-    /*                *token = (*token)->next;*/
-    /*                return ft_ast_free(node);*/
-    /*            }*/
-    /*        }*/
-    /**/
-    /*    }*/
-    /*    return node;*/
-    /*}*/
+    node = ft_ast_subshell(token);
+    if(node)
+    {
+        while(ft_token_isredirect(token_type))
+        {
+            if((*token)->value == NULL)
+                return ft_ast_free(node);
+            ft_lstadd_back(&node->redirect,ft_lstnew(*token));
+            *token = (*token)->next;
+        }
+        return node;
+    }
     return node;
 }
 
@@ -95,7 +102,7 @@ t_ast	*ft_ast_pipeline(t_token **token)
     t_token_type	token_type;
     t_ast			*node;
     t_list * lst;
-    
+
     if (*token == NULL)
         return (NULL);
     node = ft_ast_command(token);
@@ -119,8 +126,7 @@ t_ast	*ft_ast_pipeline(t_token **token)
                 return ft_ast_free(node);
         }
         else 
-           return  ft_ast_free(node);
-
+        return  ft_ast_free(node);
     }
     return node;
 }
@@ -154,7 +160,7 @@ t_ast	*ft_ast_andor(t_token **token)
                 return ft_ast_free(node);
         }
         else 
-           return  ft_ast_free(node);
+        return  ft_ast_free(node);
     }
     return node;
 }
