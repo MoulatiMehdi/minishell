@@ -29,7 +29,6 @@ t_ast	*ft_ast_simplecommand(t_token **token)
 {
     t_token_type	token_type;
     t_ast			*node;
-    t_list * lst;
     
     if (*token == NULL)
         return (NULL);
@@ -41,10 +40,9 @@ t_ast	*ft_ast_simplecommand(t_token **token)
         token_type = (*token)->type;
         if(token_type == TOKEN_WORD)
             ft_lstadd_back(&node->args,ft_lstnew(*token));
-        else if(ft_token_isredirection(token_type))
+        else if(ft_token_isredirect(token_type))
         {
-            *token = (*token)->next;
-            if((*token)->type != TOKEN_WORD)
+            if((*token)->value != NULL)
                 return ft_ast_free(node);
             ft_lstadd_back(&node->redirect,ft_lstnew(*token));
         }
