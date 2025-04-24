@@ -6,11 +6,11 @@
 /*   By: okhourss <okhourss@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 12:52:38 by okhourss          #+#    #+#             */
-/*   Updated: 2025/04/19 16:29:51 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/04/21 14:43:01 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tokenizer.h"
+#include "tokenizer_init.h"
 
 t_token	*ft_token_new(const char *value, size_t length)
 {
@@ -21,7 +21,7 @@ t_token	*ft_token_new(const char *value, size_t length)
 		return (NULL);
 	token_new->next = NULL;
 	token_new->length = length;
-	token_new->type = -1;
+	token_new->type = TOKEN_UNKNOWN;
 	token_new->value = value;
 	return (token_new);
 }
@@ -50,4 +50,16 @@ void	ft_token_addeoi(t_token **head, t_token *token_curr)
 		return ;
 	token->type = TOKEN_EOI;
 	ft_token_push(head, token);
+}
+
+int ft_token_isredirect(t_token_type type)
+{
+    int test;
+
+    test = 0;
+    test = test || type == TOKEN_REDIRECT_APPEND;
+    test = test || type == TOKEN_REDIRECT_HERE;
+    test = test || type == TOKEN_REDIRECT_OUT;
+    test = test || type == TOKEN_REDIRECT_IN;
+    return test;
 }

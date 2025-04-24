@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
-#include "tokenizer.h"
+#include "tokenizer_init.h"
 
 static void	ft_token_expansion(t_token **token_curr, const char *line,
 		size_t *i)
@@ -53,6 +52,7 @@ static int	ft_token_operator(t_token **token_head, t_token **token_curr,
 		const char *line, size_t *i)
 {
 	int	len;
+    const char * str;
 
 	len = 0;
 	if (ft_str_isoperator(&line[*i]))
@@ -63,7 +63,10 @@ static int	ft_token_operator(t_token **token_head, t_token **token_curr,
 	{
 		if (*token_curr)
 			ft_token_push(token_head, *token_curr);
-		ft_token_push(token_head, ft_token_new(&line[*i], len));
+        str = &line[*i];
+        if(str[*i] == '<' || str[*i] == '>')
+            str = NULL;
+		ft_token_push(token_head, ft_token_new(str,(str != NULL)*len));
 		*token_curr = NULL;
 		(*i) += len;
 		return (1);
