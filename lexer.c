@@ -17,7 +17,8 @@
 
 void ft_lexer_type( t_token *const head)
 {
-    head->type = TOKEN_WORD;
+    if(head->type != TOKEN_EOI)
+        head->type = TOKEN_WORD;
     if (ft_strncmp("||", head->value, 2) == 0)
         head->type = TOKEN_OR;
     else if (ft_strncmp("&&", head->value, 2) == 0)
@@ -65,7 +66,7 @@ void	lexer(t_token *curr_token)
                 ft_free(next_token);
             }
             else 
-                curr_token = next_token;
+            curr_token = next_token;
         }
         prev_token = curr_token;
         curr_token = curr_token->next;
