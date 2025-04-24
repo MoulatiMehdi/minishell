@@ -17,7 +17,7 @@
 
 void ft_lexer_type( t_token *const head)
 {
-    if(head->type != TOKEN_EOI)
+    if(head->type == TOKEN_UNKNOWN)
         head->type = TOKEN_WORD;
     if (ft_strncmp("||", head->value, 2) == 0)
         head->type = TOKEN_OR;
