@@ -51,13 +51,15 @@ void	ft_lstnode_clear(t_list *head)
 	while (head)
 	{
 		curr = head->next;
-		ft_free(head);
+		free(head);
 		head = curr;
 	}
 }
 
 t_ast	*ft_ast_free(t_ast *head)
 {
+    if(head == NULL)
+        return NULL;
 	ft_lstnode_clear(head->args);
 	ft_lstnode_clear(head->children);
 	ft_lstnode_clear(head->redirect);

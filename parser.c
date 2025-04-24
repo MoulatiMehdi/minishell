@@ -42,7 +42,7 @@ t_ast	*ft_ast_simplecommand(t_token **token)
             ft_lstadd_back(&node->args,ft_lstnew(*token));
         else if(ft_token_isredirect(token_type))
         {
-            if((*token)->value != NULL)
+            if((*token)->value == NULL)
                 return ft_ast_free(node);
             ft_lstadd_back(&node->redirect,ft_lstnew(*token));
         }
