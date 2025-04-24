@@ -14,6 +14,8 @@
 #include "parser.h"
 #include <stdio.h>
 
+t_ast	*ft_ast_pipeline(t_token **token);
+
 int	main(void)
 {
     t_token	*token;
@@ -31,7 +33,7 @@ int	main(void)
         printf("LEXER : \n");
         ft_lexer_print(token);
         token_cpy = token;
-        node = ft_ast_simplecommand(&token_cpy);
+        node = ft_ast_pipeline(&token_cpy);
         printf("--------------------\n");
         printf("AST : \n");
         ft_ast_print(node);

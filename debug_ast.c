@@ -53,7 +53,25 @@ void ft_ast_tocommand(t_ast * ast)
         free(lexeme); 
         head = head->next;
     }
-    printf("\n");
+    head = ast->children;
+    if(head)
+    {
+        if(ast->type == AST_SUBSHELL)
+               printf(" ( ");
+        ft_ast_tocommand(head->content);
+        if(ast->type == AST_PIPELINE)
+            printf(" | ");
+        head =head->next;
+    }
+    while(head)
+    {
+        if(ast->type == AST_PIPELINE)
+            printf(" | ");
+        ft_ast_tocommand(head->content);
+        head = head->next;
+    }
+    if(ast->type == AST_SUBSHELL)
+     printf(" ) ");
 }
 void ft_list_tokens_print(t_list * head)
 {
@@ -84,4 +102,11 @@ void ft_ast_print(t_ast * ast)
     p = ast->redirect;
     printf ("REDIRECTION :\n");
     ft_list_tokens_print(p);
+    p = ast->children;
+    printf ("CHILDREN :\n");
+    while(p)
+    {
+        ft_ast_print(p->content);
+        p = p->next;
+    }
 }
