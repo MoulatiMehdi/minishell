@@ -62,6 +62,8 @@ int	main(void)
 		lexer(token);
 		while (token)
 		{
+            lexeme = NULL;
+            if(token->value != NULL)
 			lexeme = strndup(token->value, token->length);
 			printf("%20s : %s\n", ft_token_type(token), lexeme);
 			free(lexeme);
