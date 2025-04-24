@@ -1,4 +1,25 @@
 #include "debug.h"
+#include "parser.h"
+#include "tokenizer.h"
+
+char * ft_asttype_getstr(t_token_type type)
+{
+    static char *str[20] = {
+        "?",
+        "W",
+        "||",
+        "&&",
+        "|",
+        "(",
+        ")",
+        "<",
+        ">",
+        ">>",
+        "<<",
+        "END",
+    };
+    return str[type];
+}
 
 void ft_ast_tocommand(t_ast * ast)
 {
@@ -6,11 +27,17 @@ void ft_ast_tocommand(t_ast * ast)
     t_token * token;
     t_list *head;
 
+    if(ast == NULL)
+    {
+        printf("\033[31m(NULL)\033[0m\n");
+        return ;
+    }
     head = ast->args;
     while(head)
     {
         token = head->content;
-        lexeme = strndup(token->value, token->length);
+        if(token->value)
+            lexeme = strndup(token->value, token->length);
         printf("%s ",lexeme);
         free(lexeme); 
         head = head->next;
@@ -19,8 +46,10 @@ void ft_ast_tocommand(t_ast * ast)
     while(head)
     {
         token = head->content;
-        lexeme = strndup(token->value, token->length);
-        printf("< %s ",lexeme);
+        lexeme = NULL;
+        if(token->value)
+            lexeme = strndup(token->value, token->length);
+        printf("%2s %s",ft_asttype_getstr(token->type),lexeme);
         free(lexeme); 
         head = head->next;
     }
@@ -34,7 +63,7 @@ void ft_list_tokens_print(t_list * head)
     {
         token = head->content;
         lexeme = strndup(token->value, token->length);
-        printf("\t- %s\n",lexeme);
+        printf("\t- %s %s\n",ft_token_type(token),lexeme);
         free(lexeme); 
         head = head->next;
     }

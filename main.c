@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "debug.h"
+#include "parser.h"
 #include <stdio.h>
 
 int	main(void)
@@ -37,8 +38,8 @@ int	main(void)
         printf("--------------------\n");
         printf("AST -> COMMAND : \n");
         ft_ast_tocommand(node);
+        ft_ast_free(node);
         free(str);
-        ft_clear();
     }
     return (0);
 }
