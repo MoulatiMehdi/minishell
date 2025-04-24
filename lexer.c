@@ -65,8 +65,6 @@ void	lexer(t_token *curr_token)
                 curr_token->next = next_token->next;
                 ft_free(next_token);
             }
-            else 
-                curr_token = next_token;
         }
         prev_token = curr_token;
         curr_token = curr_token->next;
