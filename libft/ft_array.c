@@ -8,7 +8,9 @@ t_array* ft_array_new()
     if(array == NULL)
         return NULL;
     array->head = NULL;
+    array->last = NULL;
     array->length = 0;
+    return array;
 }
 
 void *ft_array_push(t_array ** array,void * content)
@@ -21,5 +23,12 @@ void *ft_array_push(t_array ** array,void * content)
         return NULL;
     if(*array == NULL)
         *array = ft_array_new();
-    (*array)->head
+    if((*array)->head == NULL)
+        (*array)->head = node;
+    if((*array)->last != NULL)
+        (*array)->last->next = node;
+    (*array)->last = node;
+    (*array)->length ++;
+    return content;
 }
+
