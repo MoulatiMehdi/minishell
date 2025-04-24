@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
-#include "tokenizer.h"
+#include "tokenizer_init.h"
 
 static void	ft_token_expansion(t_token **token_curr, const char *line,
 		size_t *i)
