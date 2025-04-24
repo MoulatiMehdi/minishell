@@ -11,6 +11,10 @@ typedef struct s_input
 	int		expected;
 }			t_input;
 
+
+
+int	is_unbalance(const char *str);
+
 int	test(char *input)
 {
 	t_token	*tokens;
@@ -29,9 +33,10 @@ int	test(char *input)
 				(int)tmp->length);
 		tmp = tmp->next;
 	}
+    return 0;
 }
 
-int	main(int argc, char **argv)
+int	main()
 {
 	int	size;
 	int	i;
