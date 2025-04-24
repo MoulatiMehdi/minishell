@@ -14,18 +14,6 @@
 #include "tokenizer.h"
 # include "libft/libft.h"
 
-int ft_token_isredirection(t_token_type type)
-{
-    int test;
-
-    test = 0;
-    test = test || type == TOKEN_REDIRECT_APPEND;
-    test = test || type == TOKEN_REDIRECT_HERE;
-    test = test || type == TOKEN_REDIRECT_OUT;
-    test = test || type == TOKEN_REDIRECT_IN;
-    return test;
-}
-
 t_ast_type	ft_ast_fromtoken(t_token_type type)
 {
     if (type == TOKEN_OR)
