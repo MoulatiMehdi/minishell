@@ -12,6 +12,19 @@
 
 #include "parser.h"
 #include "tokenizer.h"
+# include "libft/libft.h"
+
+int ft_token_isredirection(t_token_type type)
+{
+    int test;
+
+    test = 0;
+    test = test || type == TOKEN_REDIRECT_APPEND;
+    test = test || type == TOKEN_REDIRECT_HERE;
+    test = test || type == TOKEN_REDIRECT_OUT;
+    test = test || type == TOKEN_REDIRECT_IN;
+    return test;
+}
 
 t_ast_type	ft_ast_fromtoken(t_token_type type)
 {
@@ -21,33 +34,109 @@ t_ast_type	ft_ast_fromtoken(t_token_type type)
         return (AST_AND);
     if (type == TOKEN_PIPE)
         return (AST_PIPE);
+    return AST_UNKNOWN;
 }
 
 t_ast	*ft_ast_simplecommand(t_token **token)
 {
-}
-
-t_ast	*ft_ast_command(t_token **token)
-{
+    t_token_type	token_type;
+    t_ast			*node;
+    t_list * lst;
+    
+    if (*token == NULL)
+        return (NULL);
+    node = ft_ast_new(AST_SIMPLE_COMMAND); 
+    if(node == NULL)
+        return NULL;
+    while(1)
+    {
+        token_type = (*token)->type;
+        if(token_type == TOKEN_WORD)
+            ft_lstadd_back(&node->args,ft_lstnew(*token));
+        else if(ft_token_isredirection(token_type))
+        {
+            *token = (*token)->next;
+            if((*token)->type != TOKEN_WORD)
+                return ft_ast_free(node);
+            ft_lstadd_back(&node->redirect,ft_lstnew(*token));
+        }
+        else 
+            break;
+         *token = (*token)->next;
+    }
+    if(node->redirect == NULL && node->args == NULL)
+        return ft_ast_free(node);
+    return node;
 }
 
 t_ast	*ft_ast_subshell(t_token **token)
 {
 }
 
+t_ast	*ft_ast_command(t_token **token)
+{
+    t_ast			*node;
+   
+    if (*token == NULL)
+        return (NULL);
+    node = ft_ast_simplecommand(token);
+    if(node)
+        return node;
+    /*node = ft_ast_subshell(token);*/
+    /*if(node)*/
+    /*{*/
+    /*    while(1)*/
+    /*    {*/
+    /*        if(ft_token_isredirection(*token))*/
+    /*        {*/
+    /*            *token = (*token)->next;*/
+    /*            if((*token)->type != TOKEN_WORD)*/
+    /*            {*/
+    /*                *token = (*token)->next;*/
+    /*                return ft_ast_free(node);*/
+    /*            }*/
+    /*        }*/
+    /**/
+    /*    }*/
+    /*    return node;*/
+    /*}*/
+    return node;
+}
+
+
 t_ast	*ft_ast_pipeline(t_token **token)
 {
-    t_token_type type;
-    t_ast * node; 
+    t_token_type	token_type;
+    t_ast			*node;
+    t_list * lst;
     
+    if (*token == NULL)
+        return (NULL);
     node = ft_ast_command(token);
     if(node == NULL)
         return NULL;
-
+    lst = ft_lstnew(node);
+    node = ft_ast_new(AST_PIPELINE);
+    ft_lstadd_back(&node->children, lst);
     while(1)
     {
+        token_type = (*token)->type;
+        if (token_type == TOKEN_EOI)
+            break ;
+        if (token_type == TOKEN_PIPE )
+        {
+            lst = ft_lstnew(ft_ast_new(AST_PIPE)); 
+            ft_lstadd_back(&node->children, lst);
+            *token = (*token)->next;
+            node = ft_ast_command(token);
+            if (node == NULL)
+                return ft_ast_free(node);
+        }
+        else 
+           return  ft_ast_free(node);
 
     }
+    return node;
 }
 
 t_ast	*ft_ast_andor(t_token **token)

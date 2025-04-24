@@ -25,11 +25,7 @@ t_ast	*ft_ast_new(t_ast_type ast_type)
 	node->children = NULL;
 	node->redirect = NULL;
 	node->type = ast_type;
-	return (NULL);
-}
-
-t_ast	*ft_astpush(void *content)
-{
+	return (node);
 }
 
 void	*ft_token_dup(t_token *token)
