@@ -1,135 +1,75 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/21 17:09:35 by mmoulati          #+#    #+#             */
+/*   Updated: 2025/04/22 11:20:45 by mmoulati         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "collector.h"
 #include "tokenizer.h"
+#include <readline/readline.h>
+#include <unistd.h>
 
-#define BALANCED "\033[1;32mBalanced\033[0m"
-#define UNBALANCED "\033[1;31mUnbalanced\033[0m"
-
-typedef struct s_input
+char	*ft_token_type(t_token *token)
 {
-	char	*str;
-	int		expected;
-}			t_input;
-
-int	test(char *input)
-{
-	t_token	*tokens;
-	t_token	*tmp;
-
-	printf("Input:\t %s\n\n", input);
-	printf("Output:\n");
-	tokens = tokenize(input);
-	tmp = tokens;
-	while (tmp)
+	switch (token->type)
 	{
-		if (tmp->type == TOKEN_EOI)
-			printf("\t- EOF\n");
-		else
-			printf("\t- %-40.*s | Length: %2d\n", (int)tmp->length, tmp->value,
-				(int)tmp->length);
-		tmp = tmp->next;
+	case TOKEN_EOI:
+		return ("TOKEN_EOI");
+	case TOKEN_WORD:
+		return ("TOKEN_WORD");
+	case TOKEN_PIPE:
+		return ("TOKEN_PIPE");
+	case TOKEN_AND:
+		return ("TOKEN_AND");
+	case TOKEN_OR:
+		return ("TOKEN_OR");
+	case TOKEN_REDIRECT_APPEND:
+		return ("TOKEN_REDIRECT_APPEND");
+	case TOKEN_REDIRECT_IN:
+		return ("TOKEN_REDIRECT_IN");
+	case TOKEN_REDIRECT_OUT:
+		return ("TOKEN_REDIRECT_OUT");
+	case TOKEN_REDIRECT_HERE:
+		return ("TOKEN_REDIRECT_HERE");
+	case TOKEN_PARENS_OPEN:
+		return ("TOKEN_PARENS_OPEN");
+	case TOKEN_PARENS_CLOSE:
+		return ("TOKEN_PARENS_CLOSE");
+	default:
+		return ("TOKEN_UNKNOWN");
 	}
 }
 
-int	main(int argc, char **argv)
+int	main(void)
 {
-	int	size;
-	int	i;
+	t_token	*token;
+	char	*str;
+	char	*lexeme;
 
-	t_input inputs[] = {
-		{
-			.str = "'",
-			.expected = 1,
-		},
-		{
-			.str = "\"",
-			.expected = 1,
-		},
-		{
-			.str = "(",
-			.expected = 1,
-		},
-		{
-			.str = ")",
-			.expected = 1,
-		},
-		{
-			.str = "()",
-			.expected = 1,
-		},
-		{
-			.str = "(ls)",
-			.expected = 0,
-		},
-		{
-			.str = "(')",
-			.expected = 1,
-		},
-		{
-			.str = "(\')",
-			.expected = 1,
-		},
-		{
-			.str = "'\"'",
-			.expected = 0,
-		},
-		{
-			.str = "'\"'\"\"",
-			.expected = 0,
-		},
-		{
-			.str = "'\"'''",
-			.expected = 0,
-		},
-		{
-			.str = "'\"'",
-			.expected = 0,
-		},
-		{
-			.str = "''''''''''''",
-			.expected = 0,
-		},
-		{
-			.str = "\"\"\"\"\"\"\"\"\"\"",
-			.expected = 0,
-		},
-		{
-			.str = "'''''''''''",
-			.expected = 1,
-		},
-		{
-			.str = "\"\"\"\"\"\"\"\"\"",
-			.expected = 1,
-		},
-		{
-			.str = "\")))(((\"\"()\"\"\"\"\"\"",
-			.expected = 1,
-		},
-		{
-			.str = "\")))(((\"\"()\"\"\"\"\"",
-			.expected = 0,
-		},
-		{
-			.str = "\")))(((\"\"()\"()\"\"\"\"",
-			.expected = 1,
-		},
-		{
-			.str = "\")))(((\"\"()\"(ls)\"\"\"\"",
-			.expected = 0,
-		},
-	};
-	i = 0;
-	size = sizeof(inputs) / sizeof(inputs[0]);
-	close(2);
-	while (i < size)
+	while (1)
 	{
-		printf("Input : \033[1;33m%s\033[0m\n\n", inputs[i].str);
-		printf("\texpected : %s\n", inputs[i].expected ? UNBALANCED : BALANCED);
-		printf("\tresult   : %s\n\n",
-			is_unbalance(inputs[i].str) ? UNBALANCED : BALANCED);
-		printf("--------------------------\n");
-		i++;
+		str = readline(" \033[32mMinishell\033[0m\033[31m>\033[0m ");
+		if (str == NULL)
+			break ;
+		token = tokenize(str);
+		while (token)
+		{
+            lexeme = NULL;
+            if(token->value != NULL)
+			    lexeme = strndup(token->value, token->length);
+			printf("%20s : %s\n", ft_token_type(token), lexeme);
+			free(lexeme);
+			token = token->next;
+		}
+		token = NULL;
+		free(str);
+		ft_clear();
 	}
-	ft_clear();
 	return (0);
 }
