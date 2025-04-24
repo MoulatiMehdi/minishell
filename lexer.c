@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "lexer.h"
+#include "collector.h"
 #include "tokenizer.h"
 
 
@@ -35,6 +36,11 @@ void ft_lexer_type( t_token *const head)
         head->type = TOKEN_PARENS_OPEN;
     else if (ft_strncmp(")", head->value, head->length) == 0)
         head->type = TOKEN_PARENS_CLOSE;
+    if(head->type != TOKEN_WORD)
+    {
+        head->length = 0;
+        head->value = NULL;
+    }
 }
 
 void	lexer(t_token *curr_token)
@@ -43,6 +49,7 @@ void	lexer(t_token *curr_token)
     t_token * next_token;
 
     prev_token = NULL;
+    next_token = NULL;
     while (curr_token && curr_token->type != TOKEN_EOI)
     {
         ft_lexer_type(curr_token);
@@ -52,11 +59,13 @@ void	lexer(t_token *curr_token)
             ft_lexer_type(next_token);
             if(next_token->type == TOKEN_WORD)
             {
-                prev_token->next = next_token;
-                next_token->type = curr_token->type;
-                ft_free(curr_token);
+                curr_token->length = next_token->length;
+                curr_token->value = next_token->value;
+                curr_token->next = next_token->next;
+                ft_free(next_token);
             }
-            curr_token = next_token;
+            else 
+                curr_token = next_token;
         }
         prev_token = curr_token;
         curr_token = curr_token->next;
