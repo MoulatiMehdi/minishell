@@ -10,7 +10,22 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tokenizer.h"
+#include "tokenizer_init.h"
+
+int	ft_str_isoperator(const char *str)
+{
+	size_t				i;
+	static const char	*operators[] = {">>", "<<", "||", "&&", 0};
+
+	i = 0;
+	while (operators[i])
+	{
+		if (strncmp(str, operators[i], 2) == 0)
+			return (1);
+		i++;
+	}
+	return (0);
+}
 
 static char	ft_unbalanced_find(const char *str)
 {
