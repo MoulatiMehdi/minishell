@@ -14,7 +14,7 @@
 
 # define COLLECTOR_H
 
-# include "libft.h"
+# include "libft/libft.h"
 # include <stdlib.h>
 
 void	ft_free(void *addr);

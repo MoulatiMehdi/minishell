@@ -41,4 +41,6 @@ t_ast			*ft_ast_free(t_ast *head);
 
 void			ft_lstnode_clear(t_list *head);
 t_ast			*ft_ast_free(t_ast *head);
+
+t_ast	*ft_ast_simplecommand(t_token **token);
 #endif // !PARSER_H
