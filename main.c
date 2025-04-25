@@ -12,9 +12,10 @@
 
 #include "debug.h"
 #include "parser.h"
+#include "tokenizer.h"
 #include <stdio.h>
 
-t_ast	*ft_ast_pipeline(t_token **token);
+t_ast	*ft_ast_andor(t_token **token);
 
 int	main(void)
 {
@@ -34,7 +35,7 @@ int	main(void)
         /*printf("LEXER : \n");*/
         /*ft_lexer_print(token);*/
         token_cpy = token;
-        node = ft_ast_pipeline(&token_cpy);
+        node = ft_ast_andor(&token_cpy);
         printf("\n*******************************************\n");
         printf("\t ABSTRACT SYNTAX TREE \n");
         printf("\t========================\n");
@@ -44,6 +45,12 @@ int	main(void)
         printf("\t====================\n");
         ft_ast_tocommand(node);
         printf("\n");
+        if(token_cpy->type != TOKEN_EOI)
+        {
+            fprintf(stderr,"syntax error near unexpected token ");
+            write(2,token_cpy->value,token->length);
+            write(1,"\n",1);
+        }
         ft_ast_free(node);
         free(str);
     }

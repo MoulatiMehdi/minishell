@@ -2,7 +2,14 @@
 #include "parser.h"
 #include "tokenizer.h"
 #include <stdio.h>
+#include <string.h>
 
+#define STR_EMPTY   "        "
+#define STR_TBR "┣━━━━━━ "
+#define STR_TB  "┃       "
+#define STR_TR  "┗━━━━━━ "
+
+char* g_indent[1024];
 
 char * ft_ast_gettype(t_ast * ast)
 {
@@ -105,7 +112,13 @@ void ft_ast_redirect_print(t_ast * ast)
 void ft_ast_children_print(t_ast * ast)
 {
     t_list * head;
-
+    
+    if(ast == NULL)
+        return ;
+    if (ast->type == AST_AND)
+        write(1,"&& ",3);
+    if (ast->type == AST_OR)
+        write(1,"|| ",3);
     head = ast->children;
     if(head)
     {
@@ -155,34 +168,31 @@ void ft_ast_print(t_ast * ast,int depth)
 {
     t_list * p;
     t_ast * node;
+    int i;
     printf("%s : ",ft_ast_gettype(ast));
-    if(ast->type == AST_SIMPLE_COMMAND)
-    {
         ft_ast_args_print(ast);
         ft_ast_redirect_print(ast);
-    }
     printf("\n");
     if(ast == NULL)
         return ;
-    p = ast->args;
-    //ft_char_repete('\t', depth + 1);
-    //printf ("ARGUMENTS :\n");
-    //ft_list_tokens_print(p);
-    p = ast->redirect;
-    //ft_char_repete('\t', depth + 1);
-    //printf ("REDIRECTION :\n");
-    //ft_list_tokens_print(p);
     p = ast->children;
-    //ft_char_repete('\t', depth + 1);
-    //printf ("CHILDREN :\n");
     while(p)
     {
         node = p->content;
-        ft_char_repete("┃ \t", depth);
+        i = 0;
+        if(p != NULL && p->next != NULL)
+            g_indent[depth] = STR_TB;
+        else
+            g_indent[depth] = STR_EMPTY;
+        while(i < depth)
+        {
+            printf("%s",g_indent[i]);
+            i++;
+        }
         if(p->next != NULL)
-            printf("┣━━━━━━ ");
+            printf(STR_TBR);
         else 
-            printf("┗━━━━━━ ");
+            printf(STR_TR);
         ft_ast_print(node,depth +1);
         p = p->next;
     }
