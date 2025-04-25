@@ -43,12 +43,12 @@ t_ast	*ft_ast_simplecommand(t_token **token)
             ft_lstadd_back(&node->args,ft_lstnew(*token));
         else if(ft_token_isredirect(token_type))
         {
-            if((*token)->value == NULL)
-                return ft_ast_free(node);
-            ft_lstadd_back(&node->redirect,ft_lstnew(*token));
-        }
+        if((*token)->value == NULL)
+            return ft_ast_free(node);
+        ft_lstadd_back(&node->redirect,ft_lstnew(*token));
+    }
         else 
-            break;
+        break;
         *token = (*token)->next;
     }
     if(node->redirect == NULL && node->args == NULL)
@@ -75,25 +75,21 @@ t_ast	*ft_ast_subshell(t_token **token)
 t_ast	*ft_ast_command(t_token **token)
 {
     t_ast			*node;
-    t_token_type token_type;
-    
+
     if (*token == NULL)
         return (NULL);
     node = ft_ast_simplecommand(token);
     if(node)
         return node;
     node = ft_ast_subshell(token);
-    if(node)
+    if(!node)
+        return NULL;
+    while(*token && ft_token_isredirect((*token)->type))
     {
-        token_type = (*token)->type;
-        while(ft_token_isredirect(token_type))
-        {
-            if((*token)->value == NULL)
-                return ft_ast_free(node);
-            ft_lstadd_back(&node->redirect,ft_lstnew(*token));
-            *token = (*token)->next;
-        }
-        return node;
+        if((*token)->value == NULL)
+            return ft_ast_free(node);
+        ft_lstadd_back(&node->redirect,ft_lstnew(*token));
+        *token = (*token)->next;
     }
     return node;
 }
@@ -127,7 +123,7 @@ t_ast	*ft_ast_pipeline(t_token **token)
             ft_lstadd_back(&node_parent->children, lst);
         }
         else 
-            break;
+        break;
     }
     return node_parent;
 }
@@ -135,33 +131,34 @@ t_ast	*ft_ast_pipeline(t_token **token)
 t_ast	*ft_ast_andor(t_token **token)
 {
     t_token_type	token_type;
-    t_ast			*node;
+    t_ast			*node_child;
+    t_ast			*node_parent;
     t_list * lst;
 
     if (*token == NULL)
         return (NULL);
-    node = ft_ast_pipeline(token);
-    if (node == NULL)
+    node_child = ft_ast_pipeline(token);
+    if (node_child == NULL)
         return (NULL);
-    lst = ft_lstnew(node);
-    node = ft_ast_new(AST_AND_OR);
-    ft_lstadd_back(&node->children, lst);
+    lst = ft_lstnew(node_child);
+    node_parent = ft_ast_new(AST_AND_OR);
+    ft_lstadd_back(&node_parent->children, lst);
     while (1)
     {
         token_type = (*token)->type;
-        if (token_type == TOKEN_EOI)
-            break ;
         if (token_type == TOKEN_OR || token_type == TOKEN_AND)
         {
             lst = ft_lstnew(ft_ast_new(ft_ast_fromtoken(token_type))); 
-            ft_lstadd_back(&node->children, lst);
+            ft_lstadd_back(&node_parent->children, lst);
             *token = (*token)->next;
-            node = ft_ast_pipeline(token);
-            if (node == NULL)
-                return ft_ast_free(node);
+            node_child = ft_ast_pipeline(token);
+            if (node_child == NULL)
+                return ft_ast_free(node_parent);
+            lst = ft_lstnew(node_child); 
+            ft_lstadd_back(&node_parent->children, lst);
         }
         else 
-        return  ft_ast_free(node);
+            break;
     }
-    return node;
+    return node_parent;
 }
