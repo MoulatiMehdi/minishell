@@ -22,7 +22,8 @@ int	main(void)
     t_token	*token_cpy;
     t_ast * node;
     char	*str;
-
+    
+    setvbuf(stdout, NULL, _IONBF, 0);
     while (1)
     {
         str = readline(" \033[32mMinishell\033[0m\033[31m>\033[0m ");
@@ -30,16 +31,19 @@ int	main(void)
             break ;
         token = tokenize(str);
         lexer(token);
-        printf("LEXER : \n");
-        ft_lexer_print(token);
+        /*printf("LEXER : \n");*/
+        /*ft_lexer_print(token);*/
         token_cpy = token;
         node = ft_ast_pipeline(&token_cpy);
-        printf("--------------------\n");
-        printf("AST : \n");
-        ft_ast_print(node);
-        printf("--------------------\n");
-        printf("AST -> COMMAND : \n");
+        printf("\n*******************************************\n");
+        printf("\t ABSTRACT SYNTAX TREE \n");
+        printf("\t========================\n");
+        ft_ast_print(node,0);
+        printf("\n*******************************************\n");
+        printf("\t  COMMAND FROM AST \n");
+        printf("\t====================\n");
         ft_ast_tocommand(node);
+        printf("\n");
         ft_ast_free(node);
         free(str);
     }

@@ -1,6 +1,34 @@
 #include "debug.h"
 #include "parser.h"
 #include "tokenizer.h"
+#include <stdio.h>
+
+
+char * ft_ast_gettype(t_ast * ast)
+{
+    if(ast == NULL) 
+        return "NULL";
+    switch (ast->type) {
+        case AST_PIPELINE : 
+            return "\033[32mAST_PIPELINE\033[0m";
+        case AST_COMMAND : 
+            return "AST_COMMAND";
+        case AST_SIMPLE_COMMAND: 
+            return "\033[33mAST_SIMPLE_COMMAND\033[0m";
+        case AST_AND_OR: 
+            return "AST_AND_OR";
+        case AST_SUBSHELL: 
+            return "\033[34mAST_SUBSHELL\033[0m";
+        case AST_OR: 
+            return "AST_OR";
+        case AST_AND: 
+            return "AST_AND";
+        case AST_PIPE : 
+            return "AST_PIPE";
+        default: 
+            return "AST_UNKNOWN";
+    }
+}
 
 char * ft_asttype_getstr(t_token_type type)
 {
@@ -21,17 +49,26 @@ char * ft_asttype_getstr(t_token_type type)
     return str[type];
 }
 
-void ft_ast_tocommand(t_ast * ast)
-{
-    char * lexeme;
-    t_token * token;
-    t_list *head;
 
-    if(ast == NULL)
+void ft_char_repete(char* str,int n)
+{
+    int i;
+
+    i = 0;
+    while (i < n)
     {
-        printf("\033[31m(NULL)\033[0m\n");
-        return ;
+        printf("%s",str);
+        i++;
     }
+}
+
+
+void ft_ast_args_print(t_ast * ast)
+{
+    t_list * head;
+    t_token * token;
+    char * lexeme;
+
     head = ast->args;
     while(head)
     {
@@ -42,6 +79,15 @@ void ft_ast_tocommand(t_ast * ast)
         free(lexeme); 
         head = head->next;
     }
+}
+
+
+void ft_ast_redirect_print(t_ast * ast)
+{
+    t_list * head;
+    t_token * token;
+    char * lexeme;
+
     head = ast->redirect;
     while(head)
     {
@@ -49,30 +95,48 @@ void ft_ast_tocommand(t_ast * ast)
         lexeme = NULL;
         if(token->value)
             lexeme = strndup(token->value, token->length);
-        printf("%2s %s",ft_asttype_getstr(token->type),lexeme);
+        printf("%s %s ",ft_asttype_getstr(token->type),lexeme);
         free(lexeme); 
         head = head->next;
     }
+}
+
+
+void ft_ast_children_print(t_ast * ast)
+{
+    t_list * head;
+
     head = ast->children;
     if(head)
     {
         if(ast->type == AST_SUBSHELL)
-               printf(" ( ");
+            write(1,"( ",2);
         ft_ast_tocommand(head->content);
-        if(ast->type == AST_PIPELINE)
-            printf(" | ");
-        head =head->next;
+        head = head->next;
     }
     while(head)
     {
         if(ast->type == AST_PIPELINE)
-            printf(" | ");
+            write(1,"| ",2);
         ft_ast_tocommand(head->content);
         head = head->next;
     }
     if(ast->type == AST_SUBSHELL)
-     printf(" ) ");
+        write(1,") ",2);
 }
+
+void ft_ast_tocommand(t_ast * ast)
+{
+    if(ast == NULL)
+    {
+        printf("\033[31m(NULL)\033[0m\n");
+        return ;
+    }
+    ft_ast_args_print(ast);
+    ft_ast_redirect_print(ast);
+    ft_ast_children_print(ast);
+}
+
 void ft_list_tokens_print(t_list * head)
 {
     char * lexeme;
@@ -85,28 +149,41 @@ void ft_list_tokens_print(t_list * head)
         free(lexeme); 
         head = head->next;
     }
-
 }
 
-void ft_ast_print(t_ast * ast)
+void ft_ast_print(t_ast * ast,int depth)
 {
     t_list * p;
-    if(ast == NULL)
+    t_ast * node;
+    printf("%s : ",ft_ast_gettype(ast));
+    if(ast->type == AST_SIMPLE_COMMAND)
     {
-        printf("NODE NULL\n");
-        return ;
+        ft_ast_args_print(ast);
+        ft_ast_redirect_print(ast);
     }
+    printf("\n");
+    if(ast == NULL)
+        return ;
     p = ast->args;
-    printf ("ARGUMENTS :\n");
-    ft_list_tokens_print(p);
+    //ft_char_repete('\t', depth + 1);
+    //printf ("ARGUMENTS :\n");
+    //ft_list_tokens_print(p);
     p = ast->redirect;
-    printf ("REDIRECTION :\n");
-    ft_list_tokens_print(p);
+    //ft_char_repete('\t', depth + 1);
+    //printf ("REDIRECTION :\n");
+    //ft_list_tokens_print(p);
     p = ast->children;
-    printf ("CHILDREN :\n");
+    //ft_char_repete('\t', depth + 1);
+    //printf ("CHILDREN :\n");
     while(p)
     {
-        ft_ast_print(p->content);
+        node = p->content;
+        ft_char_repete("┃ \t", depth);
+        if(p->next != NULL)
+            printf("┣━━━━━━ ");
+        else 
+            printf("┗━━━━━━ ");
+        ft_ast_print(node,depth +1);
         p = p->next;
     }
 }
