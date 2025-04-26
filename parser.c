@@ -14,8 +14,6 @@
 #include "parser.h"
 #include "tokenizer.h"
 
-t_ast		*ft_ast_andor(t_token **token);
-
 t_ast_type	ft_ast_fromtoken(t_token_type type)
 {
 	if (type == TOKEN_OR)
