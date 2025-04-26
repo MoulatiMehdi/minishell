@@ -64,8 +64,6 @@ static int	ft_token_operator(t_token **token_head, t_token **token_curr,
 	{
 		if (*token_curr)
 			ft_token_push(token_head, *token_curr);
-		if (str[0] == '<' || str[0] == '>')
-			str = NULL;
 		ft_token_push(token_head, ft_token_new(str, (str != NULL) * len));
 		*token_curr = NULL;
 		(*i) += len;
