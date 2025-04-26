@@ -39,8 +39,6 @@ static char	ft_unbalanced_find(const char *str)
 	{
 		c = str[i];
 		count_parens += (c == '(') - (c == ')');
-		/*if (str[i] == '(' && str[i + 1] == ')')*/
-		/*	return (' ');*/
 		if (count_parens < 0)
 			return ('(');
 		if (c == '"' || c == '\'')
@@ -67,7 +65,5 @@ int	is_unbalance(const char *str)
 		write(2, "Syntax error : unbalanced double quotes\n", 40);
 	if (c == '\'')
 		write(2, "Syntax error : unbalanced single quotes\n", 40);
-	/*if (c == ' ')*/
-	/*	write(2, "Syntax error : empty parentheses\n", 33);*/
 	return (c != '\0');
 }
