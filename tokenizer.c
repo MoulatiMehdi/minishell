@@ -21,7 +21,7 @@ static void	ft_token_expansion(t_token **token_curr, const char *line,
 	(*i)++;
 	if (!ft_isalpha(line[*i]) && line[*i] != '_')
 		return ;
-	i++;
+	(*i)++;
 	(*token_curr)->length++;
 	while (ft_isalnum(line[*i]) || line[*i] == '_')
 	{
