@@ -44,7 +44,7 @@ void ft_lexer_type( t_token *const head)
     }
 }
 
-void	lexer(t_token *curr_token)
+void ft_lexer_recognition(t_token * curr_token)
 {
     t_token * prev_token;
     t_token * next_token;
@@ -69,4 +69,9 @@ void	lexer(t_token *curr_token)
         prev_token = curr_token;
         curr_token = curr_token->next;
     }
+}
+
+void	lexer(t_token *curr_token)
+{
+    ft_lexer_recognition(curr_token);
 }
