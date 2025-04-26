@@ -51,22 +51,22 @@ static void	ft_token_quote(t_token **token_curr, const char *line, size_t *i)
 static int	ft_token_operator(t_token **token_head, t_token **token_curr,
 		const char *line, size_t *i)
 {
-	int	len;
-    const char * str;
+	int			len;
+	const char	*str;
 
 	len = 0;
-    str = &line[*i];
+	str = &line[*i];
 	if (ft_str_isoperator(str))
 		len = 2;
 	else if (ft_char_isoperator(str[0]) && str[0] != '&')
 		len = 1;
-    if (len > 0)
+	if (len > 0)
 	{
 		if (*token_curr)
 			ft_token_push(token_head, *token_curr);
-        if(str[0] == '<' || str[0] == '>')
-            str = NULL;
-		ft_token_push(token_head, ft_token_new(str,(str != NULL)*len));
+		if (str[0] == '<' || str[0] == '>')
+			str = NULL;
+		ft_token_push(token_head, ft_token_new(str, (str != NULL) * len));
 		*token_curr = NULL;
 		(*i) += len;
 		return (1);

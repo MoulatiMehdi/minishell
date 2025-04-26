@@ -44,6 +44,6 @@ typedef struct s_token
 }					t_token;
 
 t_token				*tokenize(const char *line);
-int                  ft_token_isredirect(t_token_type type);
+int					ft_token_isredirect(t_token_type type);
 
 #endif
