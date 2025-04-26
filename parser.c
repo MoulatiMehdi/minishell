@@ -67,9 +67,7 @@ t_ast	*ft_ast_subshell(t_token **token)
     if(!child_node || (*token)->type != TOKEN_PARENS_CLOSE)
         return ft_ast_free(child_node);
     *token = (*token)->next; 
-    parent_node = ft_ast_new(AST_SUBSHELL);
-    ft_lstadd_back(&parent_node->children,ft_lstnew(child_node));
-    return parent_node;
+    return child_node;
 }
 
 t_ast	*ft_ast_command(t_token **token)
