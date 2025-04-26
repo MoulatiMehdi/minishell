@@ -17,21 +17,21 @@ char * ft_ast_gettype(t_ast * ast)
         return "NULL";
     switch (ast->type) {
         case AST_PIPELINE : 
-            return "\033[32mAST_PIPELINE\033[0m";
+            return "\033[1;32mAST_PIPELINE\033[0m";
         case AST_COMMAND : 
             return "AST_COMMAND";
         case AST_SIMPLE_COMMAND: 
-            return "\033[33mAST_SIMPLE_COMMAND\033[0m";
+            return "\033[1;33mAST_SIMPLE_COMMAND\033[0m";
         case AST_AND_OR: 
-            return "AST_AND_OR";
+            return "\033[1;34mAST_AND_OR";
         case AST_SUBSHELL: 
-            return "\033[34mAST_SUBSHELL\033[0m";
+            return "\033[1;34mAST_SUBSHELL\033[0m";
         case AST_OR: 
-            return "AST_OR";
+            return "\033[1;35mAST_OR\033[0m";
         case AST_AND: 
-            return "AST_AND";
+            return "\033[1;35mAST_AND\033[0m";
         case AST_PIPE : 
-            return "AST_PIPE";
+            return "\033[1;35mAST_PIPE\033[0m";
         default: 
             return "AST_UNKNOWN";
     }
@@ -76,6 +76,8 @@ void ft_ast_args_print(t_ast * ast)
     t_token * token;
     char * lexeme;
 
+    if(ast == NULL)
+        return ;
     head = ast->args;
     while(head)
     {
@@ -95,6 +97,8 @@ void ft_ast_redirect_print(t_ast * ast)
     t_token * token;
     char * lexeme;
 
+    if(ast == NULL)
+        return ;
     head = ast->redirect;
     while(head)
     {
@@ -112,7 +116,7 @@ void ft_ast_redirect_print(t_ast * ast)
 void ft_ast_children_print(t_ast * ast)
 {
     t_list * head;
-    
+
     if(ast == NULL)
         return ;
     if (ast->type == AST_AND)
@@ -170,8 +174,8 @@ void ft_ast_print(t_ast * ast,int depth)
     t_ast * node;
     int i;
     printf("%s : ",ft_ast_gettype(ast));
-        ft_ast_args_print(ast);
-        ft_ast_redirect_print(ast);
+    ft_ast_args_print(ast);
+    ft_ast_redirect_print(ast);
     printf("\n");
     if(ast == NULL)
         return ;

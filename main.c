@@ -16,6 +16,7 @@
 #include <stdio.h>
 
 t_ast	*ft_ast_andor(t_token **token);
+char * ft_asttype_getstr(t_token_type type);
 
 int	main(void)
 {
@@ -45,10 +46,13 @@ int	main(void)
         printf("\t====================\n");
         ft_ast_tocommand(node);
         printf("\n");
-        if(token_cpy->type != TOKEN_EOI)
+        if(token_cpy != NULL && token_cpy->type != TOKEN_EOI)
         {
             fprintf(stderr,"syntax error near unexpected token ");
-            write(2,token_cpy->value,token->length);
+            if(token_cpy->type == TOKEN_WORD)
+                write(2,token_cpy->value,token->length);
+            else
+                printf("`%s`",ft_asttype_getstr(token_cpy->type));
             write(1,"\n",1);
         }
         ft_ast_free(node);
