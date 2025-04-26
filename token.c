@@ -52,14 +52,14 @@ void	ft_token_addeoi(t_token **head, t_token *token_curr)
 	ft_token_push(head, token);
 }
 
-int ft_token_isredirect(t_token_type type)
+int	ft_token_isredirect(t_token_type type)
 {
-    int test;
+	int	test;
 
-    test = 0;
-    test = test || type == TOKEN_REDIRECT_APPEND;
-    test = test || type == TOKEN_REDIRECT_HERE;
-    test = test || type == TOKEN_REDIRECT_OUT;
-    test = test || type == TOKEN_REDIRECT_IN;
-    return test;
+	test = 0;
+	test = test || type == TOKEN_REDIRECT_APPEND;
+	test = test || type == TOKEN_REDIRECT_HERE;
+	test = test || type == TOKEN_REDIRECT_OUT;
+	test = test || type == TOKEN_REDIRECT_IN;
+	return (test);
 }
