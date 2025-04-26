@@ -51,7 +51,7 @@ char * ft_asttype_getstr(t_token_type type)
         ">",
         ">>",
         "<<",
-        "END",
+        "newline",
     };
     return str[type];
 }

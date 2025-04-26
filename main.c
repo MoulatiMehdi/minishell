@@ -18,10 +18,8 @@ t_ast	*ft_ast_andor(t_token **token);
 int	main(void)
 {
     t_token	*token;
-    t_token	*token_cpy;
     t_ast * node;
     char	*str;
-    char * lexeme;
     
     setvbuf(stdout, NULL, _IONBF, 0);
     while (1)
@@ -33,8 +31,7 @@ int	main(void)
         lexer(token);
         /*printf("LEXER : \n");*/
         /*ft_lexer_print(token);*/
-        token_cpy = token;
-        node = ft_ast_andor(&token_cpy);
+        node = parser(token);
         printf("\n*******************************************\n");
         printf("\t ABSTRACT SYNTAX TREE \n");
         printf("\t========================\n");
@@ -44,20 +41,6 @@ int	main(void)
         printf("\t====================\n");
         ft_ast_tocommand(node);
         printf("\n");
-        if(token_cpy != NULL && token_cpy->type != TOKEN_EOI)
-        {
-            lexeme = NULL;
-            fprintf(stderr,"syntax error near unexpected token ");
-            if(token_cpy->type == TOKEN_WORD)
-            {
-                if(token_cpy->value != NULL)
-                    lexeme = strndup(token_cpy->value,token->length);
-                fprintf(stderr,"%s\n",lexeme);
-            }
-            else
-                fprintf(stderr,"`%s`\n",ft_asttype_getstr(token_cpy->type));
-            free(lexeme);
-        }
         ft_ast_free(node);
         free(str);
     }
