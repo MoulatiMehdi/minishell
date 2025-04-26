@@ -11,12 +11,9 @@
 /* ************************************************************************** */
 
 #include "debug.h"
-#include "parser.h"
-#include "tokenizer.h"
-#include <stdio.h>
 
-t_ast	*ft_ast_andor(t_token **token);
 char * ft_asttype_getstr(t_token_type type);
+t_ast	*ft_ast_andor(t_token **token);
 
 int	main(void)
 {
@@ -24,6 +21,7 @@ int	main(void)
     t_token	*token_cpy;
     t_ast * node;
     char	*str;
+    char * lexeme;
     
     setvbuf(stdout, NULL, _IONBF, 0);
     while (1)
@@ -48,12 +46,17 @@ int	main(void)
         printf("\n");
         if(token_cpy != NULL && token_cpy->type != TOKEN_EOI)
         {
+            lexeme = NULL;
             fprintf(stderr,"syntax error near unexpected token ");
             if(token_cpy->type == TOKEN_WORD)
-                write(2,token_cpy->value,token->length);
+            {
+                if(token_cpy->value != NULL)
+                    lexeme = strndup(token_cpy->value,token->length);
+                fprintf(stderr,"%s\n",lexeme);
+            }
             else
-                printf("`%s`",ft_asttype_getstr(token_cpy->type));
-            write(1,"\n",1);
+                fprintf(stderr,"`%s`\n",ft_asttype_getstr(token_cpy->type));
+            free(lexeme);
         }
         ft_ast_free(node);
         free(str);

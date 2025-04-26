@@ -82,6 +82,7 @@ void ft_ast_args_print(t_ast * ast)
     while(head)
     {
         token = head->content;
+        lexeme = NULL;
         if(token->value)
             lexeme = strndup(token->value, token->length);
         printf("%s ",lexeme);
@@ -167,6 +168,7 @@ void ft_list_tokens_print(t_list * head)
         head = head->next;
     }
 }
+
 
 void ft_ast_print(t_ast * ast,int depth)
 {
