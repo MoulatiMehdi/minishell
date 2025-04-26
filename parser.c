@@ -6,7 +6,7 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 17:58:24 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/04/23 17:58:24 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/04/26 21:47:21 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ t_ast	*ft_ast_simplecommand(t_token **token)
             return (ft_ast_free(node));
         }
         ft_lstadd_back(&node->redirect, ft_lstnew(*token));
-        *token = (*token)->next;
     }
         else
         break ;
