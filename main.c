@@ -16,29 +16,49 @@
 #include <stdio.h>
 #include <readline/readline.h>
 
-void print_token_list(t_list *list)
+char *ft_token_type(t_token *token)
 {
-	t_token *token;
-
-	while (list)
+	switch (token->type)
 	{
-		if (!list->content)
-		{
-			printf("[NULL content]\n");
-			list = list->next;
-			continue;
-		}
-		token = (t_token *)list->content;
-		if (token)
-		{
-			printf("[token: type=%d, length=%zu, value=", token->type, token->length);
-			if (token->value)
-				write(1, token->value, token->length);
-			else
-				printf("(null)");
-			printf("]\n");
-		}
-		list = list->next;
+	case TOKEN_EOI:
+		return ("TOKEN_EOI");
+	case TOKEN_WORD:
+		return ("TOKEN_WORD");
+	case TOKEN_PIPE:
+		return ("TOKEN_PIPE");
+	case TOKEN_AND:
+		return ("TOKEN_AND");
+	case TOKEN_OR:
+		return ("TOKEN_OR");
+	case TOKEN_REDIRECT_APPEND:
+		return ("TOKEN_REDIRECT_APPEND");
+	case TOKEN_REDIRECT_IN:
+		return ("TOKEN_REDIRECT_IN");
+	case TOKEN_REDIRECT_OUT:
+		return ("TOKEN_REDIRECT_OUT");
+	case TOKEN_REDIRECT_HERE:
+		return ("TOKEN_REDIRECT_HERE");
+	case TOKEN_PARENS_OPEN:
+		return ("TOKEN_PARENS_OPEN");
+	case TOKEN_PARENS_CLOSE:
+		return ("TOKEN_PARENS_CLOSE");
+	default:
+		return ("TOKEN_UNKNOWN");
+	}
+}
+
+void print_token_list(t_token *token)
+{
+	char *lexeme;
+
+	while (token)
+	{
+		lexeme = NULL;
+		if (token->value != NULL)
+			lexeme = strndup(token->value, token->length);
+		printf("%-30s : %s\n", ft_token_type(token), lexeme);
+		free(lexeme);
+		token = token->next;
 	}
 }
 
@@ -119,6 +139,7 @@ int main(void)
 		}
 
 		lexer(token);
+		// print_token_list(token);
 		token_cpy = token;
 		node = ft_ast_andor(&token_cpy);
 
@@ -129,14 +150,8 @@ int main(void)
 			continue;
 		}
 
-		printf("\n=== BEFORE EXPANSION ===\n");
-		print_ast(node);
-
 		expand_ast(node, 0);
-
-		printf("\n=== AFTER EXPANSION ===\n");
-		print_ast(node);
-
+		// print_ast(node);
 		ft_ast_free(node);
 		free(str);
 	}

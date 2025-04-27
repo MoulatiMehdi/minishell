@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEXER_H
-#define LEXER_H
+#ifndef EXPANSION_H
+#define EXPANSION_H
 
 #include "parser.h"
 #include "tokenizer.h"
