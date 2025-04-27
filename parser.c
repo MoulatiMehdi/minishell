@@ -59,7 +59,6 @@ t_ast	*ft_ast_simplecommand(t_token **token)
 t_ast	*ft_ast_subshell(t_token **token)
 {
     t_ast	*child_node;
-
     if (!*token || (*token)->type != TOKEN_PARENS_OPEN)
         return (NULL);
     *token = (*token)->next;
@@ -67,6 +66,7 @@ t_ast	*ft_ast_subshell(t_token **token)
     if (!child_node || (*token)->type != TOKEN_PARENS_CLOSE)
         return (ft_ast_free(child_node));
     *token = (*token)->next;
+    child_node->type = AST_SUBSHELL;
     return (child_node);
 }
 
