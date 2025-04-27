@@ -56,9 +56,32 @@ t_ast	*ft_ast_simplecommand(t_token **token)
     return (node);
 }
 
+void ft_ast_subshell_optimize(t_ast ** node)
+{
+    t_ast * node_child;
+    t_ast * node_child_child;
+
+    if(*node == NULL || (*node)->children == NULL)
+        return ;
+    if( (*node)->children->next == NULL)
+    {
+        node_child = (*node)->children->content;
+        if(node_child->children != NULL && node_child->children->next == NULL)
+        {
+            node_child_child = node_child->children->content;
+            if(node_child_child != NULL && node_child_child->type == AST_SIMPLE_COMMAND ) 
+            {
+
+            }
+        }
+    }
+}
+
 t_ast	*ft_ast_subshell(t_token **token)
 {
     t_ast	*child_node;
+    t_ast   * child_node1;
+
     if (!*token || (*token)->type != TOKEN_PARENS_OPEN)
         return (NULL);
     *token = (*token)->next;
@@ -67,6 +90,7 @@ t_ast	*ft_ast_subshell(t_token **token)
         return (ft_ast_free(child_node));
     *token = (*token)->next;
     child_node->type = AST_SUBSHELL;
+    ft_ast_subshell_optimize(&child_node);
     return (child_node);
 }
 
