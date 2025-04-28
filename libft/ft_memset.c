@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   collector.h                                        :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/16 16:09:45 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/04/17 10:43:30 by mmoulati         ###   ########.fr       */
+/*   Created: 2024/11/10 13:17:05 by mmoulati          #+#    #+#             */
+/*   Updated: 2024/11/10 13:18:17 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef COLLECTOR_H
+#include "libft.h"
 
-# define COLLECTOR_H
+void	*ft_memset(void *b, int c, size_t len)
+{
+	unsigned char	*p;
 
-# include "libft.h"
-# include <stdlib.h>
-
-void	ft_free(void *addr);
-void	*ft_malloc(size_t size);
-int		ft_clear(void);
-
-#endif // !GARBGE_COLLECTOR_H
+	c = (unsigned char)c;
+	p = b;
+	while (len--)
+		p[len] = c;
+	return (p);
+}
