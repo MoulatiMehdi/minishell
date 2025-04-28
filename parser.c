@@ -143,14 +143,12 @@ t_ast	*ft_ast_andor(t_token **token)
 		token_type = (*token)->type;
 		if (token_type == TOKEN_OR || token_type == TOKEN_AND)
 		{
-			lst = ft_lstnew(ft_ast_new(ft_ast_fromtoken(token_type)));
-			ft_lstadd_back(&node_parent->children, lst);
+			ft_lstadd_back(&node_parent->children, ft_lstnew(ft_ast_new(ft_ast_fromtoken(token_type))));
 			*token = (*token)->next;
 			node_child = ft_ast_pipeline(token);
 			if (node_child == NULL)
 				return (ft_ast_free(node_parent));
-			lst = ft_lstnew(node_child);
-			ft_lstadd_back(&node_parent->children, lst);
+			ft_lstadd_back(&node_parent->children, ft_lstnew(node_child));
 		}
 		else
 			break ;
