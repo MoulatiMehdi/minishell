@@ -13,7 +13,7 @@
 #ifndef TOKENIZER_H
 # define TOKENIZER_H
 
-# include "collector.h"
+# include "libft.h"
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
@@ -21,7 +21,6 @@
 
 typedef enum e_token_type
 {
-	TOKEN_UNKNOWN,
 	TOKEN_WORD,
 	TOKEN_OR,
 	TOKEN_AND,
