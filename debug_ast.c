@@ -40,7 +40,6 @@ char * ft_ast_gettype(t_ast * ast)
 char * ft_asttype_getstr(t_token_type type)
 {
     static char *str[20] = {
-        "?",
         "W",
         "||",
         "&&",
