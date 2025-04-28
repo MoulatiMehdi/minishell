@@ -151,8 +151,11 @@ void ft_ast_tocommand(t_ast * ast)
         return ;
     }
     ft_ast_args_print(ast);
-    ft_ast_redirect_print(ast);
+    if(ast->type != AST_SUBSHELL)
+        ft_ast_redirect_print(ast);
     ft_ast_children_print(ast);
+    if(ast->type == AST_SUBSHELL)
+        ft_ast_redirect_print(ast);
 }
 
 void ft_list_tokens_print(t_list * head)
