@@ -164,7 +164,6 @@ t_ast	*ft_ast_andor(t_token **token)
 char	*ft_token_tostr(t_token_type type)
 {
 	static char *str[20] = {
-		"?",
 		"W",
 		"||",
 		"&&",
