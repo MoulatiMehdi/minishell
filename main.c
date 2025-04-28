@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "collector.h"
 #include "tokenizer.h"
 #include <readline/readline.h>
 #include <unistd.h>
