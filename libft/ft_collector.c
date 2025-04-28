@@ -10,17 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "collector.h"
-#include "libft/libft.h"
-#include <stdio.h>
-#include <stdlib.h>
+#include "libft.h"
 
-t_list	**ft_collecter_get(void)
+static t_list	**ft_collecter_get(void)
 {
 	static t_list	*g_head = NULL;
 
 	return (&g_head);
 }
+
 
 void	*ft_malloc(size_t size)
 {
@@ -38,7 +36,9 @@ void	*ft_malloc(size_t size)
 		free(addr);
 		return (NULL);
 	}
-	ft_lstadd_front(header, node);
+	if (header)
+		node->next = *header;
+	*header = node;
 	return (addr);
 }
 
