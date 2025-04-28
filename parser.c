@@ -186,7 +186,10 @@ t_ast	*parser(t_token *token)
 		node = ft_ast_free(node);
 	if (node == NULL)
 	{
-		str = ft_token_tostr(token->next->type);
+        if(token->type == TOKEN_EOI || token->next == NULL)
+            str =  "newline";
+        else
+		    str = ft_token_tostr(token->next->type);
 		write(2, "minishell : syntax error near unexpected token `", 48);
 		if (token->type == TOKEN_WORD)
 			write(2, token->value, token->length);
