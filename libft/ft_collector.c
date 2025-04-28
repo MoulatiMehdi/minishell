@@ -19,7 +19,6 @@ static t_list	**ft_collecter_get(void)
 	return (&g_head);
 }
 
-
 void	*ft_malloc(size_t size)
 {
 	void	*addr;
