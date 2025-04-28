@@ -21,7 +21,7 @@ t_token	*ft_token_new(const char *value, size_t length)
 		return (NULL);
 	token_new->next = NULL;
 	token_new->length = length;
-	token_new->type = TOKEN_UNKNOWN;
+	token_new->type = TOKEN_WORD;
 	token_new->value = value;
 	return (token_new);
 }
