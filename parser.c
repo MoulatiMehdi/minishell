@@ -41,10 +41,7 @@ t_ast	*ft_ast_simplecommand(t_token **token)
 		else if (ft_token_isredirect(token_type))
 		{
 			if ((*token)->value == NULL)
-			{
-				*token = (*token)->next;
 				return (ft_ast_free(node));
-			}
 			ft_lstadd_back(&node->redirect, ft_lstnew(*token));
 		}
 		else
@@ -187,11 +184,11 @@ t_ast	*parser(t_token *token)
 	if (token == NULL)
 		return (NULL);
 	node = ft_ast_andor(&token);
-	if (token->type != TOKEN_EOI)
+	if (token == NULL || token->type != TOKEN_EOI)
 		node = ft_ast_free(node);
 	if (node == NULL)
 	{
-		str = ft_token_tostr(token->type);
+		str = ft_token_tostr(token->next->type);
 		write(2, "minishell : syntax error near unexpected token `", 48);
 		if (token->type == TOKEN_WORD)
 			write(2, token->value, token->length);
