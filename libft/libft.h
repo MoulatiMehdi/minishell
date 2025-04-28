@@ -14,9 +14,9 @@
 
 # define LIBFT_H
 
-# include <stdlib.h>
 # include <limits.h>
 # include <stdint.h>
+# include <stdlib.h>
 # include <unistd.h>
 
 int					ft_isalpha(int c);
@@ -55,15 +55,12 @@ typedef struct s_array
     t_lst * last;
 } t_array;
 
-<<<<<<< HEAD
-=======
 
 int					ft_isalpha(int c);
 int					ft_isdigit(int c);
 int					ft_isalnum(int c);
 int					ft_isascii(int c);
 int					ft_isprint(int c);
-int		ft_clear(void);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
 
 size_t				ft_strlen(const char *s);
@@ -83,10 +80,9 @@ char				**ft_strsdup(char **map);
 
 void				ft_striteri(char *s, void (*f)(unsigned int, char *));
 void				ft_strconcat(char **target, char *str);
-void	ft_free(void *addr);
-void	*ft_malloc(size_t size);
+void				ft_free(void *addr);
+void				*ft_malloc(size_t size);
 
->>>>>>> 205be5f (add more libft functions)
 int					ft_lstsize(t_list *lst);
 
 t_list				*ft_lstnew(void *content);
@@ -108,11 +104,6 @@ void				ft_strconcat(char **target, char *str);
 void				ft_bzero(void *s, size_t n);
 void				ft_split_free(char ***strs);
 
-t_array* ft_array_new();
-void *ft_array_push(t_array ** array,void * content);
-
-
-
 int					ft_atoi(const char *str);
 char				*ft_itoa(int n);
 
@@ -130,7 +121,8 @@ size_t				ft_strlcat(char *dst, const char *src, size_t dstsize);
 size_t				ft_stridx(char *str, char c);
 
 void				*ft_calloc(size_t count, size_t size);
-char				*ft_strnstr(const char *haystack, const char *needle,size_t len);
+char				*ft_strnstr(const char *haystack, const char *needle,
+						size_t len);
 char				*ft_strchr(const char *s, int c);
 char				*ft_strrchr(const char *s, int c);
 char				*ft_strdup(const char *s1);
@@ -142,5 +134,10 @@ char				*get_next_line(int fd);
 char				**ft_split(char const *s, char *charset);
 char				**ft_strs_dup(char **map);
 
+t_array				*ft_array_new(void);
+void				*ft_array_push(t_array **array, void *content);
 
+int					ft_clear(void);
+void				ft_free(void *addr);
+void				*ft_malloc(size_t size);
 #endif
