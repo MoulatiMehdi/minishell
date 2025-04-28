@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "collector.h"
 #include "parser.h"
 #include "tokenizer.h"
 
