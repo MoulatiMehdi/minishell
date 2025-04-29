@@ -12,12 +12,14 @@
 
 #include "libft.h"
 
-size_t	ft_stridx(char *str, char c)
+long	ft_stridx(char *str, char c)
 {
-	size_t	i;
+	long	i;
 
+	if (str == NULL)
+		return (-1);
 	i = 0;
-	while (str)
+	while (str[i])
 	{
 		if (str[i] == c)
 			return (i);
