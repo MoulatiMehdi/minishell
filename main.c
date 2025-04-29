@@ -40,16 +40,10 @@ int main(void)
 
 		lexer(token);
 		// print_token_list(token);
-		token_cpy = token;
-		node = ft_ast_andor(&token_cpy);
-
-		if (!node)
-		{
-			printf("Parse error.\n");
-			free(str);
-			continue;
-		}
-
+		node = parser(token);
+    
+        if(!node)
+            continue;
 		expand_ast(node, 0);
 		ft_ast_print(node, 0);
         ft_ast_free(node);

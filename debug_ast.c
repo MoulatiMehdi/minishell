@@ -129,8 +129,10 @@ void ft_ast_redirect_print(t_ast * ast,int depth)
         lexeme = NULL;
         if(token->value)
             lexeme = strndup(token->value, token->length);
+        else 
+            lexeme = NULL;
         leaf_print(head,depth);
-        printf("%s %s\n",ft_asttype_getstr(token->type),lexeme);
+        printf("%s %s \n",ft_asttype_getstr(token->type),lexeme);
         free(lexeme); 
         head = head->next;
     }
