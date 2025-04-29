@@ -12,62 +12,33 @@
 
 #include "libft.h"
 
-static size_t	count_strs(char const *s, char *c)
+static size_t	ft_count_word(const char *str, char *charset)
 {
 	size_t	count;
-	size_t	i;
 
-	if (!s)
+	if (charset == NULL || str == NULL || str[0] == '\0')
 		return (0);
-	i = 0;
 	count = 0;
-	while (s[i] && ft_strchr(c, s[i]) != NULL)
-		i++;
-	while (s[i])
+	while (*str)
 	{
-		while (s[i] && ft_strchr(c, s[i]) == NULL)
-			i++;
-		count++;
-		while (s[i] && ft_strchr(c, s[i]) != NULL)
-			i++;
-		if (!s[i])
-			break ;
+		while (ft_strchr(charset, *str) != NULL)
+			str++;
+		if (*str)
+		{
+			count++;
+			while (*str && ft_strchr(charset, *str) == NULL)
+				str++;
+		}
 	}
-	return (count + (count == 0));
+	return (count);
 }
 
-static char	**free_all(char **strs, size_t size)
-{
-	while (size--)
-	{
-		if (strs[size])
-			free(strs[size]);
-		strs[size] = NULL;
-	}
-	free(strs);
-	strs = NULL;
-	return (NULL);
-}
-
-static char	*ft_split_dup(const char **s, char *charset)
-{
-	size_t	size;
-	char	*str;
-
-	size = 0;
-	while (s[size] && ft_strchr(charset, (*s)[size]) == NULL)
-		size++;
-	str = ft_substr(*s, 0, size);
-	*str += size;
-	return (str);
-}
-
-void	ft_split_free(char ***strs)
+void	*ft_split_free(char ***strs)
 {
 	int	i;
 
 	if (strs == NULL || *strs == NULL)
-		return ;
+		return (NULL);
 	i = 0;
 	while ((*strs)[i])
 	{
@@ -76,31 +47,44 @@ void	ft_split_free(char ***strs)
 	}
 	free(*strs);
 	*strs = NULL;
+	return (NULL);
 }
 
-char	**ft_split(char const *s, char *charset)
+static char	*ft_split_dup(const char **str, char *charset)
+{
+	size_t	end;
+	char	*str_dup;
+
+	end = 0;
+	while ((*str)[end] && ft_strchr(charset, (*str)[end]) == NULL)
+		end++;
+	str_dup = ft_strndup(*str, end);
+	*str += end;
+	return (str_dup);
+}
+
+char	**ft_split(const char *str, char *charset)
 {
 	char	**strs;
-	size_t	j;
+	size_t	size;
+	size_t	i;
 
-	if (!s || !charset)
-		return (NULL);
-	strs = malloc(sizeof(char *) * (count_strs(s, charset) + 1));
+	i = 0;
+	size = ft_count_word(str, charset);
+	strs = (char **)malloc(sizeof(char *) * (size + 1));
 	if (!strs)
-		return (NULL);
-	j = 0;
-	while (*s)
+		return (0);
+	while (i < size)
 	{
-		while (*s && ft_strchr(charset, *s) != NULL)
-			s++;
-		if (!*s)
+		while (ft_strchr(charset, *str) != NULL)
+			str++;
+		if (*str == '\0')
 			break ;
-		strs[j] = ft_split_dup(&s, charset);
-		if (!strs[j++])
-			return (free_all(strs, j));
+		strs[i] = ft_split_dup(&str, charset);
+		if (strs[i] == NULL)
+			return (ft_split_free(&strs));
+		i++;
 	}
-	if (j == 0)
-		strs[j++] = ft_strdup("");
-	strs[j] = NULL;
+	strs[size] = 0;
 	return (strs);
 }
