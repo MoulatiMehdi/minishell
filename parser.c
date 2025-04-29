@@ -41,10 +41,7 @@ t_ast	*ft_ast_simplecommand(t_token **token)
 		else if (ft_token_isredirect(token_type))
 		{
 			if ((*token)->value == NULL)
-			{
-				*token = (*token)->next;
 				return (ft_ast_free(node));
-			}
 			ft_lstadd_back(&node->redirect, ft_lstnew(*token));
 		}
 		else
@@ -146,14 +143,12 @@ t_ast	*ft_ast_andor(t_token **token)
 		token_type = (*token)->type;
 		if (token_type == TOKEN_OR || token_type == TOKEN_AND)
 		{
-			lst = ft_lstnew(ft_ast_new(ft_ast_fromtoken(token_type)));
-			ft_lstadd_back(&node_parent->children, lst);
+			ft_lstadd_back(&node_parent->children, ft_lstnew(ft_ast_new(ft_ast_fromtoken(token_type))));
 			*token = (*token)->next;
 			node_child = ft_ast_pipeline(token);
 			if (node_child == NULL)
 				return (ft_ast_free(node_parent));
-			lst = ft_lstnew(node_child);
-			ft_lstadd_back(&node_parent->children, lst);
+			ft_lstadd_back(&node_parent->children, ft_lstnew(node_child));
 		}
 		else
 			break ;
@@ -187,11 +182,14 @@ t_ast	*parser(t_token *token)
 	if (token == NULL)
 		return (NULL);
 	node = ft_ast_andor(&token);
-	if (token->type != TOKEN_EOI)
+	if (token == NULL || token->type != TOKEN_EOI)
 		node = ft_ast_free(node);
 	if (node == NULL)
 	{
-		str = ft_token_tostr(token->type);
+        if(token->type == TOKEN_EOI || token->next == NULL)
+            str =  "newline";
+        else
+		    str = ft_token_tostr(token->next->type);
 		write(2, "minishell : syntax error near unexpected token `", 48);
 		if (token->type == TOKEN_WORD)
 			write(2, token->value, token->length);
