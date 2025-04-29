@@ -1,7 +1,7 @@
 CC = cc 
 AR = ar
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 ARFLAGS = crs
 
 SRCS = \
