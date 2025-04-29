@@ -21,12 +21,12 @@ static size_t	ft_count_word(const char *str, char *charset)
 	count = 0;
 	while (*str)
 	{
-		while (ft_stridx(charset, *str) != -1)
+		while (ft_strchr(charset, *str) != NULL)
 			str++;
 		if (*str)
 		{
 			count++;
-			while (*str && ft_stridx(charset, *str) == -1)
+			while (*str && ft_strchr(charset, *str) == NULL)
 				str++;
 		}
 	}
@@ -56,7 +56,7 @@ static char	*ft_split_dup(const char **str, char *charset)
 	char	*str_dup;
 
 	end = 0;
-	while ((*str)[end] && ft_stridx(charset, (*str)[end]) == -1)
+	while ((*str)[end] && ft_strchr(charset, (*str)[end]) == NULL)
 		end++;
 	str_dup = ft_strndup(*str, end);
 	*str += end;
@@ -76,7 +76,7 @@ char	**ft_split(const char *str, char *charset)
 		return (0);
 	while (i < size)
 	{
-		while (ft_stridx(charset, *str) != -1)
+		while (ft_strchr(charset, *str) != NULL)
 			str++;
 		if (*str == '\0')
 			break ;
