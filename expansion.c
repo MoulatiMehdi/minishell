@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 16:31:07 by okhourss          #+#    #+#             */
-/*   Updated: 2025/04/25 16:31:07 by okhourss         ###   ########.fr       */
+/*   Updated: 2025/04/30 11:00:01 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ extern char **environ;
 
 int is_var_char(char c)
 {
-	return (c == '_' || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9'));
+	return (c == '_' || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'));
 }
 
 char *get_env_value(const char *var_name)
@@ -52,8 +52,8 @@ static char *append_str(const char *original, const char *add)
 	size_t len_a;
 	char *new_str;
 
-	len_o = strlen(original);
-	len_a = strlen(add);
+	len_o = ft_strlen(original);
+	len_a = ft_strlen(add);
 	new_str = malloc(len_o + len_a + 1);
 	if (!new_str)
 		return (NULL);
@@ -78,14 +78,18 @@ char *expand_variables(const char *value, int last_status)
 	char *tmp;
 	i = ((inside_single = 0), (inside_double = 0), 0);
 
-	result = calloc(1, 1);
+	result = ft_calloc(1, 1);
 	if (!result)
 		return (NULL);
 	while (value[i])
 	{
 		handle_quotes(value[i], &inside_single, &inside_double);
-		if ((value[i] == '\'' || value[i] == '"'))
+		if (value[i] == '\'' || value[i] == '"')
 		{
+			char buf[2] = {value[i], '\0'};
+			tmp = append_str(result, buf);
+			free(result);
+			result = tmp;
 			i++;
 			continue;
 		}
@@ -103,7 +107,6 @@ char *expand_variables(const char *value, int last_status)
 				result = tmp;
 				i++;
 			}
-			// example: echo $test 3
 			else if (is_var_char(value[i]))
 			{
 				int start = i;
@@ -140,6 +143,8 @@ char *expand_variables(const char *value, int last_status)
 	return (result);
 }
 
+// TODO need to add strndup to libft
+
 void expand_token(t_token *token, int last_status)
 {
 	char *original;
@@ -160,6 +165,36 @@ void expand_token(t_token *token, int last_status)
 	printf("expanded: %s\n", expanded);
 }
 
+int should_split(t_token *token)
+{
+	if (!token)
+		return (0);
+
+	if (!token->value || token->value[0] == '\0')
+		return (0);
+
+	if (token->value[0] == '"' || token->value[0] == '\'')
+		return (0);
+
+	return (1);
+}
+
+void field_split_token(t_list **list, t_token *token)
+{
+	printf("start of splitting\n");
+
+	if (!token)
+		return;
+	char **words = ft_split(token->value, "\n\t ");
+	int count = 0;
+	while (words[count])
+	{
+		printf("word[%d] --> %s\n", count, words[count]);
+		count++;
+	}
+	printf("count %d\n", count);
+}
+
 void expand_ast(t_ast *node, int last_status)
 {
 	t_token *token;
@@ -172,7 +207,11 @@ void expand_ast(t_ast *node, int last_status)
 	{
 		token = list->content;
 		if (token && token->type != TOKEN_REDIRECT_HERE)
+		{
 			expand_token(token, last_status);
+			if (should_split(token))
+				field_split_token(&list, token);
+		}
 		list = list->next;
 	}
 	list = node->redirect;
@@ -181,6 +220,8 @@ void expand_ast(t_ast *node, int last_status)
 		token = list->content;
 		if (token && token->type != TOKEN_REDIRECT_HERE)
 			expand_token(token, last_status);
+		if (should_split(token))
+			field_split_token(&list, token);
 		list = list->next;
 	}
 	child = node->children;
