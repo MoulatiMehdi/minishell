@@ -40,6 +40,7 @@ typedef struct s_token
 	t_token_type	type;
 	size_t			length;
 	struct s_token	*next;
+	t_array			*fields;
 }					t_token;
 
 t_token				*tokenize(const char *line);
