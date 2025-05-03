@@ -228,29 +228,3 @@ void expand_ast(t_ast *node, int last_status)
 		child = child->next;
 	}
 }
-
-t_word * ft_word_expand(t_word * p)
-{
-    char  * str;
-    if(p->type == WORD_QUOTE_SINGLE)
-        str = ft_strndup(p->value,p->length);
-    else if(p->type == WORD_QUOTE_DOUBLE)
-        str = ft_word_expand(p);
-    else 
-    {
-
-    }
-}
-
-void ft_token_expand(t_token * token)
-{
-    t_word * words;
-    t_word * p;
-
-    words = ft_expand_split(token);
-    p = words;
-    while(p)
-    {
-            ft_array_push(token->fields, str);
-    }
-}
