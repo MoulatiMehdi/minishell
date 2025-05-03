@@ -6,7 +6,7 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 13:17:10 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/04/19 16:27:27 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/05/03 17:41:34 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,11 @@ char				*ft_strdup(const char *s1);
 char				*ft_strjoin(char const *s1, char const *s2);
 char				*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 char				**ft_strsdup(char **map);
+char				*ft_strnjoin(char const *s1, char const *s2, size_t len);
 
 void				ft_striteri(char *s, void (*f)(unsigned int, char *));
 void				ft_strconcat(char **target, char *str);
+void				ft_strnconcat(char **target, char *str, size_t len);
 void				ft_free(void *addr);
 void				*ft_malloc(size_t size);
 
