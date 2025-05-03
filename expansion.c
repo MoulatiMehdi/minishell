@@ -11,6 +11,9 @@
 /* ************************************************************************** */
 
 #include "expansion.h"
+# include "expand.h"
+#include "libft/libft.h"
+#include "tokenizer.h"
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
@@ -179,20 +182,14 @@ int should_split(t_token *token)
 	return (1);
 }
 
-void field_split_token(t_list **list, t_token *token)
+void field_split_token(t_token *token)
 {
-	printf("start of splitting\n");
+    t_array * fields;
 
+    fields = NULL;
 	if (!token)
 		return;
 	char **words = ft_split(token->value, "\n\t ");
-	int count = 0;
-	while (words[count])
-	{
-		printf("word[%d] --> %s\n", count, words[count]);
-		count++;
-	}
-	printf("count %d\n", count);
 }
 
 void expand_ast(t_ast *node, int last_status)
@@ -221,7 +218,7 @@ void expand_ast(t_ast *node, int last_status)
 		if (token && token->type != TOKEN_REDIRECT_HERE)
 			expand_token(token, last_status);
 		if (should_split(token))
-			field_split_token(&list, token);
+			field_split_token(token);
 		list = list->next;
 	}
 	child = node->children;
