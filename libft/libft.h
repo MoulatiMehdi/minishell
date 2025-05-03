@@ -6,7 +6,7 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 13:17:10 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/05/03 17:41:34 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/05/03 18:11:48 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ char				*ft_strnstr(const char *haystack, const char *needle,
 char				*ft_strchr(const char *s, int c);
 char				*ft_strrchr(const char *s, int c);
 char				*ft_strdup(const char *s1);
-char				*ft_strjoin(char const *s1, char const *s2);
 char				*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 char				**ft_strsdup(char **map);
 char				*ft_strnjoin(char const *s1, char const *s2, size_t len);
@@ -79,7 +78,6 @@ void				ft_putchar_fd(char c, int fd);
 void				ft_putstr_fd(char *s, int fd);
 void				ft_putendl_fd(char *s, int fd);
 void				ft_putnbr_fd(int n, int fd);
-void				ft_strconcat(char **target, char *str);
 void				ft_bzero(void *s, size_t n);
 void				*ft_split_free(char ***strs);
 
