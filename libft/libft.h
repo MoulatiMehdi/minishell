@@ -57,8 +57,8 @@ char				**ft_strsdup(char **map);
 char				*ft_strnjoin(char const *s1, char const *s2, size_t len);
 
 void				ft_striteri(char *s, void (*f)(unsigned int, char *));
-void				ft_strconcat(char **target, char *str);
-void				ft_strnconcat(char **target, char *str, size_t len);
+void				ft_strconcat(char **target, char const *str);
+void				ft_strnconcat(char **target, char const *str, size_t len);
 void				ft_free(void *addr);
 void				*ft_malloc(size_t size);
 
