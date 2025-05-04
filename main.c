@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 14:11:48 by okhourss          #+#    #+#             */
-/*   Updated: 2025/05/03 23:15:51 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/05/04 21:10:37 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,16 @@ int	main(void)
 			continue ;
 		}
 		lexer(token);
-		// print_token_list(token);
-        
+    
         while(token)
         {
-            if(token->type == TOKEN_WORD || ft_token_isredirect(token->type))
+            if(token->type == TOKEN_WORD || (ft_token_isredirect(token->type) && token->value != NULL ))
             {
+                printf("\n**************************\n");
+                write(1,"\t\t ",3);
+                write(1,token->value,token->length);
+                write(1," : \n",4);
                 ft_token_expand(token);
-                write(1,"\n",1);
             }
             token = token ->next;
         }
