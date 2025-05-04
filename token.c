@@ -23,6 +23,7 @@ t_token	*ft_token_new(const char *value, size_t length)
 	token_new->length = length;
 	token_new->type = TOKEN_WORD;
 	token_new->value = value;
+	token_new->fields = NULL;
 	return (token_new);
 }
 
