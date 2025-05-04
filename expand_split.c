@@ -51,7 +51,7 @@ t_word * ft_expand_split(t_token * token)
         else 
         {
             len = 0;
-            while(token->value[i + len] && !ft_char_isquote(token->value[i + len]))
+            while(token->value[i + len] && !ft_char_isquote(token->value[i + len]) && token->value[i + len] != '*')
                 len ++;
             ft_word_push(&head,WORD_NONE, &token->value[i], len);
             i += len;
