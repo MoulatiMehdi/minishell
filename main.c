@@ -6,7 +6,7 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 17:09:35 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/04/22 11:20:45 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/05/04 13:47:46 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ char	*ft_word_gettype(t_word *token)
             return ("WORD_QUOTE_DOUBLE");
         case WORD_QUOTE_SINGLE:
             return ("WORD_QUOTE_SINGLE");
+        case WORD_WILDCARD : 
+            return ("WORD_WILDCARD");
         default:
             return "WORD_NONE";
     }
