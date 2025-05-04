@@ -36,7 +36,12 @@ void	*ft_array_push(t_array **array, void *content)
 		return (NULL);
 	if (*array == NULL)
 		*array = ft_array_new();
-	if ((*array)->head == NULL)
+    if(*array == NULL)
+    {
+        free(node);
+        return NULL;
+    }
+    if ((*array)->head == NULL)
 		(*array)->head = node;
 	if ((*array)->last != NULL)
 		(*array)->last->next = node;
