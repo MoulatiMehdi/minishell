@@ -42,10 +42,16 @@ t_word * ft_expand_split(t_token * token)
             ft_word_push(&head,ft_word_type(token->value[i]), &token->value[i + 1], len);
             i += 2 + len;
         }
+        else if(token->value[i] == '*')
+        {
+            ft_word_push(&head, WORD_WILDCARD, &token->value[i],1);
+            while(token->value[i] == '*' && i < token->length)
+                i++;
+        }
         else 
         {
             len = 0;
-            while(token->value[i + len] && !ft_char_isquote(token->value[i + len]))
+            while(token->value[i + len] && !ft_char_isquote(token->value[i + len]) && token->value[i + len] != '*')
                 len ++;
             ft_word_push(&head,WORD_NONE, &token->value[i], len);
             i += len;

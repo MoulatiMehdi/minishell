@@ -9,6 +9,7 @@ typedef enum e_word_type
     WORD_NONE,
     WORD_QUOTE_DOUBLE,
     WORD_QUOTE_SINGLE,
+    WORD_WILDCARD
 } t_word_type;
 
 
