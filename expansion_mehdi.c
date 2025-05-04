@@ -2,6 +2,9 @@
 #include "libft/libft.h"
 #include <stddef.h>
 
+
+#define IFS " \t\n"
+
 extern char	**environ;
 
 int	ft_key_isvalidprefix(char c)
@@ -30,31 +33,53 @@ char	*ft_env_get(const char *key, size_t len)
     return (NULL);
 }
 
-void ft_word_split(t_array **field,t_word* head)
+
+int ft_quotes_isjoinable(t_word * word)
+{
+    size_t i;
+    if(word == NULL || word->type == WORD_WILDCARD)
+        return 0;
+    if(word->type !=  WORD_NONE)
+        return word->type != WORD_NONE;
+    if(word->value == NULL)
+        return 1;
+    i = 0;
+    while(word->value[i])
+    {
+        if(ft_strchr(IFS, word->value[i]) != NULL)
+            return  0;
+        i++;
+    }
+    return 1;
+}
+
+void ft_quotes_join(t_word* head)
 {
     t_word * p;
-    char * str;
+    t_word * p_next;
     size_t i;
 
     i = 0;
     p = head;
-
-    str = NULL;
     while(p)
     {
-        if(p->type != WORD_NONE)
-            ft_strconcat(&str, p->value);
-        else 
+        if(ft_quotes_isjoinable(p))
         {
-            while()
+            p->type = WORD_QUOTE_SINGLE;
+            p_next = p->next;
+            while(p_next && ft_quotes_isjoinable(p_next))
+            {
+                ft_strconcat((char **)&p->value, p_next->value);
+                p->next = p_next->next;
+                free((char *)p_next->value);
+                free(p_next);
+                p_next = p->next;
+            }
+            if(p_next != NULL)
+                p = p_next;
         }
         p = p->next;
     }
-}
-
-size_t ft_param_namelen(char * str)
-{
-
 }
 
 void	ft_param_expand(t_word *p)
@@ -66,7 +91,7 @@ void	ft_param_expand(t_word *p)
     str = NULL;
     if (p == NULL || p->value == NULL || p->length == 0)
         return ;
-    if(p->type == WORD_QUOTE_SINGLE)
+    if(p->type == WORD_QUOTE_SINGLE || p->type == WORD_WILDCARD)
     {
         p->value = ft_strndup(p->value, p->length);
         return ;
@@ -107,9 +132,13 @@ void	ft_token_expand(t_token *token)
     while (p)
     {
         ft_param_expand(p);
+        p = p->next;
+    }
+    ft_quotes_join(words);
+    p = words;
+    while (p)
+    {
         printf("\t - '%s'\n",p->value);
         p = p->next;
     }
-    p = words;
-    ft_word_split(&token->fields,p);
 }
