@@ -6,48 +6,52 @@
 /*   By: okhourss <okhourss@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 14:11:48 by okhourss          #+#    #+#             */
-/*   Updated: 2025/04/26 14:11:48 by okhourss         ###   ########.fr       */
+/*   Updated: 2025/05/03 23:15:51 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "debug.h"
+#include "expansion.h"
+#include "libft/libft.h"
 #include "parser.h"
 #include "tokenizer.h"
-#include "expansion.h"
-#include "debug.h"
-#include <stdio.h>
 #include <readline/readline.h>
+#include <stdio.h>
 
-int main(void)
+void	ft_token_expand(t_token *token);
+
+int	main(void)
 {
-	t_token *token;
-	t_token *token_cpy;
-	t_ast *node;
-	char *str;
+	t_token	*token;
+	t_token	*token_cpy;
+	t_ast	*node;
+	char	*str;
 
 	setvbuf(stdout, NULL, _IONBF, 0);
 	while (1)
 	{
 		str = readline("\033[32mMinishell\033[0m\033[31m>\033[0m ");
 		if (str == NULL)
-			break;
-
+			break ;
 		token = tokenize(str);
 		if (!token)
 		{
 			free(str);
-			continue;
+			continue ;
 		}
-
 		lexer(token);
 		// print_token_list(token);
-		node = parser(token);
-    
-        if(!node)
-            continue;
-		expand_ast(node, 0);
-		ft_ast_print(node, 0);
-        ft_ast_free(node);
-		free(str);
+        
+        while(token)
+        {
+            if(token->type == TOKEN_WORD || ft_token_isredirect(token->type))
+            {
+                ft_token_expand(token);
+                write(1,"\n",1);
+            }
+            token = token ->next;
+        }
+        free(str);
 	}
 	return (0);
 }
