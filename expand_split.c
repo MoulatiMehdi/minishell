@@ -1,34 +1,33 @@
-#include "libft/libft.h"
-# include "tokenizer_init.h"
 #include "expand.h"
+#include "libft/libft.h"
+#include "tokenizer_init.h"
 
-t_word_type ft_word_type(char c)
+t_word_type	ft_word_type(char c)
 {
-    if(c == '"')
-        return WORD_QUOTE_DOUBLE;
-    if(c == '\'')
-        return WORD_QUOTE_SINGLE;
-    return WORD_NONE;
+	if (c == '"')
+		return (WORD_QUOTE_DOUBLE);
+	if (c == '\'')
+		return (WORD_QUOTE_SINGLE);
+	return (WORD_NONE);
 }
 
-static size_t ft_quotelen(const char * str,char c)
+static size_t	ft_quotelen(const char *str, char c)
 {
-    size_t i;
+	size_t	i;
 
-    if(c != '"' && c != '\'')
-        return 0;
-    i = 0;
-    while(str[i] && str[i] != c)
-        i++;
-    return i;
+	if (c != '"' && c != '\'')
+		return (0);
+	i = 0;
+	while (str[i] && str[i] != c)
+		i++;
+	return (i);
 }
 
-
-t_word * ft_expand_split(t_token * token)
+t_word	*ft_expand_split(t_token *token)
 {
-    size_t i;
-    size_t len;
-    t_word * head;
+	size_t	i;
+	size_t	len;
+	t_word	*head;
 
     if(token == NULL || token->value ==NULL || token ->length == 0)
         return NULL;
@@ -59,4 +58,3 @@ t_word * ft_expand_split(t_token * token)
     }
     return head;
 }
-
