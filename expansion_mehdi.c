@@ -68,7 +68,7 @@ void ft_field_split(t_array ** field,t_word * words)
             ft_strconcat(&str, word->value);
         else if (word->type == WORD_NONE)
         {
-            if(ft_strchr(IFS, word->value[0]))
+            if(str != NULL && ft_strchr(IFS, word->value[0]))
             {
                 ft_array_push(field, str);
                 str = NULL;
@@ -82,6 +82,9 @@ void ft_field_split(t_array ** field,t_word * words)
                 len = ft_strlen(word->value);
                 if(ft_strchr(IFS,word->value[len - 1]) == NULL)
                 {
+                    len = 0;
+                    while(strs[len])
+                        len ++;
                     str = strs[len - 1];
                     strs[len - 1] = NULL;
                 }
@@ -186,17 +189,4 @@ void	ft_token_expand(t_token *token)
     ft_quotes_join(words);
     p = words;
     ft_field_split(&token->fields,words);
-    printf("**************************\n");
-    printf("FIELDS : \n");
-    if(token->fields)
-    {
-        p_list = token->fields->head;
-        while (p_list)
-        {
-            printf("- %s\n",(char *)p_list->content);
-            p_list = p_list->next;
-        }
-    }else {
-        printf("(NULL)\n");
-    }
 }
