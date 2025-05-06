@@ -11,8 +11,10 @@
 /* ************************************************************************** */
 
 #ifndef PARSER_H
-# define PARSER_H
-# include "lexer.h"
+#define PARSER_H
+#include "lexer.h"
+#include "libft/libft.h"
+#include "tokenizer.h"
 
 typedef enum e_ast_type
 {
@@ -25,22 +27,22 @@ typedef enum e_ast_type
 	AST_PIPELINE,
 	AST_SUBSHELL,
 	AST_UNKNOWN,
-}				t_ast_type;
+} t_ast_type;
 
 typedef struct s_ast
 {
-	t_ast_type	type;
-	t_list		*args;
-	t_list		*redirect;
-	t_list		*children;
-}				t_ast;
+	t_ast_type type;
+	t_list *args;
+	t_list *redirect;
+	t_list *children;
+} t_ast;
 
-t_ast			*ft_ast_new(t_ast_type ast_type);
-void			ft_lstnode_clear(t_list *head);
-t_ast			*ft_ast_free(t_ast *head);
+t_ast *ft_ast_new(t_ast_type ast_type);
+void ft_lstnode_clear(t_list *head);
+t_ast *ft_ast_free(t_ast *head);
 
-void			ft_lstnode_clear(t_list *head);
-t_ast			*ft_ast_free(t_ast *head);
+void ft_lstnode_clear(t_list *head);
+t_ast *ft_ast_free(t_ast *head);
 
 t_ast			*ft_ast_andor(t_token **token);
 t_ast			*parser(t_token *token);
