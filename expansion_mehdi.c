@@ -52,14 +52,62 @@ int ft_quotes_isjoinable(t_word * word)
     }
     return 1;
 }
+void ft_field_split(t_array ** field,t_word * words)
+{
+    t_word * word;
+    char * str;
+    char ** strs;
+    size_t len;
+    size_t i;
+
+    str = NULL;
+    word = words;
+    while(word)
+    {
+        if(word->type == WORD_QUOTE_SINGLE || word->type == WORD_QUOTE_DOUBLE )
+            ft_strconcat(&str, word->value);
+        else if (word->type == WORD_NONE)
+        {
+            if(ft_strchr(IFS, word->value[0]))
+            {
+                ft_array_push(field, str);
+                str = NULL;
+            }
+            strs = ft_split(word->value, IFS);
+            if(strs)
+            {
+                ft_strconcat(&str,strs[0]);
+                free(strs[0]);
+                strs[0] = str;
+                len = ft_strlen(word->value);
+                if(ft_strchr(IFS,word->value[len - 1]) == NULL)
+                {
+                    str = strs[len - 1];
+                    strs[len - 1] = NULL;
+                }
+                else  
+                    str = NULL; 
+                i = 0;
+                while (strs[i]) {
+                    ft_array_push(field, strs[i]);
+                    i++;
+                }
+            }
+        }else 
+        {
+
+        }
+        word = word->next;
+    }
+    if(str)
+        ft_array_push(field, str);
+}
 
 void ft_quotes_join(t_word* head)
 {
     t_word * p;
     t_word * p_next;
-    size_t i;
 
-    i = 0;
     p = head;
     while(p)
     {
@@ -136,9 +184,5 @@ void	ft_token_expand(t_token *token)
     }
     ft_quotes_join(words);
     p = words;
-    while (p)
-    {
-        printf("\t - '%s'\n",p->value);
-        p = p->next;
-    }
+    ft_field_split(&token->fields,words);
 }
