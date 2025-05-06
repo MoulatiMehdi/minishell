@@ -174,6 +174,7 @@ void	ft_token_expand(t_token *token)
 {
     t_word	*words;
     t_word	*p;
+    t_list *p_list;
 
     words = ft_expand_split(token);
     p = words;
@@ -185,4 +186,17 @@ void	ft_token_expand(t_token *token)
     ft_quotes_join(words);
     p = words;
     ft_field_split(&token->fields,words);
+    printf("**************************\n");
+    printf("FIELDS : \n");
+    if(token->fields)
+    {
+        p_list = token->fields->head;
+        while (p_list)
+        {
+            printf("- %s\n",(char *)p_list->content);
+            p_list = p_list->next;
+        }
+    }else {
+        printf("(NULL)\n");
+    }
 }
