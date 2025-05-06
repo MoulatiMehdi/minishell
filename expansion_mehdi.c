@@ -140,7 +140,7 @@ void	ft_param_expand(t_word *p)
     size_t	len;
 
     str = NULL;
-    if (p == NULL || p->value == NULL || p->length == 0)
+    if (p == NULL || p->value == NULL)
         return ;
     if(p->length == 0 || p->type == WORD_QUOTE_SINGLE || p->type == WORD_WILDCARD)
     {
