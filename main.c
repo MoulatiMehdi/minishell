@@ -6,10 +6,12 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 17:09:35 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/05/06 19:39:08 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/05/06 19:40:16 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+# include "expansion.h"
+# include "execution.h"
 #include "debug.h"
 #include "parser.h"
 
@@ -27,7 +29,8 @@ void ft_ast_print_args(t_ast * ast)
     if(ast->type == AST_SIMPLE_COMMAND)
     {
         strs = ft_ast_getargs(ast);
-        printf("\n*************************\n");
+        printf("\n*************************\n\t\tFIELDS\n");
+        
         if(strs == NULL)
         {
             printf("NULL\n");
@@ -36,7 +39,7 @@ void ft_ast_print_args(t_ast * ast)
         i = 0;
         while(strs[i])
         {
-            printf("%s\n",strs[i]);
+            printf("[%04ld] : %s\n",i,strs[i]);
             i++;
         }
     }
@@ -48,10 +51,17 @@ void ft_ast_print_args(t_ast * ast)
         p = p->next;
     }
 }
+
+
+
+
+
 int	main(void)
 {
     t_token	*token;
+    t_token * p;
     t_ast * node;
+    t_list *p_lst;
     char	*str;
     
     setvbuf(stdout, NULL, _IONBF, 0);
@@ -73,7 +83,23 @@ int	main(void)
         // printf("\t  COMMAND FROM AST \n");
         // printf("\t====================\n");
         // ft_ast_tocommand(node);
-   
+        p = token;
+        
+        while(p)
+        {
+            ft_token_expand(p);
+            if(p->fields)
+            {
+                p_lst = p->fields->head;
+                while(p_lst)
+                {
+                    printf("%s\n",(char *)p_lst->content);
+                    p_lst = p_lst->next;
+                }
+            }
+            p = p->next;
+        }
+
         ft_ast_print_args(node);
         printf("\n");
         ft_ast_free(node);
