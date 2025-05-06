@@ -21,14 +21,13 @@ static size_t	ft_count_word(const char *str, char *charset)
 	count = 0;
 	while (*str)
 	{
-		while (ft_strchr(charset, *str) != NULL)
+		while (*str && ft_strchr(charset, *str) != NULL)
 			str++;
 		if (*str)
-		{
-			count++;
-			while (*str && ft_strchr(charset, *str) == NULL)
-				str++;
-		}
+			break ;
+		count++;
+		while (*str && ft_strchr(charset, *str) == NULL)
+			str++;
 	}
 	return (count);
 }
