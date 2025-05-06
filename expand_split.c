@@ -23,7 +23,6 @@ static size_t ft_quotelen(const char * str,char c)
     return i;
 }
 
-
 t_word * ft_expand_split(t_token * token)
 {
     size_t i;
@@ -39,7 +38,8 @@ t_word * ft_expand_split(t_token * token)
         if(ft_char_isquote(token->value[i]))
         {
             len = ft_quotelen(&token->value[i + 1], token->value[i]);
-            ft_word_push(&head,ft_word_type(token->value[i]), &token->value[i + 1], len);
+            if(head == NULL || len > 0)
+                ft_word_push(&head,ft_word_type(token->value[i]), &token->value[i + 1], len);
             i += 2 + len;
         }
         else if(token->value[i] == '*')
@@ -51,7 +51,7 @@ t_word * ft_expand_split(t_token * token)
         else 
         {
             len = 0;
-            while(token->value[i + len] && !ft_char_isquote(token->value[i + len]) && token->value[i + len] != '*')
+            while( i + len < token->length &&token->value[i + len] && !ft_char_isquote(token->value[i + len]) && token->value[i + len] != '*')
                 len ++;
             ft_word_push(&head,WORD_NONE, &token->value[i], len);
             i += len;
