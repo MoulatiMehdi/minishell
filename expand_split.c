@@ -23,11 +23,7 @@ static size_t	ft_quotelen(const char *str, char c)
 	return (i);
 }
 
-<<<<<<< HEAD
-t_word	*ft_expand_split(t_token *token)
-=======
 t_word * ft_expand_split(t_token * token)
->>>>>>> wordsplit
 {
 	size_t	i;
 	size_t	len;
