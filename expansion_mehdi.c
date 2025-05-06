@@ -142,7 +142,7 @@ void	ft_param_expand(t_word *p)
     str = NULL;
     if (p == NULL || p->value == NULL)
         return ;
-    if(p->type == WORD_QUOTE_SINGLE || p->type == WORD_WILDCARD)
+    if(p->length == 0 || p->type == WORD_QUOTE_SINGLE || p->type == WORD_WILDCARD)
     {
         p->value = ft_strndup(p->value, p->length);
         return ;
@@ -156,8 +156,7 @@ void	ft_param_expand(t_word *p)
             while (i + len < p->length && (p->value[i + len] != '$'
                 || !ft_key_isvalidprefix(p->value[i + len + 1])))
                 len++;
-            if (len > 0)
-                ft_strnconcat(&str, &p->value[i], len);
+            ft_strnconcat(&str, &p->value[i], len);
         }
         else
         {
