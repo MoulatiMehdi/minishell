@@ -6,11 +6,12 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 21:23:31 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/02/10 11:32:41 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/05/06 17:45:35 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdio.h>
 
 static size_t	ft_count_word(const char *str, char *charset)
 {
@@ -23,7 +24,7 @@ static size_t	ft_count_word(const char *str, char *charset)
 	{
 		while (*str && ft_strchr(charset, *str) != NULL)
 			str++;
-		if (*str)
+		if (!*str)
 			break ;
 		count++;
 		while (*str && ft_strchr(charset, *str) == NULL)
@@ -68,7 +69,9 @@ char	**ft_split(const char *str, char *charset)
 	size_t	size;
 	size_t	i;
 
-	i = 0;
+    if(str == NULL || charset == NULL)
+        return NULL;
+    i = 0;
 	size = ft_count_word(str, charset);
 	strs = (char **)malloc(sizeof(char *) * (size + 1));
 	if (!strs)
