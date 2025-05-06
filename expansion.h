@@ -19,4 +19,5 @@
 
 void expand_ast(t_ast *node, int last_status);
 
+void	ft_token_expand(t_token *token);
 #endif
