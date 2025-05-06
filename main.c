@@ -10,10 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "expansion.h"
-# include "execution.h"
 #include "debug.h"
 #include "parser.h"
+# include "expansion.h"
+# include "execution.h"
 
 char ** ft_ast_getargs(t_ast * ast);
 
