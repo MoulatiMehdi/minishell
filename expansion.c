@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 11:06:49 by okhourss          #+#    #+#             */
-/*   Updated: 2025/05/07 14:53:39 by okhourss         ###   ########.fr       */
+/*   Updated: 2025/05/07 16:05:59 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,15 @@ void expand_param(t_word *word)
 	}
 	word->value = new_value;
 }
+// TODO join quotes. | example = this is one token -> "Hel"'lo '$USER | after splitting -> hel lo osm | need to join quotes to look like this hello osm
+int is_joinable(t_word_type type)
+{
+	if (type != WORD_WILDCARD);
+}
+void join_quotes(t_word *words)
+{
+	
+}
 
 void expand_token(t_token *token)
 {
@@ -92,6 +101,7 @@ void expand_token(t_token *token)
 		printf("after param_exp -> %s\n", tmp->value);
 		tmp = tmp->next;
 	}
+	join_quotes(token_words);
 }
 
 void expand_ast(t_ast *node, int last_status)
@@ -129,4 +139,5 @@ void expand_ast(t_ast *node, int last_status)
 		expand_ast((t_ast *)child->content, last_status);
 		child = child->next;
 	}
+
 }
