@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 11:06:49 by okhourss          #+#    #+#             */
-/*   Updated: 2025/05/07 14:01:14 by okhourss         ###   ########.fr       */
+/*   Updated: 2025/05/07 14:53:39 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ char *get_env_value(const char *var_name, size_t len)
     if (var_name == NULL || len <= 0)
         return (NULL);
     i = 0;
+	printf("var name -> %s\n", var_name);
     while (environ[i])
     {
         if (ft_strncmp(environ[i], var_name, len) == 0 && environ[i][len] == '=')
@@ -47,6 +48,9 @@ void expand_param(t_word *word)
 {
 	size_t i;
 	ssize_t len;
+
+	if (word->type == WORD_QUOTE_SINGLE || word->type == WORD_WILDCARD)
+		return ;
 	i = 0;
 	len = 0;
 	char *new_value = ft_calloc(1,1);
@@ -57,7 +61,7 @@ void expand_param(t_word *word)
 		if (word->value[i] == '$' && is_valid_var_name(word->value[i + 1]))
 		{
 			i++;
-			while (i + len < word->length && is_valid_char(word->value[len]))
+			while (i + len < word->length && is_valid_char(word->value[len + i]))
 				len++;
 			ft_strconcat(&new_value, get_env_value(&word->value[i], len));
 		}
