@@ -134,31 +134,82 @@ int ft_ast_redirect(t_list * redirect)
     return 0; 
 }
 
-int ft_execute_simplecommand(t_ast * ast)
+
+int ft_command_isbuildin(char * str)
+{
+    size_t i;
+    static char *buildins[] = {
+        "echo",
+        "env",
+        "pwd",
+        "unset",
+        "export",
+        "cd",
+        "exit",
+        NULL,
+    };
+
+    i = 0;
+    while(buildins[i])
+    {
+        if(strcmp(buildins[i],str) == 0)
+            return 1;
+        i++;
+    }
+    return 0;
+}
+
+int ft_execute_buildin(t_ast * ast, char ** args)
+{
+
+    return 0;
+}
+
+int ft_command_execute(char ** args)
+{
+    if(ft_strchr(args[0],'/'))
+    {
+        execve(args[0], args,NULL);
+        perror(args[0]); 
+    }
+    else {
+        
+    }
+    exit(errno);
+}
+
+int ft_execute_file(t_ast * ast,char ** args)
 {
     pid_t pid;
-    char ** args;
-    unsigned char status;
-
-    if(ast == NULL)
-        return 0;
+    int status;
 
     pid = fork();
+    if(pid > 0)
+        return 0;
     if(pid < 0)
     {
         perror("minishell: fork");
         exit(errno);
-    }else if(pid == 0)
-    {
-        status = ft_ast_redirect(ast->redirect);
-        if(status)
-            exit(status);
-        args = ft_ast_getargs(ast); 
-        if(args == NULL)
-            exit(0);
-        execve(args[0], args,NULL);
-        perror(args[0]); 
-        exit(errno);
-    }
-    return 0;
+    } 
+    status = ft_ast_redirect(ast->redirect);
+    if(status == 0 && args && args[0])
+        status = ft_command_execute(args);
+    exit(status);
+}
+
+int ft_execute_simplecommand(t_ast * ast)
+{
+    char ** args;
+    int status; 
+    if(ast == NULL)
+        return 0;
+
+    status = 0;
+    args = ft_ast_getargs(ast); 
+    if (args && ft_command_isbuildin(args[0]))
+        status = ft_execute_buildin(ast, args);
+    else 
+        status = ft_execute_file(ast, args);
+    free(args);
+    return status;
 }
