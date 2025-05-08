@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 11:06:49 by okhourss          #+#    #+#             */
-/*   Updated: 2025/05/08 17:30:16 by okhourss         ###   ########.fr       */
+/*   Updated: 2025/05/08 17:18:33 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,25 +195,40 @@ void field_splitting(t_token *token, t_word *word)
 	token->fields = fields;
 }
 
+void ft_word_print(t_word * word,char * label)
+{
+    printf("\n*************************\n%s\n",label);
+	while (word)
+	{
+		printf("- %s\n",word->value);
+        word = word->next;
+	}
+
+}
+
 void expand_token(t_token *token)
 {
 	t_word *token_words;
 	t_word *tmp;
 
 	token_words = ft_expand_split(token);
-	if (!token_words)
+	ft_word_print(token_words, "WORDS SPLITTING");
+    if (!token_words)
 		return;
 	tmp = token_words;
 	while (tmp)
 	{
 		expand_param(tmp);
-		tmp = tmp->next;
+        tmp = tmp->next;
 	}
+	ft_word_print(token_words, "EXPANSION VARAIBLE");
 	join_quotes(token_words);
+	ft_word_print(token_words, "QUOTE JOINNIG");
 	field_splitting(token, token_words);
-	while (token->fields->head)
+    printf("\n*************************\nFIELD SPLITTING\n");
+    while (token->fields->head)
 	{
-		printf("%s\n", (char *)token->fields->head->content);
+		printf("- %s\n", (char *)token->fields->head->content);
 		token->fields->head = token->fields->head->next;
 	}
 }
