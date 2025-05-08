@@ -3,10 +3,9 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: okhourss <okhourss@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 14:11:48 by okhourss          #+#    #+#             */
-/*   Updated: 2025/05/05 14:24:13 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +15,6 @@
 #include "expansion.h"
 #include <stdio.h>
 #include <readline/readline.h>
-
 
 int main(void)
 {
@@ -53,8 +51,12 @@ int main(void)
 
 		expand_ast(node, 0);
 		ft_ast_print(node,0);
+		// expand_ast(node, 0);
+		expand_token(token);
 		ft_ast_free(node);
 		free(str);
 	}
 	return (0);
 }
+
+

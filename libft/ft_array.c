@@ -29,7 +29,7 @@ void	*ft_array_push(t_array **array, void *content)
 {
 	t_list	*node;
 
-	if (array == NULL)
+	if (array == NULL || content == NULL)
 		return (NULL);
 	node = ft_lstnew(content);
 	if (node == NULL)
@@ -45,7 +45,7 @@ void	*ft_array_push(t_array **array, void *content)
 		(*array)->head = node;
 	if ((*array)->last != NULL)
 		(*array)->last->next = node;
-	(*array)->last = node;
+	(*array)->last = ft_lstlast(node);
 	(*array)->length++;
 	return (content);
 }
