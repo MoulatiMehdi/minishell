@@ -4,6 +4,8 @@
 
 # include "libft.h"
 # include "parser.h"
+# include <fcntl.h>
+# include <sys/wait.h>
 
 typedef struct s_cmd
 {
@@ -17,4 +19,5 @@ typedef struct s_cmd
 
 
 
+int ft_execute_simplecommand(t_ast * ast);
 #endif 
