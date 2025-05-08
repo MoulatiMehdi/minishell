@@ -1,6 +1,13 @@
 # include "execution.h"
+# include "expansion.h"
 #include "libft.h"
+#include "tokenizer.h"
+#include <errno.h>
+#include <fcntl.h>
+#include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
 
 
 size_t ft_ast_argssize(t_ast * ast)
@@ -16,6 +23,7 @@ size_t ft_ast_argssize(t_ast * ast)
     while(p)
     {
         token = p->content;
+        ft_token_expand(token);
         if(token && token->fields)
             len += token->fields->length; 
         p = p->next;
@@ -77,13 +85,80 @@ int ft_execute_andor(t_ast * ast)
     return 0;
 }
 
+int ft_redirect_dup(t_token * token)
+{
+    int fd;
+    int fd_dup;
+    char * str;
+
+    if(token->type == TOKEN_REDIRECT_HERE)
+        return 0;
+    fd = -1;
+    fd_dup = STDOUT_FILENO;
+    str = token->fields->head->content;
+    if(token->type == TOKEN_REDIRECT_IN)
+    { 
+        fd = open(str,O_RDONLY | O_CLOEXEC); 
+        fd_dup = STDIN_FILENO;
+    }
+    if(token->type == TOKEN_REDIRECT_OUT)
+        fd = open(str,O_WRONLY | O_CREAT | O_TRUNC | O_CLOEXEC, 0620); 
+    if(token->type == TOKEN_REDIRECT_OUT)
+        fd = open(str,O_WRONLY | O_APPEND | O_CREAT | O_CLOEXEC, 0620); 
+    
+    if(fd >= 0)
+        dup2(fd, fd_dup);
+    return fd;
+}
+
+int ft_ast_redirect(t_list * redirect)
+{
+    t_token * token;
+
+    while(redirect)
+    {
+        token = redirect->content;
+        ft_token_expand(token);
+        if(token->fields == NULL || token->fields->length != 1)
+        {
+            printf("minishell: %s: ambugious redirection\n",strndup(token->value,token->length));
+            return 1;
+        }
+        if(ft_redirect_dup(token) < 0)
+        {
+            perror(strndup(token->value,token->length));
+            return errno;
+        }
+        redirect = redirect->next;
+    }
+    return 0; 
+}
+
 int ft_execute_simplecommand(t_ast * ast)
 {
+    pid_t pid;
+    char ** args;
+    unsigned char status;
 
     if(ast == NULL)
         return 0;
 
-
-
+    pid = fork();
+    if(pid < 0)
+    {
+        perror("minishell: fork");
+        exit(errno);
+    }else if(pid == 0)
+    {
+        status = ft_ast_redirect(ast->redirect);
+        if(status)
+            exit(status);
+        args = ft_ast_getargs(ast); 
+        if(args == NULL)
+            exit(0);
+        execve(args[0], args,NULL);
+        perror(args[0]); 
+        exit(errno);
+    }
     return 0;
 }
