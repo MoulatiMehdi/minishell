@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 11:06:49 by okhourss          #+#    #+#             */
-/*   Updated: 2025/05/08 17:18:07 by okhourss         ###   ########.fr       */
+/*   Updated: 2025/05/08 17:30:16 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,6 +169,8 @@ void field_splitting(t_token *token, t_word *word)
 			int start_with_ifs = is_starting_with_ifs(word->value);
 			int end_with_ifs = is_ending_with_ifs(word->value, word->length);
 			i = 0;
+			if (start_with_ifs && curr_field)
+				ft_array_push(&fields, curr_field);
 			while (split && split[i])
 			{
 				if (i == 0 && !start_with_ifs && curr_field)
