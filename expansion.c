@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 11:06:49 by okhourss          #+#    #+#             */
-/*   Updated: 2025/05/08 13:18:16 by okhourss         ###   ########.fr       */
+/*   Updated: 2025/05/08 17:30:16 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,12 +73,23 @@ void expand_param(t_word *word)
 	}
 	word->value = new_value;
 }
-// TODO join quotes. | example = this is one token -> "Hel"'lo '$USER | after splitting -> hel lo osm | need to join quotes to look like this hello osm
 
 int is_joinable(t_word *word)
 {
-	return (word->type != WORD_WILDCARD);
+	size_t i;
+
+	if (!word || word->type == WORD_WILDCARD)
+		return (0);
+	i = 0;
+	while (i < word->length)
+	{
+		if (ft_strchr(IFS, word->value[i]))
+			return (0);
+		i++;
+	}
+	return (1);
 }
+
 
 void join_quotes(t_word *head)
 {
@@ -96,7 +107,7 @@ void join_quotes(t_word *head)
 				return;
 			curr->value = joined;
 			curr->length = ft_strlen(joined);
-
+			curr->type = WORD_QUOTE_SINGLE;
 			curr->next = next->next;
 			ft_free((void *)next->value);
 			ft_free(next);
@@ -105,32 +116,83 @@ void join_quotes(t_word *head)
 			curr = curr->next;
 	}
 }
-static size_t	ft_count_word(const char *str, char *charset)
-{
-	size_t	count;
 
-	if (charset == NULL || str == NULL || str[0] == '\0')
-		return (0);
-	count = 0;
-	while (*str)
-	{
-		while (*str && ft_strchr(charset, *str) != NULL)
-			str++;
-		if (!*str)
-			break ;
-		count++;
-		while (*str && ft_strchr(charset, *str) == NULL)
-			str++;
-	}
-	return (count);
+int is_ifs(char c)
+{
+	return (c == '\n' || c == '\t' || c == ' ');
 }
+int is_field_splitting_required(t_word *word)
+{
+	size_t i;
+
+	i = 0;
+	if (!word || word->type != WORD_NONE)
+		return 0;
+	while (i < word->length)
+	{
+		if(is_ifs(word->value[i]))
+			return 1;
+		i++;
+	}
+	return 0;
+}
+
+int is_starting_with_ifs(const char *str)
+{
+	if (!str || !*str)
+		return 0;
+	return(is_ifs(*str));
+}
+int is_ending_with_ifs(const char *str, size_t len)
+{
+	if (len == 0)
+		return(0);
+	return (is_ifs(str[len - 1]));
+}
+
 void field_splitting(t_token *token, t_word *word)
 {
-	size_t i = 0;
-	if (!word || word->length <= 0 || word->type != WORD_NONE)
-		return;
-	printf("%ld\n",ft_count_word(word->value,IFS));
-	
+	t_array *fields;
+	char *curr_field;
+	char **split;
+	size_t i;
+	fields = NULL;
+	curr_field = NULL;
+	split = NULL;
+
+	while (word)
+	{
+		if (!is_field_splitting_required(word))
+			ft_strnconcat(&curr_field , word->value, word->length);
+		else{
+			split = ft_split(word->value,IFS);
+			int start_with_ifs = is_starting_with_ifs(word->value);
+			int end_with_ifs = is_ending_with_ifs(word->value, word->length);
+			i = 0;
+			if (start_with_ifs && curr_field)
+				ft_array_push(&fields, curr_field);
+			while (split && split[i])
+			{
+				if (i == 0 && !start_with_ifs && curr_field)
+				{
+					ft_strconcat(&curr_field, split[i]);
+					ft_array_push(&fields,curr_field);
+					curr_field = NULL;
+				}
+				else
+					ft_array_push(&fields, split[i]);
+				i++;
+			}
+			if (end_with_ifs)
+				curr_field = NULL;
+			if (split)
+					free(split);
+		}
+		word = word->next;
+	}
+	if (curr_field)
+		ft_array_push(&fields,curr_field);
+	token->fields = fields;
 }
 
 void expand_token(t_token *token)
@@ -149,10 +211,10 @@ void expand_token(t_token *token)
 	}
 	join_quotes(token_words);
 	field_splitting(token, token_words);
-	while (token_words)
+	while (token->fields->head)
 	{
-		printf("%s\n", token_words->value);
-		token_words = token_words->next;
+		printf("%s\n", (char *)token->fields->head->content);
+		token->fields->head = token->fields->head->next;
 	}
 }
 
