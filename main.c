@@ -50,9 +50,8 @@ int main(void)
 		}
 
 		expand_ast(node, 0);
-		ft_ast_print(node,0);
+		// ft_ast_print(node,0);
 		// expand_ast(node, 0);
-		expand_token(token);
 		ft_ast_free(node);
 		free(str);
 	}
