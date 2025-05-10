@@ -176,7 +176,6 @@ void	ft_token_expand(t_token *token)
 {
     t_word	*words;
     t_word	*p;
-    t_list *p_list;
 
     words = ft_expand_split(token);
     p = words;
