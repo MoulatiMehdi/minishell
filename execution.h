@@ -31,6 +31,14 @@
 # include <sys/wait.h>
 # include <stdbool.h>
 
+#include "libft.h"
+#include "libft/libft.h"
+#include <readline/readline.h>
+#include <readline/history.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/wait.h>
+#include <unistd.h>
 
 void ft_signal_bashignore();
 void ft_signal_init();
@@ -49,4 +57,7 @@ char ** ft_path_get();
 
 void ft_perror(char *name,char * msg);
 void ft_token_error(t_token * token,char * msg);
+
+unsigned char ft_shell_interactive();
+unsigned char ft_shell_noninteractive();
 #endif 
