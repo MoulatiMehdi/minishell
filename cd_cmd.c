@@ -1,23 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   cd_cmd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/12 10:37:37 by okhourss          #+#    #+#             */
-/*   Updated: 2025/05/12 14:31:28 by okhourss         ###   ########.fr       */
+/*   Created: 2025/05/12 17:29:26 by okhourss          #+#    #+#             */
+/*   Updated: 2025/05/12 18:10:08 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-int main(int ac, char *av[],char *env[])
+int cd_cmd(t_cmd *cmd)
 {
-	(void) ac;
-	(void) env;
-	t_cmd cmd2;
-	cmd2.name = "exit";
-	cmd2.args = &av[1];
-	printf("\nenv status return -> %d \n", exit_cmd(&cmd2, 12));
+	int i = 0;
+
+	if (!cmd)
+		return (1);
+	if (!cmd->args[0])
+	{
+		ft_putendl_fd("cd: usage: cd <directory>", 2);
+		return 1;
+	}
+	if (cmd->args[1])
+	{
+		ft_putendl_fd("cd: too many arguments",2);
+		return 1;
+	}
+	if (chdir(cmd->args[0]) != 0)
+	{
+		perror("cd");
+		return 1;
+	}
+	//TODO need to update the PWD
+	return 0;
 }
