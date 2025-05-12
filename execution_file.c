@@ -1,7 +1,7 @@
 #include "config.h"
 # include "execution.h"
-#include <asm-generic/errno-base.h>
 #include <string.h>
+#include <sys/wait.h>
 #include <unistd.h>
 
 int ft_redirect_dup(char *filename, t_token_type type)
@@ -115,12 +115,14 @@ int ft_execute(t_list * redirect,char * pathname,char **args)
         exit(126);
     }
     free(pathname);
-    return 0;
+    return pid;
 }
 
 int ft_execute_file(t_list * redirect,char ** args)
 {
     char * path;
+    pid_t pid;
+    int wstatus;
 
     path = NULL;
     if(args)
@@ -130,5 +132,14 @@ int ft_execute_file(t_list * redirect,char ** args)
         else
             path = ft_command_search(args[0]);
     }
-    return ft_execute(redirect,path,args);
+    if(ft_execute(redirect,path,args) < 0)
+        return 0;
+    waitpid(-1, &wstatus, 0);
+    if(WIFEXITED(wstatus))
+        return WEXITSTATUS(wstatus);
+    if(WIFSIGNALED(wstatus))
+        return WTERMSIG(wstatus) + 128;
+    if(WIFSTOPPED(wstatus))
+        return WSTOPSIG(wstatus) + 128;
+    return 0;
 }
