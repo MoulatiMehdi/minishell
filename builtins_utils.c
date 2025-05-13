@@ -1,35 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.h                                         :+:      :+:    :+:   */
+/*   builtins_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/12 10:05:05 by okhourss          #+#    #+#             */
-/*   Updated: 2025/05/13 15:16:31 by okhourss         ###   ########.fr       */
+/*   Created: 2025/05/13 12:31:52 by okhourss          #+#    #+#             */
+/*   Updated: 2025/05/13 13:00:17 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTINS_H
-# define BUILTINS_H
+#include "builtins.h"
 
-#include "libft/libft.h"
-#include "string.h"
-#include "stdio.h"
-typedef struct s_cmd
+void	*ft_get_env(char *key, t_array *env)
 {
-	char	*name;
-	char **args;
-	t_array *env;
-}	t_cmd;
+	int		size;
+	t_list	*curr;
+	char	*entry;
 
-int echo_cmd(t_cmd *cmd);
-int pwd_cmd(t_cmd *cmd);
-int env_cmd(t_cmd *cmd);
-int exit_cmd(t_cmd *cmd, int last_return);
-int export_cmd(t_cmd *cmd);
-int cd_cmd(t_cmd *cmd);
-void	*ft_get_env(char *key, t_array *env);
+	if (env == NULL || key == NULL)
+		return (NULL);
 
+	size = ft_strlen(key);
+	curr = env->head;
 
-#endif
+	while (curr)
+	{
+		entry = (char *)curr->content;
+		if (ft_strncmp(entry, key, size) == 0 && entry[size] == '=')
+			return (curr);
+		curr = curr->next;
+	}
+	return (NULL);
+}
