@@ -69,9 +69,9 @@ char	**ft_split(const char *str, char *charset)
 	size_t	size;
 	size_t	i;
 
-    if(str == NULL || charset == NULL)
-        return NULL;
-    i = 0;
+	if (str == NULL || charset == NULL)
+		return (NULL);
+	i = 0;
 	size = ft_count_word(str, charset);
 	strs = (char **)malloc(sizeof(char *) * (size + 1));
 	if (!strs)
