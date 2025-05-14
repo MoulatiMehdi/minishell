@@ -13,6 +13,7 @@
 #ifndef LIBFT_H
 
 # define LIBFT_H
+# define BUFFER_SIZE 1
 
 # include <limits.h>
 # include <stdint.h>
@@ -33,6 +34,7 @@ typedef struct s_array
 	t_list			*last;
 }					t_array;
 
+char				*get_next_line(int fd);
 int					ft_isalpha(int c);
 int					ft_isdigit(int c);
 int					ft_isalnum(int c);
