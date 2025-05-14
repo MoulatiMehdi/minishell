@@ -49,14 +49,15 @@ unsigned char ft_shell_noninteractive()
     unsigned char exit_code;
 
     exit_code = 0;
+    str = NULL;
     while (1)
     {
-        // str = get_next_line(STDIN_FILENO);
+        str = get_next_line(STDIN_FILENO);
         if (str == NULL)
             break ;
         exit_code = ft_shell_execute(str);
         free(str);
     }
-    // get_next_line(-1);
+    get_next_line(-1);
     return exit_code;
 }
