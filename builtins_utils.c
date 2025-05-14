@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:31:52 by okhourss          #+#    #+#             */
-/*   Updated: 2025/05/13 13:00:17 by okhourss         ###   ########.fr       */
+/*   Updated: 2025/05/14 18:06:08 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,30 @@ void	*ft_get_env(char *key, t_array *env)
 		curr = curr->next;
 	}
 	return (NULL);
+}
+
+char *get_var_key(char *var)
+{
+    int i;
+    char *key;
+
+    if (!var)
+        return (NULL);
+    i = 0;
+    while (var[i] && var[i] != '=')
+        i++;
+    key = malloc(i + 1);
+    if (!key)
+        return (NULL);
+    memcpy(key, var, i);
+    key[i] = '\0';
+    return (key);
+}
+
+char *get_var_value(const char *var)
+{
+    const char *eq = ft_strchr(var, '=');
+    if (!eq)
+        return (NULL);
+    return ft_strdup(eq + 1);
 }

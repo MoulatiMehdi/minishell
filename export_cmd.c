@@ -15,31 +15,7 @@ int print_export(t_array *env)
     return (0);
 }
 
-char *get_var_key(char *var)
-{
-    int i;
-    char *key;
 
-    if (!var)
-        return (NULL);
-    i = 0;
-    while (var[i] && var[i] != '=')
-        i++;
-    key = malloc(i + 1);
-    if (!key)
-        return (NULL);
-    memcpy(key, var, i);
-    key[i] = '\0';
-    return (key);
-}
-
-char *get_var_value(const char *var)
-{
-    const char *eq = ft_strchr(var, '=');
-    if (!eq)
-        return (NULL);
-    return ft_strdup(eq + 1);
-}
 
 int is_valid_var_name(char c)
 {
