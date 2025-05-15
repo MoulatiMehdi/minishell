@@ -12,6 +12,8 @@
 
 #include "lexer.h"
 #include "tokenizer.h"
+#include <stdio.h>
+#include <unistd.h>
 
 void	ft_lexer_type(t_token *const head)
 {
@@ -69,7 +71,27 @@ void	ft_lexer_recognition(t_token *curr_token)
 	}
 }
 
+int	ft_heredoc_islimit(t_token *token)
+{
+	size_t	count;
+
+	count = 0;
+	while (token && count <= MAX_HEREDOC)
+	{
+		count += token->length == 2 && ft_strncmp(token->value, "<<", 2) == 0;
+		token = token->next;
+	}
+	printf("%lu\n", count);
+	return (count > MAX_HEREDOC);
+}
+
 void	lexer(t_token *curr_token)
 {
+	if (ft_heredoc_islimit(curr_token))
+	{
+		ft_putstr_fd(ERR_HEREDOC_LIMIT, 2);
+		ft_clear();
+		exit(2);
+	}
 	ft_lexer_recognition(curr_token);
 }
