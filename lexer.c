@@ -69,27 +69,27 @@ void	ft_lexer_recognition(t_token *curr_token)
 	}
 }
 
-int	ft_lexer_heredoc_islimit(t_token *token)
+int	ft_heredoc_islimit(t_token *token)
 {
 	size_t	count;
 
 	count = 0;
-	while (token)
+	while (token && count <= MAX_HEREDOC)
 	{
-		if (ft_strncmp(token->value, "<<", 3) == 0 && count <= MAX_HEREDOC)
+		if (ft_strncmp(token->value, "<<", 3) == 0)
 			count++;
 		token = token->next;
 	}
-	return (count <= MAX_HEREDOC);
+	return (count > MAX_HEREDOC);
 }
 
 void	lexer(t_token *curr_token)
 {
-	if (ft_lexer_heredoc_islimit(curr_token))
+	if (ft_heredoc_islimit(curr_token))
 	{
 		ft_putstr_fd("bash: maximum here-document count exceeded", 2);
-        ft_clear();
-        exit(2);
+		ft_clear();
+		exit(2);
 	}
 	ft_lexer_recognition(curr_token);
 }
