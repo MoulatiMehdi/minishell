@@ -12,6 +12,7 @@
 
 #ifndef LEXER_H
 # define LEXER_H
+# define MAX_HEREDOC 17
 
 # include "tokenizer.h"
 

@@ -16,7 +16,7 @@
 void	ft_lexer_type(t_token *const head)
 {
 	if (head->type == TOKEN_EOI)
-		return;
+		return ;
 	if (ft_strncmp("||", head->value, 2) == 0)
 		head->type = TOKEN_OR;
 	else if (ft_strncmp("&&", head->value, 2) == 0)
@@ -69,7 +69,27 @@ void	ft_lexer_recognition(t_token *curr_token)
 	}
 }
 
+int	ft_lexer_heredoc_islimit(t_token *token)
+{
+	size_t	count;
+
+	count = 0;
+	while (token)
+	{
+		if (ft_strncmp(token->value, "<<", 3) == 0 && count <= MAX_HEREDOC)
+			count++;
+		token = token->next;
+	}
+	return (count <= MAX_HEREDOC);
+}
+
 void	lexer(t_token *curr_token)
 {
+	if (ft_lexer_heredoc_islimit(curr_token))
+	{
+		ft_putstr_fd("bash: maximum here-document count exceeded", 2);
+        ft_clear();
+        exit(2);
+	}
 	ft_lexer_recognition(curr_token);
 }
