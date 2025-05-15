@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 17:39:54 by okhourss          #+#    #+#             */
-/*   Updated: 2025/05/14 18:33:11 by okhourss         ###   ########.fr       */
+/*   Updated: 2025/05/15 10:19:07 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ int unset_cmd(t_cmd *cmd)
 
     if (!cmd->args || !cmd->args[0])
 	{
-
         return (0);
 	}
 	i = 0;

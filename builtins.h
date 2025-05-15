@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 10:05:05 by okhourss          #+#    #+#             */
-/*   Updated: 2025/05/14 18:06:05 by okhourss         ###   ########.fr       */
+/*   Updated: 2025/05/15 14:11:28 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,6 @@ int cd_cmd(t_cmd *cmd);
 void	*ft_get_env(char *key, t_array *env);
 char *get_var_key(char *var);
 char *get_var_value(const char *var);
-
+void	compute_limit(int sign, unsigned long *limit);
 
 #endif

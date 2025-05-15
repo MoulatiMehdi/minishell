@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:31:52 by okhourss          #+#    #+#             */
-/*   Updated: 2025/05/14 18:06:08 by okhourss         ###   ########.fr       */
+/*   Updated: 2025/05/15 14:11:15 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,12 @@ char *get_var_value(const char *var)
     if (!eq)
         return (NULL);
     return ft_strdup(eq + 1);
+}
+
+void	compute_limit(int sign, unsigned long *limit)
+{
+	if (sign >= 0)
+		*limit = (unsigned long)LONG_MAX;
+	else
+		*limit = (unsigned long)LONG_MAX + 1UL;
 }
