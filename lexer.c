@@ -78,10 +78,10 @@ int	ft_heredoc_islimit(t_token *token)
 	count = 0;
 	while (token && count <= MAX_HEREDOC)
 	{
-        count+= token->length == 2 && ft_strncmp(token->value, "<<", 2) == 0;
+		count += token->length == 2 && ft_strncmp(token->value, "<<", 2) == 0;
 		token = token->next;
 	}
-    printf("%lu\n",count);
+	printf("%lu\n", count);
 	return (count > MAX_HEREDOC);
 }
 
