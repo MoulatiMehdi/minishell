@@ -12,7 +12,8 @@
 
 #ifndef LEXER_H
 # define LEXER_H
-# define MAX_HEREDOC 17
+# define MAX_HEREDOC 16
+# define ERR_HEREDOC_LIMIT "bash: maximum here-document count exceeded\n"
 
 # include "tokenizer.h"
 
