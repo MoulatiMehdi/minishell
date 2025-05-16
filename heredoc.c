@@ -41,7 +41,7 @@ int	ft_getc(FILE *stream)
 	return (c);
 }
 
-void	ft_heredoc_sigint(void)
+void	ft_heredoc_sigint(int signal)
 {
 	*ft_sigint_recieved() = 1;
 }
@@ -54,7 +54,7 @@ char	*ft_heredoc(t_token *token)
 	*ft_sigint_recieved() = 0;
 	rl_getc_function = ft_getc;
 	txt = NULL;
-	signal(SIGINT, &ft_heredoc_sigint);
+	signal(SIGINT, ft_heredoc_sigint);
 	while (1)
 	{
 		line = readline("> ");

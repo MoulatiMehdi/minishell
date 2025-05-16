@@ -38,7 +38,7 @@ void	ft_signal_init(void)
 	sigaction(SIGCHLD, &act, NULL);
 }
 
-void	ft_signal_int(void)
+void	ft_signal_int(int signal)
 {
 	rl_replace_line("", 0);
 	write(2, "\n", 1);
