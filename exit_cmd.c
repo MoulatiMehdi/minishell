@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 13:50:37 by okhourss          #+#    #+#             */
-/*   Updated: 2025/05/15 14:11:08 by okhourss         ###   ########.fr       */
+/*   Updated: 2025/05/16 09:54:02 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,10 @@
 static void	cleanup_and_exit(int code)
 {
 	if (isatty(STDIN_FILENO))
-		ft_putendl_fd("exit", 1);
-	/* TODO: free resources here */
+		ft_putendl_fd("exit", 2);
+	/*	
+		TODO: free resources here 
+	*/
 	exit(code);
 }
 

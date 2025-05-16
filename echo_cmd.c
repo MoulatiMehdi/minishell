@@ -52,17 +52,17 @@ static int	print_arguments(char *const args[], int start)
 	i = start;
 	while (args[i])
 	{
-        ret = ft_putstr_fd(args[i], 1);
+		ret = ft_putstr_fd(args[i], 1);
 		if (ret < 0)
-        {
+		{
 			perror("echo: write error");
-            return (1);
-        }
+			return (1);
+		}
 		if (args[i + 1] && write(1, " ", 1) < 0)
-        {
+		{
 			perror("echo: write error");
-            return (1);
-        }
+			return (1);
+		}
 		i++;
 	}
 	return (0);
@@ -77,11 +77,11 @@ int	echo_cmd(t_cmd *cmd)
 		return (1);
 	omit_nl = parse_flags(cmd->args, &arg_idx);
 	if (print_arguments(cmd->args, arg_idx))
-        return (1);
+		return (1);
 	if (omit_nl && write(1, "\n", 1) < 0)
 	{
 		perror("echo: write error");
-		return 1;
+		return (1);
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 13:01:54 by okhourss          #+#    #+#             */
-/*   Updated: 2025/05/15 13:22:53 by okhourss         ###   ########.fr       */
+/*   Updated: 2025/05/16 10:24:04 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	print_env(t_array *env)
 		if (ft_putendl_fd((char *)curr->content, 1) < 0)
 		{
 			perror("echo: write error");
-			break;
+			break ;
 		}
 		curr = curr->next;
 	}
