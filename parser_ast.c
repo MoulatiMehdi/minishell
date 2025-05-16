@@ -53,28 +53,34 @@ void	ft_token_print(t_token *token)
 		write(2, token->value, token->length);
 }
 
-t_ast	*ft_ast_redirect(t_token *token, t_ast *node)
+t_ast	*ft_ast_redirect(t_token **token, t_ast *node)
 {
     char * str;
 
-	if (token->value == NULL)
+	if ((*token)->value == NULL)
 		return (NULL);
-	ft_lstadd_back(&node->redirect, ft_lstnew(token));
-	if (token->type == TOKEN_REDIRECT_HERE)
+	ft_lstadd_back(&node->redirect, ft_lstnew((*token)));
+	if ((*token)->type == TOKEN_REDIRECT_HERE)
 	{
-        str = ft_heredoc(token);
+        str = ft_heredoc((*token));
+        if(*ft_sigint_recieved() == 1) 
+        {
+            free(str);
+            *token = NULL;
+            return NULL;
+        }
         // TODO: remove quotes from delimeter
-        /*if(strchr(token->value, '"') || strchr(token->value, '\''))*/
+        /*if(strchr((*token)->value, '"') || strchr((*token)->value, '\''))*/
         if(1)
         {
-            ft_array_push(token->fields,str);
-            token->value = NULL;
-            token->length = 0;
+            ft_array_push((*token)->fields,str);
+            (*token)->value = NULL;
+            (*token)->length = 0;
         }
         else 
         {
-            token->value = str;
-            token->length = ft_strlen(token->value);
+            (*token)->value = str;
+            (*token)->length = ft_strlen((*token)->value);
         }
 	}
 	return (node);
@@ -87,8 +93,9 @@ t_ast	*parser(t_token *token)
 	if (token == NULL)
 		return (NULL);
 	node = ft_ast_andor(&token);
-	ft_ast_tocommand(node);
-	if (token == NULL || token->type != TOKEN_EOI)
+	if(token == NULL)
+        return NULL;
+    if (token == NULL || token->type != TOKEN_EOI)
 		node = ft_ast_free(node);
 	if (node == NULL)
 	{

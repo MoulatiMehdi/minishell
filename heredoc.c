@@ -15,7 +15,7 @@
 #include <signal.h>
 #include <unistd.h>
 
-static volatile sig_atomic_t	*ft_sigint_recieved(void)
+volatile sig_atomic_t	*ft_sigint_recieved(void)
 {
 	static volatile sig_atomic_t	received = 0;
 
