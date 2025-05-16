@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "lexer.h"
-# include "execution.h"
 #include "libft/libft.h"
 #include <readline/readline.h>
 #include <signal.h>
