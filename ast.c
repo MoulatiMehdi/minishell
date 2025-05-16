@@ -55,6 +55,19 @@ void	ft_lstnode_clear(t_list *head)
 	}
 }
 
+t_list	*ft_ast_push(t_ast *parent, t_ast *child)
+{
+	t_list	*lst;
+
+	if (parent == NULL)
+		return (NULL);
+	lst = ft_lstnew(child);
+	if (lst == NULL)
+		return (NULL);
+	ft_lstadd_back(&parent->children, lst);
+	return (lst);
+}
+
 t_ast	*ft_ast_free(t_ast *head)
 {
 	if (head == NULL)
