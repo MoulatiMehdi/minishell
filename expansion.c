@@ -6,9 +6,56 @@
 /*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 11:06:49 by okhourss          #+#    #+#             */
-/*   Updated: 2025/05/08 17:30:16 by okhourss         ###   ########.fr       */
+/*   Updated: 2025/05/16 19:48:40 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+/*
+void field_splitting(t_token *token, t_word *word)
+{
+	t_array *fields;
+	char *curr_field;
+	char **split;
+	size_t i;
+	fields = NULL;
+	curr_field = NULL;
+	split = NULL;
+
+	while (word)
+	{
+		if (!is_field_splitting_required(word))
+			ft_strnconcat(&curr_field , word->value, word->length);
+		else{
+			split = ft_split(word->value,IFS);
+			int start_with_ifs = is_starting_with_ifs(word->value);
+			int end_with_ifs = is_ending_with_ifs(word->value, word->length);
+			i = 0;
+			if (start_with_ifs && curr_field)
+				ft_array_push(&fields, curr_field);
+			while (split && split[i])
+			{
+				if (i == 0 && !start_with_ifs && curr_field)
+				{
+					ft_strconcat(&curr_field, split[i]);
+					ft_array_push(&fields,curr_field);
+					curr_field = NULL;
+				}
+				else
+					ft_array_push(&fields, split[i]);
+				i++;
+			}
+			if (end_with_ifs)
+				curr_field = NULL;
+			if (split)
+					free(split);
+		}
+		word = word->next;
+	}
+	if (curr_field)
+		ft_array_push(&fields,curr_field);
+	token->fields = fields;
+}
+*/
 
 #include "./expansion.h"
 #include "libft/libft.h"
@@ -65,6 +112,7 @@ void expand_param(t_word *word)
 		}
 		else
 		{
+			len++;
 			while (i + len < word->length && word->value[i + len] && word->value[i + len] != '$')
 				len++;
 			ft_strnconcat(&new_value, &word->value[i], len);
@@ -72,6 +120,7 @@ void expand_param(t_word *word)
 		i += len;
 	}
 	word->value = new_value;
+	word->length = ft_strlen(new_value);
 }
 
 int is_joinable(t_word *word)
@@ -79,6 +128,7 @@ int is_joinable(t_word *word)
 	size_t i;
 
 	if (!word || word->type == WORD_WILDCARD)
+	// TODO need to go back here for the wildcard char.
 		return (0);
 	i = 0;
 	while (i < word->length)
@@ -150,49 +200,130 @@ int is_ending_with_ifs(const char *str, size_t len)
 	return (is_ifs(str[len - 1]));
 }
 
+static t_word *clone_word(t_word *src, const char *value, size_t len)
+{
+    t_word *dst = malloc(sizeof(*dst));
+    if (!dst) return NULL;
+    dst->type = src->type;
+    dst->length = len;
+    dst->value = strndup(value, len);
+    dst->next = NULL;
+    return dst;
+}
+
 void field_splitting(t_token *token, t_word *word)
 {
-	t_array *fields;
-	char *curr_field;
-	char **split;
-	size_t i;
-	fields = NULL;
-	curr_field = NULL;
-	split = NULL;
+    t_array *fields = NULL;
+    t_list  *curr   = NULL;
+    t_word  *w      = word;
 
-	while (word)
+    while (w)
+    {
+        if (w->type == WORD_QUOTE_SINGLE
+         || w->type == WORD_QUOTE_DOUBLE
+         || w->type == WORD_WILDCARD)
+        {
+            t_word *fw = clone_word(w, w->value, w->length);
+            ft_lstadd_back(&curr, ft_lstnew(fw));
+        }
+        else
+        {
+            const char *s = w->value;
+            size_t len    = w->length;
+            size_t i = 0, start = 0;
+            while (i < len)
+            {
+                if (is_ifs(s[i]))
+                {
+                    if (i > start)
+                    {
+                        t_word *fw = clone_word(w, s + start, i - start);
+                        ft_lstadd_back(&curr, ft_lstnew(fw));
+                    }
+                    if (curr)
+                    {
+                        ft_array_push(&fields, curr);
+                        curr = NULL;
+                    }
+                    while (i < len && is_ifs(s[i]))
+                        i++;
+                    start = i;
+                }
+                else
+                {
+                    i++;
+                }
+            }
+            if (start < len)
+            {
+                t_word *fw = clone_word(w, s + start, len - start);
+                ft_lstadd_back(&curr, ft_lstnew(fw));
+            }
+        }
+        w = w->next;
+    }
+    if (curr)
+        ft_array_push(&fields, curr);
+
+    token->fields = fields;
+}
+static const char *word_type_str(t_word_type type)
+{
+    if (type == WORD_NONE)           return "NONE";
+    if (type == WORD_QUOTE_SINGLE)   return "QUOTE_SINGLE";
+    if (type == WORD_QUOTE_DOUBLE)   return "QUOTE_DOUBLE";
+    if (type == WORD_WILDCARD)       return "WILDCARD";
+    return "UNKNOWN";
+}
+int	should_expand_pathname(t_list *field)
+{
+	t_list	*node;
+	t_word	*w;
+
+	if (!field)
+		return (0);
+	node = field;
+	while (node)
 	{
-		if (!is_field_splitting_required(word))
-			ft_strnconcat(&curr_field , word->value, word->length);
-		else{
-			split = ft_split(word->value,IFS);
-			int start_with_ifs = is_starting_with_ifs(word->value);
-			int end_with_ifs = is_ending_with_ifs(word->value, word->length);
-			i = 0;
-			if (start_with_ifs && curr_field)
-				ft_array_push(&fields, curr_field);
-			while (split && split[i])
-			{
-				if (i == 0 && !start_with_ifs && curr_field)
-				{
-					ft_strconcat(&curr_field, split[i]);
-					ft_array_push(&fields,curr_field);
-					curr_field = NULL;
-				}
-				else
-					ft_array_push(&fields, split[i]);
-				i++;
-			}
-			if (end_with_ifs)
-				curr_field = NULL;
-			if (split)
-					free(split);
+		if (node->content)
+		{
+			w = node->content;
+			if (w->type == WORD_WILDCARD)
+				return (1);
 		}
-		word = word->next;
+		node = node->next;
 	}
-	if (curr_field)
-		ft_array_push(&fields,curr_field);
-	token->fields = fields;
+	return (0);
+}
+
+
+void pathname_expansion(t_token *token)
+{
+   t_list	*field_node;
+	t_list	*frag_node;
+	t_word	*w;
+
+	if (!token || !token->fields)
+		return ;
+	field_node = token->fields->head;
+	while (field_node)
+	{
+		frag_node = field_node->content;
+		if (should_expand_pathname(frag_node))
+		{
+			while (frag_node)
+			{
+				if (frag_node->content)
+				{
+					w = frag_node->content;
+					printf("frag-> %s\n", w->value);
+				}
+				frag_node = frag_node->next;
+			}
+		}
+		field_node = field_node->next;
+	}
+	
 }
 
 void expand_token(t_token *token)
@@ -209,48 +340,8 @@ void expand_token(t_token *token)
 		expand_param(tmp);
 		tmp = tmp->next;
 	}
-	join_quotes(token_words);
-	field_splitting(token, token_words);
-	while (token->fields->head)
-	{
-		printf("%s\n", (char *)token->fields->head->content);
-		token->fields->head = token->fields->head->next;
-	}
+    join_quotes(token_words);
+    field_splitting(token, token_words);
+	pathname_expansion(token);
 }
 
-void expand_ast(t_ast *node, int last_status)
-{
-	t_token *token;
-	t_list *list;
-	t_list *child;
-	if (!node)
-		return;
-	list = node->args;
-	while (list)
-	{
-		token = list->content;
-		if (token && token->type != TOKEN_REDIRECT_HERE)
-		{
-			expand_token(token);
-			// if (should_split(token))
-			// 	field_split_token(&list, token);
-		}
-		list = list->next;
-	}
-	list = node->redirect;
-	while (list)
-	{
-		token = list->content;
-		if (token && token->type != TOKEN_REDIRECT_HERE)
-			expand_token(token);
-		// if (should_split(token))
-		// 	field_split_token(&list, token);
-		list = list->next;
-	}
-	child = node->children;
-	while (child)
-	{
-		expand_ast((t_ast *)child->content, last_status);
-		child = child->next;
-	}
-}
