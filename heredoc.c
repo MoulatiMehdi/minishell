@@ -58,6 +58,6 @@ char	*ft_heredoc(t_token *token)
 		ft_strconcat(&txt, line);
 		free(line);
 	}
-	rl_getc_function = NULL;
+	rl_getc_function = rl_getc;
 	return (txt);
 }

@@ -64,7 +64,7 @@ t_list	*ft_ast_push(t_ast *parent, t_ast *child)
 	lst = ft_lstnew(child);
 	if (lst == NULL)
 		return (NULL);
-	ft_lstadd_back(parent->children, lst);
+	ft_lstadd_back(&parent->children, lst);
 	return (lst);
 }
 

@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "debug.h"
 #include "parser.h"
 #include "tokenizer.h"
 #include <unistd.h>
@@ -56,19 +57,22 @@ t_ast	*ft_ast_redirect(t_token *token, t_ast *node)
 	if (token->value == NULL)
 		return (NULL);
 	ft_lstadd_back(&node->redirect, ft_lstnew(token));
-	token->value = ft_heredoc(token);
-	token->length = ft_strlen(token->value);
+	if (token->type == TOKEN_REDIRECT_HERE)
+	{
+		token->value = ft_heredoc(token);
+		token->length = ft_strlen(token->value);
+	}
 	return (node);
 }
 
 t_ast	*parser(t_token *token)
 {
 	t_ast	*node;
-	char	*str;
 
 	if (token == NULL)
 		return (NULL);
 	node = ft_ast_andor(&token);
+	ft_ast_tocommand(node);
 	if (token == NULL || token->type != TOKEN_EOI)
 		node = ft_ast_free(node);
 	if (node == NULL)
