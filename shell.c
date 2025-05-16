@@ -30,6 +30,7 @@ unsigned char ft_shell_interactive()
     rl_outstream = stderr; 
     while (1)
     {
+        ft_signal_bashignore();
         str = readline(SHELL_PROMPT);
         if (str == NULL)
             break ;
