@@ -49,4 +49,5 @@ t_ast			*parser(t_token *token);
 char			*ft_heredoc(t_token *token);
 t_list			*ft_ast_push(t_ast *parent, t_ast *child);
 volatile sig_atomic_t	*ft_sigint_recieved(void);
+int ft_heredoc_tempfile(char * str);
 #endif // !PARSER_H
