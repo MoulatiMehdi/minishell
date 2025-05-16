@@ -67,7 +67,7 @@ t_ast	*ft_ast_redirect(t_token *token, t_ast *node)
         /*if(strchr(token->value, '"') || strchr(token->value, '\''))*/
         if(1)
         {
-            ft_array_push(token->fields,str);
+            ft_array_push(&token->fields,str);
             token->value = NULL;
             token->length = 0;
         }
