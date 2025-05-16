@@ -1,5 +1,6 @@
 #include "config.h"
 # include "execution.h"
+#include "parser.h"
 #include <string.h>
 #include <sys/wait.h>
 #include <unistd.h>
@@ -9,8 +10,6 @@ int ft_redirect_dup(char *filename, t_token_type type)
     int fd;
     int fd_dup;
 
-    if(type == TOKEN_REDIRECT_HERE)
-        return 0;
     fd = -1;
     fd_dup = STDOUT_FILENO;
     if(type == TOKEN_REDIRECT_IN)
@@ -22,6 +21,11 @@ int ft_redirect_dup(char *filename, t_token_type type)
         fd = open(filename,O_WRONLY | O_CREAT | O_TRUNC , 0666); 
     if(type == TOKEN_REDIRECT_APPEND)
         fd = open(filename,O_WRONLY | O_CREAT | O_APPEND, 0666); 
+    if(type == TOKEN_REDIRECT_HERE)
+    {
+        fd = ft_heredoc_tempfile(filename);
+        fd_dup = STDIN_FILENO;
+    }
     if(fd >= 0)
     {
         dup2(fd, fd_dup);
