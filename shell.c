@@ -49,7 +49,6 @@ unsigned char	ft_shell_interactive(void)
 		if (*str)
 			add_history(str);
 		free(str);
-		ft_clear();
 	}
 	rl_clear_history();
 	write(2, "exit\n", 5);
@@ -61,16 +60,15 @@ unsigned char	ft_shell_noninteractive(void)
 	char			*str;
 	unsigned char	exit_code;
 
-    exit_code = 0;
-    str = NULL;
-    while (1)
-    {
-        str = get_next_line(STDIN_FILENO);
-        if (str == NULL)
-            break ;
-        exit_code = ft_shell_execute(str);
-        free(str);
-    }
-    get_next_line(-1);
-    return exit_code;
+	exit_code = 0;
+	while (1)
+	{
+		str = get_next_line(STDIN_FILENO);
+		if (str == NULL)
+			break ;
+		exit_code = ft_shell_execute(str);
+		free(str);
+	}
+	get_next_line(-1);
+	return (exit_code);
 }

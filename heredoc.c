@@ -11,23 +11,17 @@
 /* ************************************************************************** */
 
 #include "execution.h"
-#include "lexer.h"
 #include "libft/libft.h"
 #include <fcntl.h>
 #include <readline/readline.h>
-#include <signal.h>
 #include <stdio.h>
 #include <unistd.h>
 
 #define NAME_LENGTH 8
 #define HEREDOC_FILENAME_PREFIX "/tmp/sh-"
-
-volatile sig_atomic_t	*ft_sigint_recieved(void)
-{
-	static volatile sig_atomic_t	received = 0;
-
-	return (&received);
-}
+#define ERR_HERE_PRE "bash: warning: here-document delimited by eof (wanted `"
+#define ERR_HERE_SUF "')\n"
+#define HEREDOC_HASHKEY "sZqvKFughoCVnmYrpjHxWLGtJUbfdQiywBAxMPzIkTeDSclENROasV"
 
 int	ft_getc(FILE *stream)
 {
@@ -41,9 +35,11 @@ int	ft_getc(FILE *stream)
 	return (c);
 }
 
-void	ft_heredoc_sigint(void)
+void	ft_heredoc_eoferror(t_token *token)
 {
-	*ft_sigint_recieved() = 1;
+	ft_putstr_fd(ERR_HERE_PRE, 2);
+	write(2, token->value, token->length);
+	ft_putstr_fd(ERR_HERE_SUF, 2);
 }
 
 char	*ft_heredoc(t_token *token)
@@ -54,31 +50,22 @@ char	*ft_heredoc(t_token *token)
 	*ft_sigint_recieved() = 0;
 	rl_getc_function = ft_getc;
 	txt = NULL;
-	signal(SIGINT, &ft_heredoc_sigint);
 	while (1)
 	{
 		line = readline("> ");
-		if (*ft_sigint_recieved())
-			break ;
 		if (!line)
 		{
-			ft_putstr_fd("bash: warning: here-document delimited by end-of-file (wanted `",
-				2);
-			write(2, token->value, token->length);
-			ft_putstr_fd("')\n", 2);
+			ft_heredoc_eoferror(token);
 			break ;
 		}
-		if (ft_strncmp(line, token->value, token->length) == 0
-			&& line[token->length] == '\0')
-		{
-			free(line);
+		if ((ft_strncmp(line, token->value, token->length) == 0
+				&& line[token->length] == '\0') || *ft_sigint_recieved())
 			break ;
-		}
 		ft_strconcat(&txt, line);
 		ft_strconcat(&txt, "\n");
 		free(line);
 	}
-	signal(SIGINT, ft_signal_int);
+	free(line);
 	rl_getc_function = rl_getc;
 	return (txt);
 }
@@ -87,7 +74,7 @@ void	ft_heredoc_generatename(char name[100])
 {
 	int					i;
 	int					len;
-	static const char	table[] = "sZqvKFughoCVnmYrpjHxWLGtJUbfdQiywBAxMPzIkTeDSclENROasV";
+	static const char	table[] = HEREDOC_HASHKEY;
 	static size_t		counter = 0;
 
 	i = 0;

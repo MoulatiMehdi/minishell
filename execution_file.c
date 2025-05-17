@@ -17,91 +17,43 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-int	ft_redirect_dup(char *filename, t_token_type type)
+int	ft_command_ispathfound(char *dir, char *name, char *path[2])
 {
-	int	fd;
-	int	fd_dup;
-
-	fd = -1;
-	fd_dup = STDOUT_FILENO;
-	if (type == TOKEN_REDIRECT_IN)
+	path[0] = ft_path_join(dir, name);
+	if (ft_path_isfile(path[0]))
 	{
-		fd = open(filename, O_RDONLY);
-		fd_dup = STDIN_FILENO;
-	}
-	if (type == TOKEN_REDIRECT_OUT)
-		fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0666);
-	if (type == TOKEN_REDIRECT_APPEND)
-		fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0666);
-	if (type == TOKEN_REDIRECT_HERE)
-	{
-		fd = ft_heredoc_tempfile(filename);
-		fd_dup = STDIN_FILENO;
-	}
-	if (fd >= 0)
-	{
-		dup2(fd, fd_dup);
-		close(fd);
-	}
-	return (fd);
-}
-
-int	ft_list_redirect(t_list *redirect)
-{
-	t_token	*token;
-	int		status;
-
-	while (redirect)
-	{
-		token = redirect->content;
-		ft_token_expand(token);
-		if (token->fields == NULL || token->fields->length != 1)
+		if (access(path[0], X_OK) == 0)
 		{
-			ft_token_error(token, "ambigious redirection");
+			free(path[1]);
+			path[1] = path[0];
 			return (1);
 		}
-		if (ft_redirect_dup(token->fields->head->content, token->type) < 0)
-		{
-			status = errno;
-			ft_token_error(token, strerror(status));
-			return (status);
-		}
-		redirect = redirect->next;
+		else if (!path[1])
+			path[1] = path[0];
 	}
+	if (path[1] != path[0])
+		free(path[0]);
 	return (0);
 }
 
 char	*ft_command_search(char *name)
 {
-	char	*ans;
-	char	*pathname;
+	char	*path[2];
 	char	**strs;
 	size_t	i;
 
 	i = 0;
-	ans = NULL;
+	path[1] = NULL;
 	strs = ft_path_get();
 	if (strs == NULL)
 		return (NULL);
 	while (strs[i])
 	{
-		pathname = ft_path_join(strs[i++], name);
-		if (ft_path_isfile(pathname))
-		{
-			if (access(pathname, X_OK) == 0)
-			{
-				free(ans);
-				ans = pathname;
-				break ;
-			}
-			else if (!ans)
-				ans = pathname;
-		}
-		if (ans != pathname)
-			free(pathname);
+		if (ft_command_ispathfound(strs[i++], name, path))
+			break ;
 	}
 	ft_split_free(&strs);
-	return (ans);
+	return (path[1]);
 }
 
 int	ft_execute(t_list *redirect, char *pathname, char **args)
@@ -114,7 +66,7 @@ int	ft_execute(t_list *redirect, char *pathname, char **args)
 		perror(SHELL_NAME ": fork");
 	else if (pid == 0)
 	{
-		status = ft_list_redirect(redirect);
+		status = ft_redirect(redirect);
 		if (status != 0)
 			exit(status);
 		if (!pathname)
