@@ -54,33 +54,33 @@ void	ft_token_print(t_token *token)
 
 t_ast	*ft_ast_redirect(t_token **token, t_ast *node)
 {
-    char * str;
+	char	*str;
 
 	if ((*token)->value == NULL)
 		return (NULL);
 	ft_lstadd_back(&node->redirect, ft_lstnew((*token)));
 	if ((*token)->type == TOKEN_REDIRECT_HERE)
 	{
-        str = ft_heredoc((*token));
-        if(*ft_sigint_recieved())
-        {
-            *token = NULL;
-            free(str);
-            return NULL;
-        }
-        // TODO: remove quotes from delimeter
-        /*if(strchr((*token)->value, '"') || strchr((*token)->value, '\''))*/
-        if(1)
-        {
-            ft_array_push(&(*token)->fields,str);
-            (*token)->value = NULL;
-            (*token)->length = 0;
-        }
-        else 
-        {
-            (*token)->value = str;
-            (*token)->length = ft_strlen((*token)->value);
-        }
+		str = ft_heredoc((*token));
+		if (*ft_sigint_recieved())
+		{
+			*token = NULL;
+			free(str);
+			return (NULL);
+		}
+		// TODO: remove quotes from delimeter
+		/*if(strchr((*token)->value, '"') || strchr((*token)->value, '\''))*/
+		if (1)
+		{
+			ft_array_push(&(*token)->fields, str);
+			(*token)->value = NULL;
+			(*token)->length = 0;
+		}
+		else
+		{
+			(*token)->value = str;
+			(*token)->length = ft_strlen((*token)->value);
+		}
 	}
 	return (node);
 }
