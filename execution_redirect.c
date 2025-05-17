@@ -41,7 +41,7 @@ int	ft_redirect_dup(char *filename, t_token_type type)
 	return (fd);
 }
 
-int	ft_list_redirect(t_list *redirect)
+int	ft_redirect(t_list *redirect)
 {
 	t_token	*token;
 	int		status;
@@ -49,7 +49,6 @@ int	ft_list_redirect(t_list *redirect)
 	while (redirect)
 	{
 		token = redirect->content;
-		ft_token_expand(token);
 		if (token->fields == NULL || token->fields->length != 1)
 		{
 			ft_token_error(token, "ambigious redirection");
