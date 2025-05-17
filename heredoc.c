@@ -35,6 +35,13 @@ int	ft_getc(FILE *stream)
 	return (c);
 }
 
+void	ft_heredoc_eoferror(t_token *token)
+{
+	ft_putstr_fd(ERR_HERE_PRE, 2);
+	write(2, token->value, token->length);
+	ft_putstr_fd(ERR_HERE_SUF, 2);
+}
+
 char	*ft_heredoc(t_token *token)
 {
 	char	*txt;
@@ -48,13 +55,11 @@ char	*ft_heredoc(t_token *token)
 		line = readline("> ");
 		if (!line)
 		{
-			ft_putstr_fd(ERR_HERE_PRE, 2);
-			write(2, token->value, token->length);
-			ft_putstr_fd(ERR_HERE_SUF, 2);
+			ft_heredoc_eoferror(token);
 			break ;
 		}
-		if (*ft_sigint_recieved() || ft_strncmp(line, token->value, token->length) == 0
-			&& line[token->length] == '\0')
+		if ((ft_strncmp(line, token->value, token->length) == 0
+				&& line[token->length] == '\0') || *ft_sigint_recieved())
 			break ;
 		ft_strconcat(&txt, line);
 		ft_strconcat(&txt, "\n");
