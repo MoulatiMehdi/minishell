@@ -33,6 +33,7 @@ void	ft_signal_init(void)
 
 void	ft_signal_int(int signal)
 {
+    (void) signal;
 	rl_replace_line("", 0);
 	write(2, "\n", 1);
 	rl_on_new_line();
@@ -55,5 +56,6 @@ volatile sig_atomic_t	*ft_sigint_recieved(void)
 
 void	ft_heredoc_sigint(int signal)
 {
+    (void) signal;
 	*ft_sigint_recieved() = 1;
 }
