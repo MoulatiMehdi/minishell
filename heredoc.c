@@ -14,6 +14,7 @@
 #include "libft/libft.h"
 #include <fcntl.h>
 #include <readline/readline.h>
+#include <signal.h>
 #include <stdio.h>
 #include <unistd.h>
 
@@ -35,11 +36,14 @@ int	ft_getc(FILE *stream)
 	return (c);
 }
 
-void	ft_heredoc_eoferror(t_token *token)
+int	ft_heredoc_eoferror(char * line ,t_token *token)
 {
-	ft_putstr_fd(ERR_HERE_PRE, 2);
-	write(2, token->value, token->length);
-	ft_putstr_fd(ERR_HERE_SUF, 2);
+    if(line)
+        return 0;
+    ft_putstr_fd(ERR_HERE_PRE, 2);
+    write(2, token->value, token->length);
+    ft_putstr_fd(ERR_HERE_SUF, 2);
+    return 1;
 }
 
 char	*ft_heredoc(t_token *token)
@@ -50,16 +54,16 @@ char	*ft_heredoc(t_token *token)
 	*ft_sigint_recieved() = 0;
 	rl_getc_function = ft_getc;
 	txt = NULL;
-	while (1)
+	signal(SIGINT,ft_heredoc_sigint);
+    while (1)
 	{
 		line = readline("> ");
-		if (!line)
-		{
-			ft_heredoc_eoferror(token);
+        if(*ft_sigint_recieved())
+            break;
+		if (ft_heredoc_eoferror(line,token))
 			break ;
-		}
 		if ((ft_strncmp(line, token->value, token->length) == 0
-				&& line[token->length] == '\0') || *ft_sigint_recieved())
+				&& line[token->length] == '\0'))
 			break ;
 		ft_strconcat(&txt, line);
 		ft_strconcat(&txt, "\n");
@@ -67,6 +71,7 @@ char	*ft_heredoc(t_token *token)
 	}
 	free(line);
 	rl_getc_function = rl_getc;
+	signal(SIGINT,ft_signal_int);
 	return (txt);
 }
 
