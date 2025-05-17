@@ -53,5 +53,6 @@ void			ft_token_error(t_token *token, char *msg);
 
 unsigned char	ft_shell_interactive(void);
 unsigned char	ft_shell_noninteractive(void);
-void	ft_signal_int(int signal);
+void			ft_signal_int(int signal);
+int				ft_list_redirect(t_list *redirect);
 #endif

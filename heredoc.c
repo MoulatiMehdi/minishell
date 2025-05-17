@@ -11,117 +11,65 @@
 /* ************************************************************************** */
 
 #include "execution.h"
-#include "lexer.h"
-# include "execution.h"
 #include "libft/libft.h"
+#include <fcntl.h>
 #include <readline/readline.h>
-#include <signal.h>
 #include <stdio.h>
 #include <unistd.h>
-# include <fcntl.h>
 
 #define NAME_LENGTH 8
 #define HEREDOC_FILENAME_PREFIX "/tmp/sh-"
-
-#define NAME_LENGTH 8
-#define HEREDOC_FILENAME_PREFIX "/tmp/sh-"
-
-volatile sig_atomic_t	*ft_sigint_recieved(void)
-{
-    static volatile sig_atomic_t	received = 0;
-
-    return (&received);
-}
+#define ERR_HERE_PRE "bash: warning: here-document delimited by eof (wanted `"
+#define ERR_HERE_SUF "')\n"
+#define HEREDOC_HASHKEY "sZqvKFughoCVnmYrpjHxWLGtJUbfdQiywBAxMPzIkTeDSclENROasV"
 
 int	ft_getc(FILE *stream)
 {
-    char	c;
+	char	c;
 
-    (void)stream;
-    if (*ft_sigint_recieved())
-        return (EOF);
-    if (read(STDIN_FILENO, &c, 1) <= 0)
-        return (EOF);
-    return (c);
-}
-
-void	ft_heredoc_sigint(int signal)
-{
-	*ft_sigint_recieved() = 1;
+	(void)stream;
+	if (*ft_sigint_recieved())
+		return (EOF);
+	if (read(STDIN_FILENO, &c, 1) <= 0)
+		return (EOF);
+	return (c);
 }
 
 char	*ft_heredoc(t_token *token)
 {
-    char	*txt;
-    char	*line;
+	char	*txt;
+	char	*line;
 
-    *ft_sigint_recieved() = 0;
-    rl_getc_function = ft_getc;
-    txt = NULL;
-    while (1)
-    {
-        line = readline("> ");
-        if (*ft_sigint_recieved())
-            break ;
-        if (!line)
-        {
-            ft_putstr_fd("bash: warning: here-document at line 1 delimited by end-of-file (wanted `", 2);
-            write(2,token->value,token->length);
-            ft_putstr_fd("')\n", 2);
-            break;
-        }
-        if (ft_strncmp(line, token->value, token->length) == 0
-            && line[token->length] == '\0')
-        {
-            free(line);
-            break ;
-        }
-        ft_strconcat(&txt, line);
-        ft_strconcat(&txt, "\n");
-        free(line);
-    }
-    rl_getc_function = rl_getc;
-    return (txt);
-}
-
-void ft_heredoc_generatename(char name[100])
-{
-    int i;
-    int len;
-    static const char table[] = "sZqvKFughoCVnmYrpjHxWLGtJUbfdQiywBAxMPzIkTeDSclENROasV";
-    static size_t counter = 0;
-
-    i = 0;
-    len = ft_strlen(HEREDOC_FILENAME_PREFIX);
-    ft_memcpy(name,HEREDOC_FILENAME_PREFIX,len);
-    while(i < NAME_LENGTH)
-    {
-        name[len + i] = table[(counter + i * 7) % (sizeof(table) - 1)];
-        i++;
-    }
-    name[len + i] = '\0';
-    counter = (counter + 1) % sizeof(table);
-}
-
-int ft_heredoc_tempfile(char * str)
-{
-    int fd[2] ;
-    char name[100];
-   
-    ft_heredoc_generatename(name);
-    fd[1] = open(name,O_RDWR | O_CREAT | O_EXCL,0600);
-    ft_putstr_fd(str, fd[1]);
-    fd[0] = open(name,O_RDONLY);
-    close(fd[1]);
-    unlink(name);
-    return fd[0];
+	*ft_sigint_recieved() = 0;
+	rl_getc_function = ft_getc;
+	txt = NULL;
+	while (1)
+	{
+		line = readline("> ");
+		if (!line)
+		{
+			ft_putstr_fd(ERR_HERE_PRE, 2);
+			write(2, token->value, token->length);
+			ft_putstr_fd(ERR_HERE_SUF, 2);
+			break ;
+		}
+		if (*ft_sigint_recieved() || ft_strncmp(line, token->value, token->length) == 0
+			&& line[token->length] == '\0')
+			break ;
+		ft_strconcat(&txt, line);
+		ft_strconcat(&txt, "\n");
+		free(line);
+	}
+	free(line);
+	rl_getc_function = rl_getc;
+	return (txt);
 }
 
 void	ft_heredoc_generatename(char name[100])
 {
 	int					i;
 	int					len;
-	static const char	table[] = "sZqvKFughoCVnmYrpjHxWLGtJUbfdQiywBAxMPzIkTeDSclENROasV";
+	static const char	table[] = HEREDOC_HASHKEY;
 	static size_t		counter = 0;
 
 	i = 0;

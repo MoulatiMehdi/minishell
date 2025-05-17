@@ -34,25 +34,25 @@ unsigned char	ft_shell_execute(char *str)
 
 unsigned char	ft_shell_interactive(void)
 {
-    char * str;
-    unsigned char exit_code;
+	char			*str;
+	unsigned char	exit_code;
 
-    exit_code = 0;
-    rl_outstream = stderr; 
-    while (1)
-    {
-        ft_signal_bashignore();
-        str = readline(SHELL_PROMPT);
-        if (str == NULL)
-            break ;
-        exit_code = ft_shell_execute(str);
-        if(*str)
-            add_history(str);
-        free(str);
-    }
-    rl_clear_history();
-    write(2,"exit\n",5);
-    return exit_code; 
+	exit_code = 0;
+	rl_outstream = stderr;
+	while (1)
+	{
+		ft_signal_bashignore();
+		str = readline(SHELL_PROMPT);
+		if (str == NULL)
+			break ;
+		exit_code = ft_shell_execute(str);
+		if (*str)
+			add_history(str);
+		free(str);
+	}
+	rl_clear_history();
+	write(2, "exit\n", 5);
+	return (exit_code);
 }
 
 unsigned char	ft_shell_noninteractive(void)

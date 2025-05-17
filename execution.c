@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "execution.h"
-#include "expansion.h"
 
 int	ft_execute_andor(t_ast *ast)
 {
