@@ -40,8 +40,6 @@ void	*ft_collector_track(void *addr)
 void	*ft_malloc(size_t size)
 {
 	void	*addr;
-	t_list	*node;
-	t_list	**header;
 
 	addr = malloc(size);
 	if (addr == NULL)
