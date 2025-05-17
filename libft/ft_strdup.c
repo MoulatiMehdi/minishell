@@ -39,7 +39,7 @@ char	*ft_strndup(const char *src, size_t n)
 	size_t	i;
 
 	i = 0;
-	if (src == NULL || n == 0)
+	if (src == NULL)
 		return (0);
 	size = ft_strlen(src);
 	if (n < size)

@@ -13,6 +13,7 @@
 #ifndef LIBFT_H
 
 # define LIBFT_H
+# define BUFFER_SIZE 1
 
 # include <limits.h>
 # include <stdint.h>
@@ -33,6 +34,7 @@ typedef struct s_array
 	t_list			*last;
 }					t_array;
 
+char				*get_next_line(int fd);
 int					ft_isalpha(int c);
 int					ft_isdigit(int c);
 int					ft_isalnum(int c);
@@ -75,9 +77,9 @@ void				ft_lstdelone(t_list *lst, void (*del)(void *));
 void				ft_lstclear(t_list **lst, void (*del)(void *));
 void				ft_lstiter(t_list *lst, void (*f)(void *));
 
-void				ft_putchar_fd(char c, int fd);
-void				ft_putstr_fd(char *s, int fd);
-void				ft_putendl_fd(char *s, int fd);
+int					ft_putchar_fd(char c, int fd);
+int					ft_putstr_fd(char *s, int fd);
+int					ft_putendl_fd(char *s, int fd);
 void				ft_putnbr_fd(int n, int fd);
 void				ft_bzero(void *s, size_t n);
 void				*ft_split_free(char ***strs);
@@ -117,4 +119,5 @@ void				*ft_array_push(t_array **array, void *content);
 int					ft_clear(void);
 void				ft_free(void *addr);
 void				*ft_malloc(size_t size);
+int					ft_strcmp(char *s1, char *s2);
 #endif

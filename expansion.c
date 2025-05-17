@@ -6,56 +6,9 @@
 /*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 11:06:49 by okhourss          #+#    #+#             */
-/*   Updated: 2025/05/16 19:48:40 by okhourss         ###   ########.fr       */
+/*   Updated: 2025/05/17 19:36:37 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-/*
-void field_splitting(t_token *token, t_word *word)
-{
-	t_array *fields;
-	char *curr_field;
-	char **split;
-	size_t i;
-	fields = NULL;
-	curr_field = NULL;
-	split = NULL;
-
-	while (word)
-	{
-		if (!is_field_splitting_required(word))
-			ft_strnconcat(&curr_field , word->value, word->length);
-		else{
-			split = ft_split(word->value,IFS);
-			int start_with_ifs = is_starting_with_ifs(word->value);
-			int end_with_ifs = is_ending_with_ifs(word->value, word->length);
-			i = 0;
-			if (start_with_ifs && curr_field)
-				ft_array_push(&fields, curr_field);
-			while (split && split[i])
-			{
-				if (i == 0 && !start_with_ifs && curr_field)
-				{
-					ft_strconcat(&curr_field, split[i]);
-					ft_array_push(&fields,curr_field);
-					curr_field = NULL;
-				}
-				else
-					ft_array_push(&fields, split[i]);
-				i++;
-			}
-			if (end_with_ifs)
-				curr_field = NULL;
-			if (split)
-					free(split);
-		}
-		word = word->next;
-	}
-	if (curr_field)
-		ft_array_push(&fields,curr_field);
-	token->fields = fields;
-}
-*/
 
 #include "./expansion.h"
 #include "libft/libft.h"
@@ -295,7 +248,34 @@ int	should_expand_pathname(t_list *field)
 	}
 	return (0);
 }
-
+void check_directory(const char *path)
+{
+	struct stat a;
+	struct stat b;
+	const char *dir_path = getcwd(NULL, 0);
+	if (stat(path, &a) < 0)
+		perror("stat a->");
+	if (stat(dir_path, &b) < 0)
+		perror("stat a->");
+	
+}
+void to_fragments(t_word *w)
+{
+	t_word *curr;
+	t_word *prev = NULL;
+	curr = w;
+	while (w)
+	{
+		prev = w;
+		if (ft_strchr(prev->value, '/'))
+			check_directory(prev->value);
+		printf("[%s] ", w->value);
+		printf("%s\n", word_type_str(w->type));
+		w = w->next;
+	}
+	
+	// printf("")
+}
 
 void pathname_expansion(t_token *token)
 {
@@ -315,15 +295,13 @@ void pathname_expansion(t_token *token)
 			{
 				if (frag_node->content)
 				{
-					w = frag_node->content;
-					printf("frag-> %s\n", w->value);
+					to_fragments(frag_node->content);
 				}
 				frag_node = frag_node->next;
 			}
 		}
 		field_node = field_node->next;
 	}
-	
 }
 
 void expand_token(t_token *token)
