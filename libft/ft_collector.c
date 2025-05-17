@@ -34,7 +34,7 @@ void	*ft_collector_track(void *addr)
 	if (header)
 		node->next = *header;
 	*header = node;
-	return (node);
+	return (addr);
 }
 
 void	*ft_malloc(size_t size)
