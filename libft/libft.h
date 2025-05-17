@@ -118,4 +118,5 @@ void				*ft_array_push(t_array **array, void *content);
 int					ft_clear(void);
 void				ft_free(void *addr);
 void				*ft_malloc(size_t size);
+int					ft_strcmp(char *s1, char *s2);
 #endif
