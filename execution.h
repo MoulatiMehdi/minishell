@@ -55,4 +55,5 @@ unsigned char	ft_shell_interactive(void);
 unsigned char	ft_shell_noninteractive(void);
 void			ft_signal_int(int signal);
 int				ft_redirect(t_list *redirect);
+void	ft_heredoc_sigint(int signal);
 #endif

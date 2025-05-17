@@ -49,7 +49,8 @@ unsigned char	ft_shell_interactive(void)
 		if (*str)
 			add_history(str);
 		free(str);
-	}
+        ft_clear();
+    }
 	rl_clear_history();
 	write(2, "exit\n", 5);
 	return (exit_code);
