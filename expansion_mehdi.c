@@ -72,6 +72,7 @@ void ft_field_split(t_array ** field,t_word * words)
             if(str != NULL && ft_strchr(IFS, word->value[0]))
             {
                 ft_array_push(field, str);
+                ft_collector_track(str);
                 str = NULL;
             }
             strs = ft_split(word->value, IFS);
@@ -94,6 +95,7 @@ void ft_field_split(t_array ** field,t_word * words)
                 i = 0;
                 while (strs[i]) {
                     ft_array_push(field, strs[i]);
+                    ft_collector_track(str);
                     i++;
                 }
             }
@@ -104,7 +106,10 @@ void ft_field_split(t_array ** field,t_word * words)
         word = word->next;
     }
     if(str)
+    {
         ft_array_push(field, str);
+        ft_collector_track(str);
+    }
 }
 
 void ft_quotes_join(t_word* head)
