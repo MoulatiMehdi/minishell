@@ -66,7 +66,7 @@ char	**ft_ast_getargs(t_ast *ast)
 	len = ft_args_size(ast);
 	if (len == 0)
 		return (NULL);
-	strs = malloc(sizeof(char *) * (len + 1UL));
+	strs = ft_malloc(sizeof(char *) * (len + 1UL));
 	p = ast->args;
 	i = 0;
 	while (p)

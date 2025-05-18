@@ -54,12 +54,14 @@ char	*ft_command_search(char *name)
 			break ;
 	}
 	ft_split_free(&strs);
+	ft_collector_track(path[1]);
 	return (path[1]);
 }
 
 int	ft_execute(t_list *redirect, char *pathname, char **args)
 {
 	pid_t	pid;
+	int		status;
 
 	pid = fork();
 	if (pid < 0)
@@ -68,18 +70,18 @@ int	ft_execute(t_list *redirect, char *pathname, char **args)
 	{
 		ft_signal_init();
 		if (ft_redirect(redirect))
-			exit(1);
+			ft_execute_exit(1);
 		if (!pathname)
 		{
 			ft_perror(args[0], "command not found");
-			exit(127);
+			ft_execute_exit(127);
 		}
 		execve(pathname, args, NULL);
 		if (ft_path_isdir(pathname))
 			ft_perror(pathname, strerror(EISDIR));
 		else
 			ft_perror(pathname, strerror(errno));
-		exit(126);
+		ft_execute_exit(126);
 	}
 	free(pathname);
 	return (pid);

@@ -53,6 +53,5 @@ int	ft_execute_simplecommand(t_ast *ast)
 		status = ft_execute_buildin(ast->redirect, args);
 	else
 		status = ft_execute_file(ast->redirect, args);
-	free(args);
 	return (status);
 }
