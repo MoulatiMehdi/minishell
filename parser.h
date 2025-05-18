@@ -16,7 +16,6 @@
 # include "libft/libft.h"
 # include <readline/readline.h>
 # include <signal.h>
-# include <signal.h>
 
 typedef enum e_ast_type
 {
