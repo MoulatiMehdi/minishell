@@ -28,7 +28,6 @@ unsigned char	ft_shell_execute(char *str)
 	node = ft_ast_simplecommand(&token);
 	exit_code = ft_execute_simplecommand(node);
 	printf("status : %d\n", exit_code);
-	ft_ast_free(node);
 	return (exit_code);
 }
 
