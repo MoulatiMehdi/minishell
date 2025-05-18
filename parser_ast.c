@@ -81,6 +81,7 @@ t_ast	*ft_ast_redirect(t_token **token, t_ast *node)
 			(*token)->value = str;
 			(*token)->length = ft_strlen((*token)->value);
 		}
+		ft_collector_track(str);
 	}
 	return (node);
 }
