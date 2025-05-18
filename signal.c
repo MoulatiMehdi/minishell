@@ -17,7 +17,7 @@
 
 void	ft_signal_int(int signal)
 {
-    (void) signal;
+	(void)signal;
 	rl_replace_line("", 0);
 	write(2, "\n", 1);
 	rl_on_new_line();
@@ -26,9 +26,9 @@ void	ft_signal_int(int signal)
 
 void	ft_signal_quit(int signal)
 {
-    (void) signal;
+	(void)signal;
 	rl_replace_line("", 0);
-    ft_putstr_fd("Quit (core dumped)\n", 2);
+	ft_putstr_fd("Quit (core dumped)\n", 2);
 	rl_on_new_line();
 	rl_redisplay();
 }
@@ -44,8 +44,8 @@ void	ft_signal_init(void)
 	size_t		i;
 	size_t		size;
 	static int	sigs[] = {SIGHUP, SIGILL, SIGTRAP, SIGABRT, SIGFPE, SIGBUS,
-		SIGSEGV, SIGSYS, SIGPIPE, SIGALRM, SIGXCPU, SIGXFSZ, SIGVTALRM,
-		SIGUSR1, SIGUSR2, SIGINT, SIGQUIT, SIGTERM};
+			SIGSEGV, SIGSYS, SIGPIPE, SIGALRM, SIGXCPU, SIGXFSZ, SIGVTALRM,
+			SIGUSR1, SIGUSR2, SIGINT, SIGQUIT, SIGTERM};
 
 	i = 0;
 	size = sizeof(sigs) / sizeof(sigs[0]);
@@ -66,6 +66,6 @@ volatile sig_atomic_t	*ft_sigint_recieved(void)
 
 void	ft_heredoc_sigint(int signal)
 {
-    (void) signal;
+	(void)signal;
 	*ft_sigint_recieved() = 1;
 }
