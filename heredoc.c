@@ -9,8 +9,8 @@
 /*   Updated: 2025/05/15 15:38:35 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "libft/libft.h"
+#include "parser.h"
 #include <fcntl.h>
 #include <readline/readline.h>
 #include <signal.h>
@@ -68,6 +68,7 @@ char	*ft_heredoc(t_token *token, char *delimiter)
 		free(line);
 	}
 	free(line);
+	ft_collector_track(txt);
 	rl_getc_function = rl_getc;
 	signal(SIGINT, ft_signal_int);
 	return (txt);

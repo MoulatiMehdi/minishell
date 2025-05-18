@@ -10,42 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execution.h"
-#include "libft/libft.h"
-#include <readline/readline.h>
-#include <signal.h>
-
-void	ft_signal_int(int signal)
-{
-	(void)signal;
-	rl_replace_line("", 0);
-	write(2, "\n", 1);
-	rl_on_new_line();
-	rl_redisplay();
-}
-
-void	ft_signal_quit(int signal)
-{
-	(void)signal;
-	rl_replace_line("", 0);
-	ft_putstr_fd("Quit (core dumped)\n", 2);
-	rl_on_new_line();
-	rl_redisplay();
-}
-
-void	ft_signal_bashignore(void)
-{
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, ft_signal_int);
-}
+#include "parser.h"
 
 void	ft_signal_init(void)
 {
 	size_t		i;
 	size_t		size;
 	static int	sigs[] = {SIGHUP, SIGILL, SIGTRAP, SIGABRT, SIGFPE, SIGBUS,
-			SIGSEGV, SIGSYS, SIGPIPE, SIGALRM, SIGXCPU, SIGXFSZ, SIGVTALRM,
-			SIGUSR1, SIGUSR2, SIGINT, SIGQUIT, SIGTERM};
+		SIGSEGV, SIGSYS, SIGPIPE, SIGALRM, SIGXCPU, SIGXFSZ, SIGVTALRM,
+		SIGUSR1, SIGUSR2, SIGINT, SIGQUIT, SIGTERM};
 
 	i = 0;
 	size = sizeof(sigs) / sizeof(sigs[0]);
