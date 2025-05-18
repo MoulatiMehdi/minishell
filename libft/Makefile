@@ -53,6 +53,7 @@ SRCS = \
 	ft_substr.c \
 	ft_tolower.c \
 	ft_toupper.c \
+	ft_strcmp.c \
 	get_next_line.c
 OBJS = $(SRCS:.c=.o)
 
