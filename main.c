@@ -48,6 +48,7 @@ int	main(void)
         token = tokenize(str);
         lexer(token);
         head = ft_word_split(token);
+        printf("join : %s\n",ft_word_join(head));
         while (head)
         {
             lexeme = NULL;
