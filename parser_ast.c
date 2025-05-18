@@ -54,47 +54,6 @@ void	ft_token_print(t_token *token)
 		write(2, token->value, token->length);
 }
 
-char	*ft_heredoc_quote_removal(t_token *token)
-{
-	t_word	*word;
-	char	*delimiter;
-
-	word = ft_word_split(token);
-	delimiter = ft_word_join(word);
-	if (delimiter)
-		ft_collector_track(delimiter);
-	return (delimiter);
-}
-
-t_ast	*ft_ast_redirect(t_token **token, t_ast *node)
-{
-	char	*str;
-
-	if ((*token)->value == NULL)
-		return (NULL);
-	ft_lstadd_back(&node->redirect, ft_lstnew((*token)));
-	if ((*token)->type == TOKEN_REDIRECT_HERE)
-	{
-		str = ft_heredoc((*token), ft_heredoc_quote_removal(*token));
-		if (*ft_sigint_recieved())
-		{
-			while ((*token)->type != TOKEN_EOI)
-				*token = (*token)->next;
-			return (NULL);
-		}
-		if (ft_memchr((*token)->value, '"', (*token)->length)
-			|| ft_memchr((*token)->value, '\'', (*token)->length))
-		{
-			ft_array_push(&(*token)->fields, str);
-			(*token)->value = NULL;
-		}
-		else
-			(*token)->value = str;
-		(*token)->length = ft_strlen((*token)->value);
-	}
-	return (node);
-}
-
 t_ast	*parser(t_token *token)
 {
 	t_ast	*node;
@@ -107,7 +66,7 @@ t_ast	*parser(t_token *token)
 	if (node == NULL)
 	{
 		write(2, "minishell : syntax error near unexpected token `", 48);
-		ft_token_print(token->next);
+		ft_token_print(token);
 		write(2, "`\n", 2);
 	}
 	return (node);
