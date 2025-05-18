@@ -107,8 +107,8 @@ t_ast	*ft_ast_pipeline(t_token **token)
 	t_ast			*node_child;
 
 	node_child = ft_ast_command(token);
-	if (node_child == NULL)
-		return (NULL);
+	if (node_child == NULL || (*token)->type != TOKEN_PIPE)
+		return (node_child);
 	node_parent = ft_ast_new(AST_PIPELINE);
 	ft_ast_push(node_parent, node_child);
 	while (1)
