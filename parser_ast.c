@@ -76,10 +76,10 @@ t_ast	*ft_ast_redirect(t_token **token, t_ast *node)
 	if ((*token)->type == TOKEN_REDIRECT_HERE)
 	{
 		str = ft_heredoc((*token), ft_heredoc_quote_removal(*token));
-		ft_collector_track(str);
 		if (*ft_sigint_recieved())
 		{
-			*token = NULL;
+			while ((*token)->type != TOKEN_EOI)
+				*token = (*token)->next;
 			return (NULL);
 		}
 		if (ft_memchr((*token)->value, '"', (*token)->length)

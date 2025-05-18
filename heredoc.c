@@ -64,6 +64,7 @@ char	*ft_heredoc(t_token *token, char *delimiter)
 		free(line);
 	}
 	free(line);
+	ft_collector_track(txt);
 	rl_getc_function = rl_getc;
 	return (txt);
 }
