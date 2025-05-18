@@ -42,7 +42,6 @@ int	main(void)
         printf("\t====================\n");
         ft_ast_tocommand(node);
         printf("\n");
-        ft_ast_free(node);
         free(str);
         ft_clear();
     }
