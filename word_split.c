@@ -23,7 +23,7 @@ static size_t ft_quotelen(const char * str,char c)
     return i;
 }
 
-t_word * ft_expand_split(t_token * token)
+t_word * ft_word_split(t_token * token)
 {
     size_t i;
     size_t len;
@@ -58,5 +58,18 @@ t_word * ft_expand_split(t_token * token)
         }
     }
     return head;
+}
+
+char * ft_word_join(t_word * word)
+{
+    char * str;
+
+    str = NULL;
+    while(word)
+    {
+        ft_strnconcat(&str,word->value,word->length);
+        word = word->next;
+    }
+    return str;
 }
 

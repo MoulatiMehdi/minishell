@@ -24,7 +24,8 @@ typedef struct s_word
 
 t_word* ft_word_new(t_word_type type,const char * value,size_t length);
 t_word * ft_word_push(t_word **head,t_word_type type,const char * value,size_t length);
-t_word * ft_expand_split(t_token * token);
+t_word * ft_word_split(t_token * token);
+char * ft_word_join(t_word * word);
 #endif 
 
 
