@@ -10,8 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft/libft.h"
 #include "parser.h"
 #include "tokenizer.h"
+#include "word.h"
 #include <string.h>
 #include <unistd.h>
 
@@ -52,6 +54,18 @@ void	ft_token_print(t_token *token)
 		write(2, token->value, token->length);
 }
 
+char	*ft_heredoc_quote_removal(t_token *token)
+{
+	t_word	*word;
+	char	*delimiter;
+
+	word = ft_word_split(token);
+	delimiter = ft_word_join(word);
+	if (delimiter)
+		ft_collector_track(delimiter);
+	return (delimiter);
+}
+
 t_ast	*ft_ast_redirect(t_token **token, t_ast *node)
 {
 	char	*str;
@@ -61,27 +75,22 @@ t_ast	*ft_ast_redirect(t_token **token, t_ast *node)
 	ft_lstadd_back(&node->redirect, ft_lstnew((*token)));
 	if ((*token)->type == TOKEN_REDIRECT_HERE)
 	{
-		str = ft_heredoc((*token));
+		str = ft_heredoc((*token), ft_heredoc_quote_removal(*token));
+		ft_collector_track(str);
 		if (*ft_sigint_recieved())
 		{
 			*token = NULL;
-			free(str);
 			return (NULL);
 		}
-		// TODO: remove quotes from delimeter
-		/*if(strchr((*token)->value, '"') || strchr((*token)->value, '\''))*/
-		if (1)
+		if (ft_memchr((*token)->value, '"', (*token)->length)
+			|| ft_memchr((*token)->value, '\'', (*token)->length))
 		{
 			ft_array_push(&(*token)->fields, str);
 			(*token)->value = NULL;
-			(*token)->length = 0;
 		}
 		else
-		{
 			(*token)->value = str;
-			(*token)->length = ft_strlen((*token)->value);
-		}
-		ft_collector_track(str);
+		(*token)->length = ft_strlen((*token)->value);
 	}
 	return (node);
 }

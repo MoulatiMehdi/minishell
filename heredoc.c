@@ -41,7 +41,7 @@ void	ft_heredoc_eoferror(t_token *token)
 	ft_putstr_fd(ERR_HERE_SUF, 2);
 }
 
-char	*ft_heredoc(t_token *token)
+char	*ft_heredoc(t_token *token, char *delimiter)
 {
 	char	*txt;
 	char	*line;
@@ -57,8 +57,7 @@ char	*ft_heredoc(t_token *token)
 			ft_heredoc_eoferror(token);
 			break ;
 		}
-		if (ft_strncmp(line, token->value, token->length) == 0
-			&& line[token->length] == '\0' || *ft_sigint_recieved())
+		if (*ft_sigint_recieved() || ft_strcmp(line, delimiter) == 0)
 			break ;
 		ft_strconcat(&txt, line);
 		ft_strconcat(&txt, "\n");
