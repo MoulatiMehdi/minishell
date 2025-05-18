@@ -13,6 +13,9 @@
 #ifndef PARSER_H
 #define PARSER_H
 # include "lexer.h"
+# include "libft/libft.h"
+# include "word.h"
+# include <readline/readline.h>
 # include <signal.h>
 
 typedef enum e_ast_type
@@ -48,6 +51,10 @@ t_ast					*ft_ast_redirect(t_token **token, t_ast *node);
 t_ast					*parser(t_token *token);
 char					*ft_heredoc(t_token *token, char *delimiter);
 t_list					*ft_ast_push(t_ast *parent, t_ast *child);
-volatile sig_atomic_t	*ft_sigint_recieved(void);
 int						ft_heredoc_tempfile(char *str);
+
+volatile sig_atomic_t	*ft_sigint_recieved(void);
+void					ft_signal_int(int signal);
+void					ft_signal_quit(int signal);
+void					ft_signal_bashignore(void);
 #endif // !PARSER_H
