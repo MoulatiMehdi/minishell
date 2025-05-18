@@ -12,6 +12,7 @@
 
 #include "debug.h"
 #include "libft/libft.h"
+#include "parser.h"
 
 char * ft_asttype_getstr(t_token_type type);
 t_ast	*ft_ast_andor(t_token **token);
@@ -21,7 +22,8 @@ int	main(void)
     t_token	*token;
     t_ast * node;
     char	*str;
-    
+
+    ft_signal_bashignore();
     setvbuf(stdout, NULL, _IONBF, 0);
     while (1)
     {
