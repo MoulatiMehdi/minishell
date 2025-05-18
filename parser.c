@@ -28,7 +28,7 @@ t_ast	*ft_ast_simplecommand(t_token **token)
 	{
 		token_type = (*token)->type;
 		if (token_type == TOKEN_WORD)
-			ft_lstadd_back(&node->args, ft_lstnew(*token));
+			ft_list_token_push(&node->args, *token);
 		else if (ft_token_isredirect(token_type))
 		{
 			if (!ft_ast_redirect(token, node))
