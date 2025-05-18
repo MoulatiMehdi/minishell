@@ -1,75 +1,53 @@
-#include "libft/libft.h"
-# include "tokenizer_init.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   word_split.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/18 13:31:10 by mmoulati          #+#    #+#             */
+/*   Updated: 2025/05/18 13:31:11 by mmoulati         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "expand.h"
+#include "libft/libft.h"
+#include "tokenizer_init.h"
 
-t_word_type ft_word_type(char c)
+t_word	*ft_word_split(t_token *token)
 {
-    if(c == '"')
-        return WORD_QUOTE_DOUBLE;
-    if(c == '\'')
-        return WORD_QUOTE_SINGLE;
-    return WORD_NONE;
+	size_t	i;
+	t_word	*head;
+
+	if (token == NULL || token->value == NULL || token->length == 0)
+		return (NULL);
+	i = 0;
+	head = NULL;
+	while (i < token->length)
+	{
+		if (ft_char_isquote(token->value[i]))
+			i += 2 + ft_word_quote(&head, token, i);
+		else if (token->value[i] == '*')
+		{
+			ft_word_push(&head, WORD_WILDCARD, &token->value[i], 1);
+			while (token->value[i] == '*' && i < token->length)
+				i++;
+		}
+		else
+			i += ft_word_none(&head, token, i);
+	}
+	return (head);
 }
 
-static size_t ft_quotelen(const char * str,char c)
+char	*ft_word_join(t_word *word)
 {
-    size_t i;
+	char	*str;
 
-    if(c != '"' && c != '\'')
-        return 0;
-    i = 0;
-    while(str[i] && str[i] != c)
-        i++;
-    return i;
+	str = NULL;
+	while (word)
+	{
+		ft_strnconcat(&str, word->value, word->length);
+		word = word->next;
+	}
+	return (str);
 }
-
-t_word * ft_word_split(t_token * token)
-{
-    size_t i;
-    size_t len;
-    t_word * head;
-
-    if(token == NULL || token->value ==NULL || token ->length == 0)
-        return NULL;
-    i = 0;
-    head = NULL; 
-    while(i < token->length)
-    {
-        if(ft_char_isquote(token->value[i]))
-        {
-            len = ft_quotelen(&token->value[i + 1], token->value[i]);
-            if(head == NULL || len > 0)
-                ft_word_push(&head,ft_word_type(token->value[i]), &token->value[i + 1], len);
-            i += 2 + len;
-        }
-        else if(token->value[i] == '*')
-        {
-            ft_word_push(&head, WORD_WILDCARD, &token->value[i],1);
-            while(token->value[i] == '*' && i < token->length)
-                i++;
-        }
-        else 
-        {
-            len = 0;
-            while( i + len < token->length &&token->value[i + len] && !ft_char_isquote(token->value[i + len]) && token->value[i + len] != '*')
-                len ++;
-            ft_word_push(&head,WORD_NONE, &token->value[i], len);
-            i += len;
-        }
-    }
-    return head;
-}
-
-char * ft_word_join(t_word * word)
-{
-    char * str;
-
-    str = NULL;
-    while(word)
-    {
-        ft_strnconcat(&str,word->value,word->length);
-        word = word->next;
-    }
-    return str;
-}
-
