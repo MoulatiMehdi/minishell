@@ -32,14 +32,14 @@ t_ast	*ft_ast_simplecommand(t_token **token)
 		else if (ft_token_isredirect(token_type))
 		{
 			if (!ft_ast_redirect(token, node))
-				return (ft_ast_free(node));
+				return (NULL);
 		}
 		else
 			break ;
 		*token = (*token)->next;
 	}
 	if (node->redirect == NULL && node->args == NULL)
-		return (ft_ast_free(node));
+		return (NULL);
 	return (node);
 }
 
@@ -52,7 +52,7 @@ t_ast	*ft_ast_subshell(t_token **token)
 	*token = (*token)->next;
 	child_node = ft_ast_andor(token);
 	if (!child_node || (*token)->type != TOKEN_PARENS_CLOSE)
-		return (ft_ast_free(child_node));
+		return (NULL);
 	*token = (*token)->next;
 	child_node->type = AST_SUBSHELL;
 	return (child_node);
@@ -73,7 +73,7 @@ t_ast	*ft_ast_command(t_token **token)
 	while (*token && ft_token_isredirect((*token)->type))
 	{
 		if (!ft_ast_redirect(token, node))
-			return (ft_ast_free(node));
+			return (NULL);
 		*token = (*token)->next;
 	}
 	return (node);
@@ -86,8 +86,8 @@ t_ast	*ft_ast_pipeline(t_token **token)
 	t_ast			*node_child;
 
 	node_child = ft_ast_command(token);
-	if (node_child == NULL)
-		return (NULL);
+	if (node_child == NULL || (*token)->type != TOKEN_PIPE)
+		return (node_child);
 	node_parent = ft_ast_new(AST_PIPELINE);
 	ft_ast_push(node_parent, node_child);
 	while (1)
@@ -98,7 +98,7 @@ t_ast	*ft_ast_pipeline(t_token **token)
 			*token = (*token)->next;
 			node_child = ft_ast_command(token);
 			if (node_child == NULL)
-				return (ft_ast_free(node_parent));
+				return (NULL);
 			ft_ast_push(node_parent, node_child);
 		}
 		else
@@ -127,7 +127,7 @@ t_ast	*ft_ast_andor(t_token **token)
 			*token = (*token)->next;
 			node_child = ft_ast_pipeline(token);
 			if (node_child == NULL)
-				return (ft_ast_free(node_parent));
+				return (NULL);
 			ft_ast_push(node_parent, node_child);
 		}
 		else
