@@ -10,7 +10,7 @@ DEPS = libft
 LIBFT = $(DEPS)/libft.a 
 SRCS = $(wildcard *.c) 
 OBJS = $(SRCS:.c=.o)
-NAME = tokenizer
+NAME = minishell
 
 
 all : $(NAME) 
