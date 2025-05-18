@@ -31,7 +31,7 @@ t_ast	*ft_ast_simplecommand(t_token **token)
 			ft_lstadd_back(&node->args, ft_lstnew(*token));
 		else if (ft_token_isredirect(token_type))
 		{
-			if (!ft_ast_redirect(*token, node))
+			if (!ft_ast_redirect(token, node))
 				return (ft_ast_free(node));
 		}
 		else
@@ -93,7 +93,7 @@ t_ast	*ft_ast_command(t_token **token)
 		return (NULL);
 	while (*token && ft_token_isredirect((*token)->type))
 	{
-		if (!ft_ast_redirect(*token, node))
+		if (!ft_ast_redirect(token, node))
 			return (ft_ast_free(node));
 		*token = (*token)->next;
 	}

@@ -10,9 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "debug.h"
+#include "libft/libft.h"
 #include "parser.h"
 #include "tokenizer.h"
+#include "word.h"
+#include <string.h>
 #include <unistd.h>
 
 t_ast_type	ft_ast_fromtoken(t_token_type type)
@@ -52,15 +54,43 @@ void	ft_token_print(t_token *token)
 		write(2, token->value, token->length);
 }
 
-t_ast	*ft_ast_redirect(t_token *token, t_ast *node)
+char	*ft_heredoc_quote_removal(t_token *token)
 {
-	if (token->value == NULL)
+	t_word	*word;
+	char	*delimiter;
+
+	word = ft_word_split(token);
+	delimiter = ft_word_join(word);
+	if (delimiter)
+		ft_collector_track(delimiter);
+	return (delimiter);
+}
+
+t_ast	*ft_ast_redirect(t_token **token, t_ast *node)
+{
+	char	*str;
+
+	if ((*token)->value == NULL)
 		return (NULL);
-	ft_lstadd_back(&node->redirect, ft_lstnew(token));
-	if (token->type == TOKEN_REDIRECT_HERE)
+	ft_lstadd_back(&node->redirect, ft_lstnew((*token)));
+	if ((*token)->type == TOKEN_REDIRECT_HERE)
 	{
-		token->value = ft_heredoc(token);
-		token->length = ft_strlen(token->value);
+		str = ft_heredoc((*token), ft_heredoc_quote_removal(*token));
+		ft_collector_track(str);
+		if (*ft_sigint_recieved())
+		{
+			*token = NULL;
+			return (NULL);
+		}
+		if (ft_memchr((*token)->value, '"', (*token)->length)
+			|| ft_memchr((*token)->value, '\'', (*token)->length))
+		{
+			ft_array_push(&(*token)->fields, str);
+			(*token)->value = NULL;
+		}
+		else
+			(*token)->value = str;
+		(*token)->length = ft_strlen((*token)->value);
 	}
 	return (node);
 }
@@ -72,7 +102,6 @@ t_ast	*parser(t_token *token)
 	if (token == NULL)
 		return (NULL);
 	node = ft_ast_andor(&token);
-	ft_ast_tocommand(node);
 	if (token == NULL || token->type != TOKEN_EOI)
 		node = ft_ast_free(node);
 	if (node == NULL)

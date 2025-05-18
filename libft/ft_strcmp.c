@@ -1,20 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/10 13:17:06 by mmoulati          #+#    #+#             */
-/*   Updated: 2024/11/10 13:18:17 by mmoulati         ###   ########.fr       */
+/*   Created: 2025/01/28 22:23:25 by mmoulati          #+#    #+#             */
+/*   Updated: 2025/01/28 22:30:14 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-int	ft_putchar_fd(char c, int fd)
+int	ft_strcmp(char *s1, char *s2)
 {
-	if (fd < 0)
-		return (0);
-	return (write(fd, &c, 1));
+	unsigned int	i;
+
+	if (s1 == 0 ^ s2 == 0)
+		return (1);
+	i = 0;
+	while (s1[i] == s2[i] && s1[i])
+		i++;
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
