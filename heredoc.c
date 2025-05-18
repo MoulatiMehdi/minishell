@@ -9,8 +9,8 @@
 /*   Updated: 2025/05/15 15:38:35 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "libft/libft.h"
+#include "parser.h"
 #include <fcntl.h>
 #include <readline/readline.h>
 #include <stdio.h>

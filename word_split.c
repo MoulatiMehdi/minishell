@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "word.h"
 #include "libft/libft.h"
 #include "tokenizer_init.h"
+#include "word.h"
 
 t_word	*ft_word_split(t_token *token)
 {
