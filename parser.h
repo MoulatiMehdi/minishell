@@ -40,12 +40,6 @@ typedef struct s_ast
 }						t_ast;
 
 t_ast					*ft_ast_new(t_ast_type ast_type);
-void					ft_lstnode_clear(t_list *head);
-t_ast					*ft_ast_free(t_ast *head);
-
-void					ft_lstnode_clear(t_list *head);
-t_ast					*ft_ast_free(t_ast *head);
-
 t_ast					*ft_ast_andor(t_token **token);
 t_ast					*ft_ast_redirect(t_token **token, t_ast *node);
 t_ast					*parser(t_token *token);
@@ -57,4 +51,5 @@ volatile sig_atomic_t	*ft_sigint_recieved(void);
 void					ft_signal_int(int signal);
 void					ft_signal_quit(int signal);
 void					ft_signal_bashignore(void);
+t_list					*ft_list_token_push(t_list **head, t_token *token);
 #endif // !PARSER_H
