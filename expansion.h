@@ -11,13 +11,13 @@
 /* ************************************************************************** */
 
 #ifndef EXPANSION_H
-#define EXPANSION_H
+# define EXPANSION_H
 
-#include "parser.h"
-#include "tokenizer.h"
-#include "libft/libft.h"
+# include "libft/libft.h"
+# include "parser.h"
+# include "tokenizer.h"
 
-void expand_ast(t_ast *node, int last_status);
+void	expand_ast(t_ast *node, int last_status);
 
 void	ft_token_expand(t_token *token);
 #endif
