@@ -11,8 +11,33 @@
 /* ************************************************************************** */
 
 #include "execution.h"
+#include "libft/libft.h"
 #include <readline/readline.h>
 #include <signal.h>
+
+void	ft_signal_int(int signal)
+{
+    (void) signal;
+	rl_replace_line("", 0);
+	write(2, "\n", 1);
+	rl_on_new_line();
+	rl_redisplay();
+}
+
+void	ft_signal_quit(int signal)
+{
+    (void) signal;
+	rl_replace_line("", 0);
+    ft_putstr_fd("Quit (core dumped)\n", 2);
+	rl_on_new_line();
+	rl_redisplay();
+}
+
+void	ft_signal_bashignore(void)
+{
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, ft_signal_int);
+}
 
 void	ft_signal_init(void)
 {
@@ -29,22 +54,7 @@ void	ft_signal_init(void)
 		signal(sigs[i], SIG_DFL);
 		i++;
 	}
-}
-
-void	ft_signal_int(int signal)
-{
-    (void) signal;
-	rl_replace_line("", 0);
-	write(2, "\n", 1);
-	rl_on_new_line();
-	rl_redisplay();
-}
-
-void	ft_signal_bashignore(void)
-{
-	signal(SIGSTOP, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, ft_signal_int);
+	signal(SIGQUIT, ft_signal_quit);
 }
 
 volatile sig_atomic_t	*ft_sigint_recieved(void)

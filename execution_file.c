@@ -66,6 +66,7 @@ int	ft_execute(t_list *redirect, char *pathname, char **args)
 		perror(SHELL_NAME ": fork");
 	else if (pid == 0)
 	{
+        ft_signal_init();
 		status = ft_redirect(redirect);
 		if (status != 0)
 			exit(status);
