@@ -12,6 +12,7 @@
 
 #include "config.h"
 #include "execution.h"
+#include "libft/libft.h"
 #include "parser.h"
 #include <string.h>
 #include <sys/wait.h>
@@ -63,7 +64,7 @@ int	ft_execute(t_list *redirect, char *pathname, char **args)
 	pid = fork();
 	if (pid < 0)
 		perror(SHELL_NAME ": fork");
-	else if (pid == 0)
+	if (pid == 0)
 	{
 		ft_signal_init();
 		if (ft_redirect(redirect))
