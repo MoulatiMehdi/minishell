@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "expand.h"
+#include "word.h"
 #include "libft/libft.h"
 #include "tokenizer_init.h"
 

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "expand.h"
+#include "word.h"
 
 t_word	*ft_word_new(t_word_type type, const char *value, size_t length)
 {
