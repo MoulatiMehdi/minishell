@@ -50,7 +50,7 @@ t_ast	*ft_ast_redirect(t_token **token, t_ast *node)
 		*token = (*token)->next;
 		return (NULL);
 	}
-	ft_lstadd_back(&node->redirect, ft_lstnew((*token)));
+	ft_list_token_push(&node->redirect, *token);
 	if ((*token)->type != TOKEN_REDIRECT_HERE)
 		return (node);
 	str = ft_heredoc((*token), ft_heredoc_quote_removal(*token));

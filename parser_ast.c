@@ -61,10 +61,9 @@ t_ast	*parser(t_token *token)
 	if (token == NULL)
 		return (NULL);
 	node = ft_ast_andor(&token);
-	if (token == NULL || token->type != TOKEN_EOI)
-		node = ft_ast_free(node);
-	if (node == NULL)
+	if (token->type != TOKEN_EOI || node == NULL)
 	{
+		node = NULL;
 		write(2, "minishell : syntax error near unexpected token `", 48);
 		ft_token_print(token);
 		write(2, "`\n", 2);
