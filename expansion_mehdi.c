@@ -1,4 +1,4 @@
-#include "expand.h"
+#include "word.h"
 #include "libft/libft.h"
 #include "tokenizer.h"
 #include <stddef.h>
@@ -187,7 +187,7 @@ void	ft_token_expand(t_token *token)
 
     if(token->type == TOKEN_REDIRECT_HERE)
         return ;
-    words = ft_expand_split(token);
+    words = ft_word_split(token);
     p = words;
     while (p)
     {
