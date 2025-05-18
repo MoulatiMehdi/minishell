@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "debug.h"
+#include "libft/libft.h"
 
 char * ft_asttype_getstr(t_token_type type);
 t_ast	*ft_ast_andor(t_token **token);
@@ -43,6 +44,7 @@ int	main(void)
         printf("\n");
         ft_ast_free(node);
         free(str);
+        ft_clear();
     }
     return (0);
 }
