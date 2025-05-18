@@ -20,8 +20,7 @@ char	*ft_heredoc_quote_removal(t_token *token)
 
 	word = ft_word_split(token);
 	delimiter = ft_word_join(word);
-	if (delimiter)
-		ft_collector_track(delimiter);
+	ft_collector_track(delimiter);
 	return (delimiter);
 }
 
