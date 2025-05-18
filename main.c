@@ -14,7 +14,7 @@
 #include "tokenizer.h"
 #include <readline/readline.h>
 #include <unistd.h>
-# include "expand.h"
+# include "word.h"
 
 
 char	*ft_word_gettype(t_word *token)
@@ -47,7 +47,7 @@ int	main(void)
             break ;
         token = tokenize(str);
         lexer(token);
-        head = ft_expand_split(token);
+        head = ft_word_split(token);
         while (head)
         {
             lexeme = NULL;
