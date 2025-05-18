@@ -59,7 +59,6 @@ char	*ft_command_search(char *name)
 int	ft_execute(t_list *redirect, char *pathname, char **args)
 {
 	pid_t	pid;
-	int		status;
 
 	pid = fork();
 	if (pid < 0)
@@ -67,9 +66,8 @@ int	ft_execute(t_list *redirect, char *pathname, char **args)
 	else if (pid == 0)
 	{
 		ft_signal_init();
-		status = ft_redirect(redirect);
-		if (status != 0)
-			exit(status);
+		if (ft_redirect(redirect))
+			exit(1);
 		if (!pathname)
 		{
 			ft_perror(args[0], "command not found");

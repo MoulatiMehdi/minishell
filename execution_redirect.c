@@ -44,7 +44,6 @@ int	ft_redirect_dup(char *filename, t_token_type type)
 int	ft_redirect(t_list *redirect)
 {
 	t_token	*token;
-	int		status;
 
 	while (redirect)
 	{
@@ -56,9 +55,8 @@ int	ft_redirect(t_list *redirect)
 		}
 		if (ft_redirect_dup(token->fields->head->content, token->type) < 0)
 		{
-			status = errno;
-			ft_token_error(token, strerror(status));
-			return (status);
+			ft_token_error(token, strerror(errno));
+			return (1);
 		}
 		redirect = redirect->next;
 	}
