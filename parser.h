@@ -14,6 +14,7 @@
 # define PARSER_H
 # include "lexer.h"
 # include "libft/libft.h"
+# include "word.h"
 # include <readline/readline.h>
 # include <signal.h>
 
