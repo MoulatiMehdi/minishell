@@ -14,7 +14,6 @@
 
 void	ft_execute_exit(int status)
 {
-	get_next_line(-1);
 	ft_clear();
 	exit(status);
 }
