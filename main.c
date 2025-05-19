@@ -61,10 +61,13 @@ int	main(int argc,char **argv,char **envp)
     char	*str;
     char ** strs;
     t_cmd cmd;
+    t_array * env;
    
     (void) argv;
     (void) argc;
+  
     ft_signal_bashignore();
+    env = ft_env_create(envp);
     setvbuf(stdout, NULL, _IONBF, 0);
     rl_outstream = stderr;
     while (1)
@@ -81,7 +84,7 @@ int	main(int argc,char **argv,char **envp)
         {
             cmd.name = strs[0];
             cmd.args = &strs[1];
-            cmd.env = ft_env_create(envp);
+            cmd.env = env; 
            
             if(ft_strcmp(cmd.name,"echo") == 0)
                 echo_cmd(&cmd);
