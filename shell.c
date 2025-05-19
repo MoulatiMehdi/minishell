@@ -20,22 +20,23 @@ t_ast			*ft_ast_simplecommand(t_token **token);
 
 unsigned char	ft_shell_execute(char *str)
 {
-	t_token			*token;
-	t_ast			*node;
-	unsigned char	exit_code;
+	t_token					*token;
+	t_ast					*node;
+	static unsigned char	exit_code;
 
 	if (str == NULL)
 		return (0);
 	token = tokenize(str);
+	if (token && token->type == TOKEN_EOI)
+		return (exit_code);
 	lexer(token);
 	node = ft_ast_simplecommand(&token);
 	if (*ft_sigint_recieved())
 		exit_code = SIGINT + 128;
-	else if (token == NULL || token->type != TOKEN_EOI | node == NULL)
+	else if (node == NULL)
 		exit_code = 2;
 	else
 		exit_code = ft_execute_simplecommand(node);
-	printf("status : %d\n", exit_code);
 	return (exit_code);
 }
 
@@ -53,6 +54,7 @@ unsigned char	ft_shell_interactive(void)
 		if (str == NULL)
 			break ;
 		exit_code = ft_shell_execute(str);
+		printf("status : %d\n", exit_code);
 		if (*str)
 			add_history(str);
 		free(str);
@@ -77,6 +79,7 @@ unsigned char	ft_shell_noninteractive(void)
 			break ;
 		ft_collector_track(str);
 		exit_code = ft_shell_execute(str);
+		printf("status : %d\n", exit_code);
 		ft_clear();
 	}
 	return (exit_code);
