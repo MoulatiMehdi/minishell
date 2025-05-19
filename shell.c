@@ -72,7 +72,7 @@ unsigned char	ft_shell_noninteractive(void)
 	while (1)
 	{
 		ft_signal_noninteractive();
-		str = get_next_line(STDIN_FILENO);
+		str = readline(SHELL_PROMPT);
 		if (str == NULL)
 			break ;
 		ft_collector_track(str);
