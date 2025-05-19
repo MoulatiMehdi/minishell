@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "execution.h"
 #include "parser.h"
 
 void	ft_signal_int(int signal)
@@ -34,4 +35,16 @@ void	ft_signal_bashignore(void)
 {
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, ft_signal_int);
+}
+
+void	ft_signal_int_noninteractive(int signal)
+{
+	(void)signal;
+	ft_execute_exit(130);
+}
+
+void	ft_signal_noninteractive(void)
+{
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, ft_signal_int_noninteractive);
 }
