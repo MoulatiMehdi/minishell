@@ -61,7 +61,6 @@ char	*ft_command_search(char *name)
 int	ft_execute(t_list *redirect, char *pathname, char **args)
 {
 	pid_t	pid;
-	int		status;
 
 	pid = fork();
 	if (pid < 0)
@@ -89,7 +88,6 @@ int	ft_execute(t_list *redirect, char *pathname, char **args)
 int	ft_execute_file(t_list *redirect, char **args)
 {
 	char	*path;
-	pid_t	pid;
 	int		wstatus;
 
 	path = NULL;
@@ -101,7 +99,7 @@ int	ft_execute_file(t_list *redirect, char **args)
 			path = ft_command_search(args[0]);
 	}
 	if (ft_execute(redirect, path, args) < 0)
-		return (0);
+		return (1);
 	waitpid(-1, &wstatus, 0);
 	if (WIFEXITED(wstatus))
 		return (WEXITSTATUS(wstatus));
