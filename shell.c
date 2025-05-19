@@ -63,12 +63,13 @@ unsigned char	ft_shell_noninteractive(void)
 	exit_code = 0;
 	while (1)
 	{
+		ft_signal_noninteractive();
 		str = get_next_line(STDIN_FILENO);
 		if (str == NULL)
 			break ;
+		ft_collector_track(str);
 		exit_code = ft_shell_execute(str);
-		free(str);
+		ft_clear();
 	}
-	get_next_line(-1);
 	return (exit_code);
 }
