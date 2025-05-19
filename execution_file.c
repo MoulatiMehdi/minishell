@@ -83,7 +83,6 @@ int	ft_execute(t_list *redirect, char *pathname, char **args)
 			ft_perror(pathname, strerror(errno));
 		ft_execute_exit(126);
 	}
-	free(pathname);
 	return (pid);
 }
 
