@@ -185,9 +185,8 @@ void	ft_token_expand(t_token *token)
 {
     t_word	*words;
     t_word	*p;
+    char * str;
 
-    if(token->type == TOKEN_REDIRECT_HERE)
-        return ;
     words = ft_word_split(token);
     p = words;
     while (p)
@@ -195,7 +194,15 @@ void	ft_token_expand(t_token *token)
         ft_param_expand(p);
         p = p->next;
     }
-    ft_quotes_join(words);
-    p = words;
-    ft_field_split(&token->fields,words);
+    if(token->type == TOKEN_REDIRECT_HERE)
+    {
+        str = ft_word_join(words);
+        ft_array_push(&token->fields,str);
+        ft_collector_track(str);
+    }
+    else 
+    {
+        ft_quotes_join(words);
+        ft_field_split(&token->fields,words);
+    }
 }
