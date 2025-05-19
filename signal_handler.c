@@ -40,6 +40,7 @@ void	ft_signal_bashignore(void)
 void	ft_signal_int_noninteractive(int signal)
 {
 	(void)signal;
+	write(2, "\n", 1);
 	ft_execute_exit(130);
 }
 
