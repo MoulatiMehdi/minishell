@@ -13,6 +13,7 @@
 #ifndef EXECUTION_H
 # define EXECUTION_H
 
+# include "expansion.h"
 # include "config.h"
 # include "libft.h"
 # include "libft/libft.h"
