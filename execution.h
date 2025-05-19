@@ -14,7 +14,6 @@
 # define EXECUTION_H
 
 # include "config.h"
-# include "expansion.h"
 # include "libft.h"
 # include "libft/libft.h"
 # include "parser.h"

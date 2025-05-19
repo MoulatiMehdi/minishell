@@ -12,6 +12,9 @@
 
 #include "execution.h"
 #include "libft/libft.h"
+#include "parser.h"
+#include "tokenizer.h"
+#include <signal.h>
 
 t_ast			*ft_ast_simplecommand(t_token **token);
 
@@ -26,7 +29,12 @@ unsigned char	ft_shell_execute(char *str)
 	token = tokenize(str);
 	lexer(token);
 	node = ft_ast_simplecommand(&token);
-	exit_code = ft_execute_simplecommand(node);
+	if (*ft_sigint_recieved())
+		exit_code = SIGINT + 128;
+	else if (token == NULL || token->type != TOKEN_EOI | node == NULL)
+		exit_code = 2;
+	else
+		exit_code = ft_execute_simplecommand(node);
 	printf("status : %d\n", exit_code);
 	return (exit_code);
 }
