@@ -79,7 +79,7 @@ void ft_field_split(t_array ** field,t_word * words)
             if(strs)
             {
                 ft_strconcat(&str,strs[0]);
-                free(strs[0]);
+                ft_free(strs[0]);
                 strs[0] = str;
                 len = ft_strlen(word->value);
                 if(ft_strchr(IFS,word->value[len - 1]) == NULL)
@@ -128,8 +128,8 @@ void ft_quotes_join(t_word* head)
             {
                 ft_strconcat((char **)&p->value, p_next->value);
                 p->next = p_next->next;
-                free((char *)p_next->value);
-                free(p_next);
+                ft_free((char *)p_next->value);
+                ft_free(p_next);
                 p_next = p->next;
             }
             if(p_next != NULL)
