@@ -21,9 +21,9 @@ t_ast	*ft_ast_simplecommand(t_token **token);
 
 void	ft_shell_execute(char *str)
 {
-	t_token					*token;
-	t_ast					*node;
-	static unsigned char	exit_code;
+	t_token			*token;
+	t_ast			*node;
+	unsigned char	exit_code;
 
 	if (str == NULL)
 		return ;
@@ -38,8 +38,7 @@ void	ft_shell_execute(char *str)
 		exit_code = 2;
 	else
 		exit_code = ft_execute_simplecommand(node);
-	*ft_status_ptr() = exit_code;
-	printf("status : %d\n", *ft_status_ptr());
+	ft_status_set(exit_code);
 	return ;
 }
 
