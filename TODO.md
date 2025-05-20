@@ -1,24 +1,31 @@
 ## Todo : 
 
 Understanding : 2025-4-14 
-  - [ ] Read the subject
-  - [ ] Read Bash Docs
-  - [ ] Indentify what should be handled
+  - [x] Read the subject
+  - [x] Read Bash Docs
+  - [x] Indentify what should be handled
 
 
 ## To Be handled :
 
-### Mandatory :
-   - [ ] Lexer
-   - [ ] Tokenzier
-   - [ ] Parser
-   - [ ] Executer   
-   - [ ] Field Spliting
-   - [ ] Variable expension
-   - [ ] Quote removal 
-   - [ ] Garbage Collector
-
-### Bonus :   
-   - [ ] Environment Variable Scope `()`
-   - [ ] Abstract Syntax Tree (`||` `&&`)
-   - [ ] Wildcards `*` 
+   - [x] Garbage Collector
+   - [x] Tokenzier
+   - [x] Lexer
+   - [x] Parser
+   - [ ] Executer  :
+     - [ ] pipes
+     - [ ] || and &&
+     - [ ] exit status
+   - [ ] expansion  
+     - [x] Variable expension
+     - [ ] Field Spliting
+     - [ ] pathname expansion `*`
+     - [x] Quote removal 
+   - [ ] environment variables
+     - [ ] getter and setter
+     - [ ] use it in the  execve
+     - [ ] use it in the expansion
+   - [ ] LEAKS  (use garbge collector for all the allocation except the environemnt variable)
+   - [ ]  prompts
+   - [X]  signal
+         
