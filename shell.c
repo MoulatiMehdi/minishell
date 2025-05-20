@@ -44,10 +44,8 @@ void	ft_shell_execute(char *str)
 
 void	ft_shell_interactive(void)
 {
-	char			*str;
-	unsigned char	exit_code;
+	char	*str;
 
-	exit_code = 0;
 	rl_outstream = stderr;
 	while (1)
 	{
@@ -56,6 +54,7 @@ void	ft_shell_interactive(void)
 		if (str == NULL)
 			break ;
 		ft_shell_execute(str);
+		printf("status : %d\n", ft_status_get());
 		if (*str)
 			add_history(str);
 		free(str);
@@ -80,6 +79,7 @@ void	ft_shell_noninteractive(void)
 			break ;
 		ft_collector_track(str);
 		ft_shell_execute(str);
+		printf("status : %d\n", ft_status_get());
 		ft_clear();
 	}
 	return ;
