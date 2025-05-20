@@ -19,12 +19,12 @@ static unsigned char	*ft_status_ptr(void)
 	return (&status);
 }
 
-unsigned int	ft_status_get(void)
+unsigned char	ft_status_get(void)
 {
 	return (*ft_status_ptr());
 }
 
-unsigned int	ft_status_set(unsigned char status)
+unsigned char	ft_status_set(unsigned char status)
 {
 	unsigned char	*status_ptr;
 
