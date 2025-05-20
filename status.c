@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "status.h"
+#include "status.h"
 
 unsigned char	*ft_status_ptr(void)
 {

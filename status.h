@@ -17,6 +17,6 @@
 # include "libft/libft.h"
 
 unsigned char	*ft_status_ptr(void);
-void	ft_status_exit(int status);
+void			ft_status_exit(int status);
 
 #endif
