@@ -14,6 +14,9 @@
 
 # define STATUS_H
 
-unsigned char	*ft_status_get(void);
+# include "libft/libft.h"
+
+unsigned char	*ft_status_ptr(void);
+void	ft_status_exit(int status);
 
 #endif

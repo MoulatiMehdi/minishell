@@ -10,9 +10,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-unsigned char	*ft_status_get(void)
+# include "status.h"
+
+unsigned char	*ft_status_ptr(void)
 {
 	static unsigned char	status;
 
 	return (&status);
+}
+
+void	ft_status_exit(int status)
+{
+	ft_clear();
+	exit(status);
 }
