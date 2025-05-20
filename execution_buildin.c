@@ -21,7 +21,7 @@ int	ft_command_isbuildin(char *str)
 	i = 0;
 	while (buildins[i])
 	{
-		if (strcmp(buildins[i], str) == 0)
+		if (ft_strcmp(buildins[i], str) == 0)
 			return (1);
 		i++;
 	}
@@ -30,6 +30,24 @@ int	ft_command_isbuildin(char *str)
 
 int	ft_execute_buildin(t_list *redirect, char **args)
 {
-	ft_putstr_fd("\033[1;93m======= UNDER DEVOLOPEMENT =======\033[0m\n", 1);
+	size_t	i;
+	int		status;
+	int		fd[2];
+
+	fd[0] = dup(STDIN_FILENO);
+	fd[1] = dup(STDOUT_FILENO);
+	status = ft_redirect(redirect);
+	if (status)
+		return (status);
+	i = 1;
+	while (args[i])
+	{
+		printf("%s\n", args[i]);
+		i++;
+	}
+	dup2(fd[0], STDIN_FILENO);
+	dup2(fd[1], STDOUT_FILENO);
+	close(fd[0]);
+	close(fd[1]);
 	return (0);
 }
