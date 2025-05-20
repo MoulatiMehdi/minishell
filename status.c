@@ -12,11 +12,25 @@
 
 #include "status.h"
 
-unsigned char	*ft_status_ptr(void)
+static unsigned char	*ft_status_ptr(void)
 {
 	static unsigned char	status;
 
 	return (&status);
+}
+
+unsigned int	ft_status_get(void)
+{
+	return (*ft_status_ptr());
+}
+
+unsigned int	ft_status_set(unsigned char status)
+{
+	unsigned char	*status_ptr;
+
+	status_ptr = ft_status_ptr();
+	*status_ptr = status;
+	return (status);
 }
 
 void	ft_status_exit(int status)
