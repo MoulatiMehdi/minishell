@@ -13,22 +13,23 @@
 #include "execution.h"
 #include "libft/libft.h"
 #include "parser.h"
+#include "status.h"
 #include "tokenizer.h"
 #include <signal.h>
 
-t_ast			*ft_ast_simplecommand(t_token **token);
+t_ast	*ft_ast_simplecommand(t_token **token);
 
-unsigned char	ft_shell_execute(char *str)
+void	ft_shell_execute(char *str)
 {
 	t_token					*token;
 	t_ast					*node;
 	static unsigned char	exit_code;
 
 	if (str == NULL)
-		return (0);
+		return ;
 	token = tokenize(str);
 	if (token && token->type == TOKEN_EOI)
-		return (exit_code);
+		return ;
 	lexer(token);
 	node = ft_ast_simplecommand(&token);
 	if (*ft_sigint_recieved())
@@ -37,10 +38,12 @@ unsigned char	ft_shell_execute(char *str)
 		exit_code = 2;
 	else
 		exit_code = ft_execute_simplecommand(node);
-	return (exit_code);
+	*ft_status_ptr() = exit_code;
+	printf("status : %d\n", *ft_status_ptr());
+	return ;
 }
 
-unsigned char	ft_shell_interactive(void)
+void	ft_shell_interactive(void)
 {
 	char			*str;
 	unsigned char	exit_code;
@@ -53,8 +56,7 @@ unsigned char	ft_shell_interactive(void)
 		str = readline(SHELL_PROMPT);
 		if (str == NULL)
 			break ;
-		exit_code = ft_shell_execute(str);
-		printf("status : %d\n", exit_code);
+		ft_shell_execute(str);
 		if (*str)
 			add_history(str);
 		free(str);
@@ -62,10 +64,10 @@ unsigned char	ft_shell_interactive(void)
 	}
 	rl_clear_history();
 	write(2, "exit\n", 5);
-	return (exit_code);
+	return ;
 }
 
-unsigned char	ft_shell_noninteractive(void)
+void	ft_shell_noninteractive(void)
 {
 	char			*str;
 	unsigned char	exit_code;
@@ -78,9 +80,8 @@ unsigned char	ft_shell_noninteractive(void)
 		if (str == NULL)
 			break ;
 		ft_collector_track(str);
-		exit_code = ft_shell_execute(str);
-		printf("status : %d\n", exit_code);
+		ft_shell_execute(str);
 		ft_clear();
 	}
-	return (exit_code);
+	return ;
 }
