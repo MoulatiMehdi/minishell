@@ -38,8 +38,7 @@ void	ft_shell_execute(char *str)
 		exit_code = 2;
 	else
 		exit_code = ft_execute_simplecommand(node);
-	*ft_status_ptr() = exit_code;
-	printf("status : %d\n", *ft_status_ptr());
+	ft_status_set(exit_code);
 	return ;
 }
 
