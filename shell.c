@@ -33,7 +33,10 @@ void	ft_shell_execute(char *str)
 	lexer(token);
 	node = ft_ast_simplecommand(&token);
 	if (*ft_sigint_recieved())
+	{
 		exit_code = SIGINT + 128;
+		*ft_sigint_recieved() = 0;
+	}
 	else if (node == NULL)
 		exit_code = 2;
 	else
