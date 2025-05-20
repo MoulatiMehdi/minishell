@@ -12,6 +12,7 @@
 
 #include "debug.h"
 #include "execution.h"
+#include "status.h"
 
 void	debug(t_ast *node)
 {
@@ -34,8 +35,8 @@ bool	ft_shell_isinteractive(void)
 int	main(void)
 {
 	if (ft_shell_isinteractive())
-		return (ft_shell_interactive());
+		ft_shell_interactive();
 	else
-		return (ft_shell_noninteractive());
-	return (0);
+		ft_shell_noninteractive();
+	return (*ft_status_ptr());
 }
