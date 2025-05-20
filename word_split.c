@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "word.h"
 #include "libft/libft.h"
 #include "tokenizer_init.h"
+#include "word.h"
 
 t_word	*ft_word_split(t_token *token)
 {
@@ -28,11 +28,7 @@ t_word	*ft_word_split(t_token *token)
 		if (ft_char_isquote(token->value[i]))
 			i += 2 + ft_word_quote(&head, token, i);
 		else if (token->value[i] == '*')
-		{
-			ft_word_push(&head, WORD_WILDCARD, &token->value[i], 1);
-			while (token->value[i] == '*' && i < token->length)
-				i++;
-		}
+			i += ft_word_wildcard(&head, token, i);
 		else
 			i += ft_word_none(&head, token, i);
 	}
