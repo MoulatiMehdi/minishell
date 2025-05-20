@@ -41,7 +41,7 @@ void	ft_signal_int_noninteractive(int signal)
 {
 	(void)signal;
 	write(2, "\n", 1);
-	ft_execute_exit(130);
+	ft_status_exit(130);
 }
 
 void	ft_signal_noninteractive(void)

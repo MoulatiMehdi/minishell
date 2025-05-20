@@ -18,6 +18,7 @@
 # include "libft.h"
 # include "libft/libft.h"
 # include "parser.h"
+# include "status.h"
 # include "tokenizer.h"
 # include <errno.h>
 # include <fcntl.h>
@@ -33,28 +34,27 @@
 # include <termios.h>
 # include <unistd.h>
 
-void			ft_signal_bashignore(void);
-void			ft_signal_init(void);
+void	ft_signal_bashignore(void);
+void	ft_signal_init(void);
 
-int				ft_execute_simplecommand(t_ast *ast);
-int				ft_execute_buildin(t_list *redirect, char **args);
-int				ft_execute_file(t_list *redirect, char **args);
+int		ft_execute_simplecommand(t_ast *ast);
+int		ft_execute_buildin(t_list *redirect, char **args);
+int		ft_execute_file(t_list *redirect, char **args);
 
-char			**ft_ast_getargs(t_ast *ast);
-int				ft_command_isbuildin(char *str);
+char	**ft_ast_getargs(t_ast *ast);
+int		ft_command_isbuildin(char *str);
 
-bool			ft_path_isdir(char *pathname);
-bool			ft_path_isfile(char *pathname);
-char			*ft_path_join(char *p1, char *p2);
-char			**ft_path_get(void);
+bool	ft_path_isdir(char *pathname);
+bool	ft_path_isfile(char *pathname);
+char	*ft_path_join(char *p1, char *p2);
+char	**ft_path_get(void);
 
-void			ft_perror(char *name, char *msg);
-void			ft_token_error(t_token *token, char *msg);
+void	ft_perror(char *name, char *msg);
+void	ft_token_error(t_token *token, char *msg);
 
-unsigned char	ft_shell_interactive(void);
-unsigned char	ft_shell_noninteractive(void);
-void			ft_signal_int(int signal);
-int				ft_redirect(t_list *redirect);
-void			ft_heredoc_sigint(int signal);
-void			ft_execute_exit(int status);
+void	ft_shell_interactive(void);
+void	ft_shell_noninteractive(void);
+void	ft_signal_int(int signal);
+int		ft_redirect(t_list *redirect);
+void	ft_heredoc_sigint(int signal);
 #endif

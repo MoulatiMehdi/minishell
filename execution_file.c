@@ -69,18 +69,18 @@ int	ft_execute(t_list *redirect, char *pathname, char **args)
 	{
 		ft_signal_init();
 		if (ft_redirect(redirect))
-			ft_execute_exit(1);
+			ft_status_exit(1);
 		if (!pathname)
 		{
 			ft_perror(args[0], "command not found");
-			ft_execute_exit(127);
+			ft_status_exit(127);
 		}
 		execve(pathname, args, NULL);
 		if (ft_path_isdir(pathname))
 			ft_perror(pathname, strerror(EISDIR));
 		else
 			ft_perror(pathname, strerror(errno));
-		ft_execute_exit(126);
+		ft_status_exit(126);
 	}
 	return (pid);
 }

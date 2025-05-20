@@ -1,19 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execution_exit.c                                   :+:      :+:    :+:   */
+/*   status.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/18 18:49:10 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/05/18 18:49:12 by mmoulati         ###   ########.fr       */
+/*   Created: 2025/05/20 09:23:20 by mmoulati          #+#    #+#             */
+/*   Updated: 2025/05/20 09:23:21 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execution.h"
+#ifndef STATUS_H
 
-void	ft_execute_exit(int status)
-{
-	ft_clear();
-	exit(status);
-}
+# define STATUS_H
+
+# include "libft/libft.h"
+
+unsigned char	*ft_status_ptr(void);
+void			ft_status_exit(int status);
+
+#endif
