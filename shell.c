@@ -21,8 +21,8 @@ t_ast	*ft_ast_simplecommand(t_token **token);
 
 void	ft_shell_execute(char *str)
 {
-	t_token					*token;
-	t_ast					*node;
+	t_token			*token;
+	t_ast			*node;
 	unsigned char	exit_code;
 
 	if (str == NULL)
