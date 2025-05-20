@@ -23,7 +23,7 @@ void	ft_shell_execute(char *str)
 {
 	t_token					*token;
 	t_ast					*node;
-	static unsigned char	exit_code;
+	unsigned char	exit_code;
 
 	if (str == NULL)
 		return ;
