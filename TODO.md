@@ -12,11 +12,15 @@ Understanding : 2025-4-14
    - [x] Tokenzier
    - [x] Lexer
    - [x] Parser
+     - [x] shell grammer
    - [ ] Executer  :
+     - [ ] subshell 
      - [ ] pipes
      - [ ] || and &&
+     - [x] simple command
+     - [ ] builts-in
      - [ ] exit status
-   - [ ] expansion  
+   - [ ] word expansion  
      - [x] Variable expension
      - [ ] Field Spliting
      - [ ] pathname expansion `*`
