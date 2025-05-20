@@ -38,5 +38,5 @@ int	main(void)
 		ft_shell_interactive();
 	else
 		ft_shell_noninteractive();
-	return (*ft_status_ptr());
+	return (ft_status_get());
 }
