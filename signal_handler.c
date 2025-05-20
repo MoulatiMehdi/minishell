@@ -12,6 +12,7 @@
 
 #include "execution.h"
 #include "parser.h"
+#include "status.h"
 
 void	ft_signal_int(int signal)
 {
@@ -20,6 +21,7 @@ void	ft_signal_int(int signal)
 	write(2, "\n", 1);
 	rl_on_new_line();
 	rl_redisplay();
+    ft_status_set(SIGINT + 128);
 }
 
 void	ft_signal_quit(int signal)
@@ -33,6 +35,7 @@ void	ft_signal_quit(int signal)
 
 void	ft_signal_bashignore(void)
 {
+	signal(SIGTSTP, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, ft_signal_int);
 }

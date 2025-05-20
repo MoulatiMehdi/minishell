@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "config.h"
 #include "execution.h"
 #include "libft/libft.h"
 #include "parser.h"
@@ -47,17 +48,18 @@ void	ft_shell_execute(char *str)
 
 void	ft_shell_interactive(void)
 {
+    char prompt[1024];
 	char	*str;
 
 	rl_outstream = stderr;
 	while (1)
 	{
 		ft_signal_bashignore();
-		str = readline(SHELL_PROMPT);
+        sprintf(prompt,"[%d] %s",ft_status_get(),SHELL_PROMPT); 
+        str = readline(prompt);
 		if (str == NULL)
 			break ;
 		ft_shell_execute(str);
-		printf("status : %d\n", ft_status_get());
 		if (*str)
 			add_history(str);
 		free(str);
@@ -82,7 +84,6 @@ void	ft_shell_noninteractive(void)
 			break ;
 		ft_collector_track(str);
 		ft_shell_execute(str);
-		printf("status : %d\n", ft_status_get());
 		ft_clear();
 	}
 	return ;
