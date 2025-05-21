@@ -48,24 +48,28 @@ void	ft_shell_execute(char *str)
 
 void	ft_shell_interactive(void)
 {
-	char	*str;
+	char			*str;
+	unsigned char	status;
 
 	rl_outstream = stderr;
 	while (1)
 	{
-		ft_signal_bashignore();
+		ft_signal_parent();
 		str = readline(SHELL_PROMPT);
 		if (str == NULL)
 			break ;
-		signal(SIGINT, ft_sigint_newline);
+		signal(SIGINT, SIG_IGN);
 		ft_shell_execute(str);
+		status = ft_status_get() - 128;
+		if (status == SIGINT || status == SIGQUIT)
+			write(2, "\n", 1);
 		if (*str)
 			add_history(str);
 		free(str);
 		ft_clear();
 	}
 	rl_clear_history();
-	write(2, "exit\n", 5);
+	write(2, "\nexit\n", 6);
 	return ;
 }
 
@@ -77,7 +81,7 @@ void	ft_shell_noninteractive(void)
 	exit_code = 0;
 	while (1)
 	{
-		ft_signal_noninteractive();
+		signal(SIGINT, SIG_DFL);
 		str = readline(NULL);
 		if (str == NULL)
 			break ;

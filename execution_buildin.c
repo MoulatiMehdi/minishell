@@ -16,7 +16,7 @@ int	ft_command_isbuildin(char *str)
 {
 	size_t		i;
 	static char	*buildins[] = {"echo", "env", "pwd", "unset", "export", "cd",
-		"exit", NULL};
+			"exit", NULL};
 
 	i = 0;
 	while (buildins[i])

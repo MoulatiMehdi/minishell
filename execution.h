@@ -34,9 +34,6 @@
 # include <termios.h>
 # include <unistd.h>
 
-void	ft_signal_bashignore(void);
-void	ft_signal_init(void);
-
 int		ft_execute_simplecommand(t_ast *ast);
 int		ft_execute_buildin(t_list *redirect, char **args);
 int		ft_execute_file(t_list *redirect, char **args);
@@ -54,9 +51,10 @@ void	ft_token_error(t_token *token, char *msg);
 
 void	ft_shell_interactive(void);
 void	ft_shell_noninteractive(void);
-void	ft_signal_int_noninteractive(int signal);
-void	ft_sigint_newline(int signal);
-void	ft_signal_int(int signal);
 int		ft_redirect(t_list *redirect);
 void	ft_heredoc_sigint(int signal);
+
+void	ft_signal_int(int signal);
+void	ft_signal_child(void);
+void	ft_signal_parent(void);
 #endif
