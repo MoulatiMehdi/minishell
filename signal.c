@@ -18,8 +18,8 @@ void	ft_signal_init(void)
 	size_t		i;
 	size_t		size;
 	static int	sigs[] = {SIGHUP, SIGILL, SIGTRAP, SIGABRT, SIGFPE, SIGBUS,
-		SIGSEGV, SIGSYS, SIGPIPE, SIGALRM, SIGXCPU, SIGXFSZ, SIGVTALRM,
-		SIGUSR1, SIGUSR2, SIGINT, SIGQUIT, SIGTERM};
+			SIGSEGV, SIGSYS, SIGPIPE, SIGALRM, SIGXCPU, SIGXFSZ, SIGVTALRM,
+			SIGUSR1, SIGUSR2, SIGINT, SIGQUIT, SIGTERM};
 
 	i = 0;
 	size = sizeof(sigs) / sizeof(sigs[0]);
@@ -28,8 +28,6 @@ void	ft_signal_init(void)
 		signal(sigs[i], SIG_DFL);
 		i++;
 	}
-	signal(SIGQUIT, ft_signal_quit);
-	signal(SIGTSTP, SIG_IGN);
 }
 
 volatile sig_atomic_t	*ft_sigint_recieved(void)

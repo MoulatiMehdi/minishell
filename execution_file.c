@@ -14,6 +14,7 @@
 #include "execution.h"
 #include "libft/libft.h"
 #include "parser.h"
+#include <signal.h>
 #include <string.h>
 #include <sys/wait.h>
 #include <unistd.h>

@@ -11,17 +11,17 @@
 /* ************************************************************************** */
 
 #include "execution.h"
+#include "libft/libft.h"
 #include "parser.h"
 #include "status.h"
 
 void	ft_signal_int(int signal)
 {
-	(void)signal;
 	rl_replace_line("", 0);
-	write(2, "\n", 1);
+	ft_putstr_fd("\n", 2);
 	rl_on_new_line();
 	rl_redisplay();
-	ft_status_set(SIGINT + 128);
+	ft_status_set(128 + signal);
 }
 
 void	ft_signal_quit(int signal)
@@ -35,6 +35,7 @@ void	ft_signal_quit(int signal)
 
 void	ft_signal_bashignore(void)
 {
+	signal(SIGTERM, SIG_IGN);
 	signal(SIGTSTP, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, ft_signal_int);
@@ -43,8 +44,15 @@ void	ft_signal_bashignore(void)
 void	ft_signal_int_noninteractive(int signal)
 {
 	(void)signal;
-	write(2, "\n", 1);
-	ft_status_exit(130);
+	ft_putstr_fd("\n", 2);
+	ft_status_exit(128 + signal);
+}
+
+void	ft_sigint_newline(int signal)
+{
+	(void)signal;
+	ft_putstr_fd("\n", 2);
+	ft_status_set(128 + signal);
 }
 
 void	ft_signal_noninteractive(void)

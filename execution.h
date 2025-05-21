@@ -14,6 +14,7 @@
 # define EXECUTION_H
 
 # include "config.h"
+# include "expansion.h"
 # include "libft.h"
 # include "libft/libft.h"
 # include "parser.h"
@@ -53,6 +54,8 @@ void	ft_token_error(t_token *token, char *msg);
 
 void	ft_shell_interactive(void);
 void	ft_shell_noninteractive(void);
+void	ft_signal_int_noninteractive(int signal);
+void	ft_sigint_newline(int signal);
 void	ft_signal_int(int signal);
 int		ft_redirect(t_list *redirect);
 void	ft_heredoc_sigint(int signal);
