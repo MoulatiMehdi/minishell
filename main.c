@@ -20,7 +20,6 @@
 int main(void)
 {
 	t_token *token;
-	t_token *token_cpy;
 	t_ast *node;
 	char *str;
 

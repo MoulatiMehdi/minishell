@@ -11,17 +11,17 @@
 /* ************************************************************************** */
 
 #ifndef EXPANSION_H
-#define EXPANSION_H
+# define EXPANSION_H
 
-#include "parser.h"
-#include "tokenizer.h"
-#include "libft/libft.h"
-#include <dirent.h>
-#include <errno.h>
-#include <sys/stat.h>
+# include "libft/libft.h"
+# include "parser.h"
+# include "tokenizer.h"
+# include <dirent.h>
+# include <errno.h>
+# include <sys/stat.h>
 
-#define IFS "\n\t "
+# define IFS "\n\t "
 
-void expand_token(t_token *token);
+void	expand_token(t_token *token);
 
 #endif

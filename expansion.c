@@ -10,10 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./expansion.h"
+#include "expansion.h"
 #include "libft/libft.h"
 #include "tokenizer_init.h"
 #include "word.h"
+#include <stdio.h>
 
 extern char **environ;
 
@@ -315,14 +316,20 @@ void ft_word_print(t_word * word,char * label)
 
 }
 
+void print(void * str)
+{
+    printf("%s\n",(char *)str);
+}
+
 void expand_token(t_token *token)
 {
 	t_word *token_words;
 	t_word *tmp;
     t_list * p;
+
 	token_words = ft_word_split(token);
 	ft_word_print(token_words, "WORDS SPLITTING");
-    if (!token_words)
+	if (!token_words)
 		return;
 	tmp = token_words;
 	while (tmp)
@@ -340,7 +347,7 @@ void expand_token(t_token *token)
         p = token->fields->head;
         while (p)
         {
-            printf("- %s\n", (char *)p->content);
+            ft_lstiter(p->content, print);
             p = p->next;
         }
 
