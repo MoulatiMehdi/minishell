@@ -48,17 +48,16 @@ void	ft_shell_execute(char *str)
 
 void	ft_shell_interactive(void)
 {
-	char	prompt[1024];
 	char	*str;
 
 	rl_outstream = stderr;
 	while (1)
 	{
 		ft_signal_bashignore();
-		sprintf(prompt, "[%d] %s", ft_status_get(), SHELL_PROMPT);
-		str = readline(prompt);
+		str = readline(SHELL_PROMPT);
 		if (str == NULL)
 			break ;
+		signal(SIGINT, ft_sigint_newline);
 		ft_shell_execute(str);
 		if (*str)
 			add_history(str);
@@ -79,7 +78,7 @@ void	ft_shell_noninteractive(void)
 	while (1)
 	{
 		ft_signal_noninteractive();
-		str = readline("");
+		str = readline(NULL);
 		if (str == NULL)
 			break ;
 		ft_collector_track(str);
