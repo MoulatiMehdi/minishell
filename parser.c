@@ -14,16 +14,7 @@
 #include "parser.h"
 #include "tokenizer.h"
 
-t_ast_type	ft_ast_fromtoken(t_token_type type)
-{
-	if (type == TOKEN_OR)
-		return (AST_OR);
-	if (type == TOKEN_AND)
-		return (AST_AND);
-	if (type == TOKEN_PIPE)
-		return (AST_PIPE);
-	return (AST_UNKNOWN);
-}
+t_ast_type	ft_ast_fromtoken(t_token_type type);
 
 t_ast	*ft_ast_simplecommand(t_token **token)
 {
@@ -37,19 +28,18 @@ t_ast	*ft_ast_simplecommand(t_token **token)
 	{
 		token_type = (*token)->type;
 		if (token_type == TOKEN_WORD)
-			ft_lstadd_back(&node->args, ft_lstnew(*token));
+			ft_list_token_push(&node->args, *token);
 		else if (ft_token_isredirect(token_type))
 		{
-			if ((*token)->value == NULL)
-				return (ft_ast_free(node));
-			ft_lstadd_back(&node->redirect, ft_lstnew(*token));
+			if (!ft_ast_redirect(token, node))
+				return (NULL);
 		}
 		else
 			break ;
 		*token = (*token)->next;
 	}
 	if (node->redirect == NULL && node->args == NULL)
-		return (ft_ast_free(node));
+		return (NULL);
 	return (node);
 }
 
@@ -62,7 +52,7 @@ t_ast	*ft_ast_subshell(t_token **token)
 	*token = (*token)->next;
 	child_node = ft_ast_andor(token);
 	if (!child_node || (*token)->type != TOKEN_PARENS_CLOSE)
-		return (ft_ast_free(child_node));
+		return (NULL);
 	*token = (*token)->next;
 	child_node->type = AST_SUBSHELL;
 	return (child_node);
@@ -82,9 +72,8 @@ t_ast	*ft_ast_command(t_token **token)
 		return (NULL);
 	while (*token && ft_token_isredirect((*token)->type))
 	{
-		if ((*token)->value == NULL)
-			return (ft_ast_free(node));
-		ft_lstadd_back(&node->redirect, ft_lstnew(*token));
+		if (!ft_ast_redirect(token, node))
+			return (NULL);
 		*token = (*token)->next;
 	}
 	return (node);
@@ -95,16 +84,12 @@ t_ast	*ft_ast_pipeline(t_token **token)
 	t_token_type	token_type;
 	t_ast			*node_parent;
 	t_ast			*node_child;
-	t_list			*lst;
 
-	if (*token == NULL)
-		return (NULL);
 	node_child = ft_ast_command(token);
-	if (node_child == NULL)
-		return (NULL);
-	lst = ft_lstnew(node_child);
+	if (node_child == NULL || (*token)->type != TOKEN_PIPE)
+		return (node_child);
 	node_parent = ft_ast_new(AST_PIPELINE);
-	ft_lstadd_back(&node_parent->children, lst);
+	ft_ast_push(node_parent, node_child);
 	while (1)
 	{
 		token_type = (*token)->type;
@@ -113,9 +98,8 @@ t_ast	*ft_ast_pipeline(t_token **token)
 			*token = (*token)->next;
 			node_child = ft_ast_command(token);
 			if (node_child == NULL)
-				return (ft_ast_free(node_parent));
-			lst = ft_lstnew(node_child);
-			ft_lstadd_back(&node_parent->children, lst);
+				return (NULL);
+			ft_ast_push(node_parent, node_child);
 		}
 		else
 			break ;
@@ -128,74 +112,26 @@ t_ast	*ft_ast_andor(t_token **token)
 	t_token_type	token_type;
 	t_ast			*node_child;
 	t_ast			*node_parent;
-	t_list			*lst;
 
-	if (*token == NULL)
-		return (NULL);
 	node_child = ft_ast_pipeline(token);
 	if (node_child == NULL)
 		return (NULL);
-	lst = ft_lstnew(node_child);
 	node_parent = ft_ast_new(AST_AND_OR);
-	ft_lstadd_back(&node_parent->children, lst);
+	ft_ast_push(node_parent, node_child);
 	while (1)
 	{
 		token_type = (*token)->type;
 		if (token_type == TOKEN_OR || token_type == TOKEN_AND)
 		{
-			ft_lstadd_back(&node_parent->children, ft_lstnew(ft_ast_new(ft_ast_fromtoken(token_type))));
+			ft_ast_push(node_parent, ft_ast_new(ft_ast_fromtoken(token_type)));
 			*token = (*token)->next;
 			node_child = ft_ast_pipeline(token);
 			if (node_child == NULL)
-				return (ft_ast_free(node_parent));
-			ft_lstadd_back(&node_parent->children, ft_lstnew(node_child));
+				return (NULL);
+			ft_ast_push(node_parent, node_child);
 		}
 		else
 			break ;
 	}
 	return (node_parent);
-}
-
-char	*ft_token_tostr(t_token_type type)
-{
-	static char *str[20] = {
-		"W",
-		"||",
-		"&&",
-		"|",
-		"(",
-		")",
-		"<",
-		">",
-		">>",
-		"<<",
-		"newline",
-	};
-	return (str[type]);
-}
-
-t_ast	*parser(t_token *token)
-{
-	t_ast	*node;
-	char	*str;
-
-	if (token == NULL)
-		return (NULL);
-	node = ft_ast_andor(&token);
-	if (token == NULL || token->type != TOKEN_EOI)
-		node = ft_ast_free(node);
-	if (node == NULL)
-	{
-        if(token->type == TOKEN_EOI || token->next == NULL)
-            str =  "newline";
-        else
-		    str = ft_token_tostr(token->next->type);
-		write(2, "minishell : syntax error near unexpected token `", 48);
-		if (token->type == TOKEN_WORD)
-			write(2, token->value, token->length);
-		else
-			write(2, str, ft_strlen(str));
-		write(2, "`\n", 2);
-	}
-	return (node);
 }
