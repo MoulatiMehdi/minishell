@@ -13,6 +13,7 @@
 #include "parser.h"
 #include <fcntl.h>
 #include <readline/readline.h>
+#include <signal.h>
 #include <stdio.h>
 #include <unistd.h>
 
@@ -34,11 +35,14 @@ int	ft_getc(FILE *stream)
 	return (c);
 }
 
-void	ft_heredoc_eoferror(t_token *token)
+int	ft_heredoc_eoferror(char *line, t_token *token)
 {
+	if (line)
+		return (0);
 	ft_putstr_fd(ERR_HERE_PRE, 2);
 	write(2, token->value, token->length);
 	ft_putstr_fd(ERR_HERE_SUF, 2);
+	return (1);
 }
 
 char	*ft_heredoc(t_token *token, char *delimiter)
@@ -49,14 +53,14 @@ char	*ft_heredoc(t_token *token, char *delimiter)
 	*ft_sigint_recieved() = 0;
 	rl_getc_function = ft_getc;
 	txt = NULL;
+	signal(SIGINT, ft_heredoc_sigint);
 	while (1)
 	{
 		line = readline("> ");
-		if (!line)
-		{
-			ft_heredoc_eoferror(token);
+		if (*ft_sigint_recieved())
 			break ;
-		}
+		if (ft_heredoc_eoferror(line, token))
+			break ;
 		if (*ft_sigint_recieved() || ft_strcmp(line, delimiter) == 0)
 			break ;
 		ft_strconcat(&txt, line);
@@ -66,6 +70,7 @@ char	*ft_heredoc(t_token *token, char *delimiter)
 	free(line);
 	ft_collector_track(txt);
 	rl_getc_function = rl_getc;
+	signal(SIGINT, ft_signal_int);
 	return (txt);
 }
 
@@ -93,11 +98,16 @@ int	ft_heredoc_tempfile(char *str)
 	int		fd[2];
 	char	name[100];
 
-	ft_heredoc_generatename(name);
-	fd[1] = open(name, O_RDWR | O_CREAT | O_EXCL, 0600);
-	ft_putstr_fd(str, fd[1]);
-	fd[0] = open(name, O_RDONLY);
-	close(fd[1]);
-	unlink(name);
+	if (str)
+	{
+		ft_heredoc_generatename(name);
+		fd[1] = open(name, O_RDWR | O_CREAT | O_EXCL, 0600);
+		ft_putstr_fd(str, fd[1]);
+		fd[0] = open(name, O_RDONLY);
+		close(fd[1]);
+		unlink(name);
+	}
+	else
+		fd[0] = open("/dev/null", O_RDONLY);
 	return (fd[0]);
 }
