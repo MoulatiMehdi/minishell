@@ -98,11 +98,16 @@ int	ft_heredoc_tempfile(char *str)
 	int		fd[2];
 	char	name[100];
 
-	ft_heredoc_generatename(name);
-	fd[1] = open(name, O_RDWR | O_CREAT | O_EXCL, 0600);
-	ft_putstr_fd(str, fd[1]);
-	fd[0] = open(name, O_RDONLY);
-	close(fd[1]);
-	unlink(name);
+	if (str)
+	{
+		ft_heredoc_generatename(name);
+		fd[1] = open(name, O_RDWR | O_CREAT | O_EXCL, 0600);
+		ft_putstr_fd(str, fd[1]);
+		fd[0] = open(name, O_RDONLY);
+		close(fd[1]);
+		unlink(name);
+	}
+	else
+		fd[0] = open("/dev/null", O_RDONLY);
 	return (fd[0]);
 }

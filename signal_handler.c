@@ -21,7 +21,7 @@ void	ft_signal_int(int signal)
 	write(2, "\n", 1);
 	rl_on_new_line();
 	rl_redisplay();
-    ft_status_set(SIGINT + 128);
+	ft_status_set(SIGINT + 128);
 }
 
 void	ft_signal_quit(int signal)

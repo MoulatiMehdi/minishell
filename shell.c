@@ -48,15 +48,15 @@ void	ft_shell_execute(char *str)
 
 void	ft_shell_interactive(void)
 {
-    char prompt[1024];
+	char	prompt[1024];
 	char	*str;
 
 	rl_outstream = stderr;
 	while (1)
 	{
 		ft_signal_bashignore();
-        sprintf(prompt,"[%d] %s",ft_status_get(),SHELL_PROMPT); 
-        str = readline(prompt);
+		sprintf(prompt, "[%d] %s", ft_status_get(), SHELL_PROMPT);
+		str = readline(prompt);
 		if (str == NULL)
 			break ;
 		ft_shell_execute(str);
