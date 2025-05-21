@@ -120,4 +120,5 @@ int					ft_clear(void);
 void				ft_free(void *addr);
 void				*ft_malloc(size_t size);
 int					ft_strcmp(char *s1, char *s2);
+void				*ft_collector_track(void *addr);
 #endif

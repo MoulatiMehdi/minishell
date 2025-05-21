@@ -19,17 +19,13 @@ static t_list	**ft_collecter_get(void)
 	return (&g_head);
 }
 
-void	*ft_malloc(size_t size)
+void	*ft_collector_track(void *addr)
 {
-	void	*addr;
 	t_list	*node;
 	t_list	**header;
 
-	header = ft_collecter_get();
-	addr = malloc(size);
-	if (addr == NULL)
-		return (NULL);
 	node = ft_lstnew(addr);
+	header = ft_collecter_get();
 	if (node == NULL)
 	{
 		free(addr);
@@ -39,6 +35,16 @@ void	*ft_malloc(size_t size)
 		node->next = *header;
 	*header = node;
 	return (addr);
+}
+
+void	*ft_malloc(size_t size)
+{
+	void	*addr;
+
+	addr = malloc(size);
+	if (addr == NULL)
+		return (NULL);
+	return (ft_collector_track(addr));
 }
 
 void	ft_free(void *addr)
