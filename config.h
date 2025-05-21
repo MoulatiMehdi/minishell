@@ -1,27 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expansion.h                                        :+:      :+:    :+:   */
+/*   config.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/25 16:31:18 by okhourss          #+#    #+#             */
-/*   Updated: 2025/05/17 18:16:07 by okhourss         ###   ########.fr       */
+/*   Created: 2025/05/16 18:37:02 by mmoulati          #+#    #+#             */
+/*   Updated: 2025/05/16 18:37:03 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXPANSION_H
-# define EXPANSION_H
+#ifndef CONFIG_H
+# define CONFIG_H
 
-# include "libft/libft.h"
-# include "parser.h"
-# include "tokenizer.h"
-# include <dirent.h>
-# include <errno.h>
-# include <sys/stat.h>
+# define SHELL_PROMPT "\001\033[1;91m\002minishell$\001\033[0m\002 "
+# define SHELL_NAME "minishell"
 
-# define IFS "\n\t "
-
-void	expand_token(t_token *token);
-
-#endif
+#endif // !CONFIG_H

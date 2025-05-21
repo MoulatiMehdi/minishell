@@ -1,27 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expansion.h                                        :+:      :+:    :+:   */
+/*   status.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/25 16:31:18 by okhourss          #+#    #+#             */
-/*   Updated: 2025/05/17 18:16:07 by okhourss         ###   ########.fr       */
+/*   Created: 2025/05/20 09:23:20 by mmoulati          #+#    #+#             */
+/*   Updated: 2025/05/20 09:23:21 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXPANSION_H
-# define EXPANSION_H
+#ifndef STATUS_H
+
+# define STATUS_H
 
 # include "libft/libft.h"
-# include "parser.h"
-# include "tokenizer.h"
-# include <dirent.h>
-# include <errno.h>
-# include <sys/stat.h>
 
-# define IFS "\n\t "
-
-void	expand_token(t_token *token);
+void			ft_status_exit(int status);
+unsigned char	ft_status_set(unsigned char status);
+unsigned char	ft_status_get(void);
 
 #endif

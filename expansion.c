@@ -10,10 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./expansion.h"
+#include "expansion.h"
 #include "libft/libft.h"
 #include "tokenizer_init.h"
-#include "expand.h"
+#include "word.h"
 
 extern char **environ;
 
@@ -309,7 +309,7 @@ void expand_token(t_token *token)
 	t_word *token_words;
 	t_word *tmp;
 
-	token_words = ft_expand_split(token);
+	token_words = ft_word_split(token);
 	if (!token_words)
 		return;
 	tmp = token_words;
