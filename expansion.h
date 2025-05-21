@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 16:31:18 by okhourss          #+#    #+#             */
-/*   Updated: 2025/05/08 11:41:36 by okhourss         ###   ########.fr       */
+/*   Updated: 2025/05/17 18:16:07 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,12 @@
 #include "parser.h"
 #include "tokenizer.h"
 #include "libft/libft.h"
+#include <dirent.h>
+#include <errno.h>
+#include <sys/stat.h>
 
 #define IFS "\n\t "
 
-void expand_ast(t_ast *node, int last_status);
 void expand_token(t_token *token);
 
 #endif

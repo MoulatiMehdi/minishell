@@ -1,20 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
+/*   config.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/10 13:17:06 by mmoulati          #+#    #+#             */
-/*   Updated: 2024/11/10 13:18:17 by mmoulati         ###   ########.fr       */
+/*   Created: 2025/05/16 18:37:02 by mmoulati          #+#    #+#             */
+/*   Updated: 2025/05/16 18:37:03 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef CONFIG_H
+# define CONFIG_H
 
-int	ft_putchar_fd(char c, int fd)
-{
-	if (fd < 0)
-		return (0);
-	return (write(fd, &c, 1));
-}
+# define SHELL_PROMPT "\001\033[1;91m\002minishell$\001\033[0m\002 "
+# define SHELL_NAME "minishell"
+
+#endif // !CONFIG_H

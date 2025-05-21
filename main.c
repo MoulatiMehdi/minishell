@@ -10,6 +10,7 @@
 /* ************************************************************************** */
 
 # include "debug.h"
+#include "libft/libft.h"
 #include "parser.h"
 #include "tokenizer.h"
 #include "expansion.h"
@@ -36,11 +37,8 @@ int main(void)
 			free(str);
 			continue;
 		}
-
 		lexer(token);
-		// print_token_list(token);
-		token_cpy = token;
-		node = ft_ast_andor(&token_cpy);
+		node = parser(token);
 
 		if (!node)
 		{
@@ -48,13 +46,16 @@ int main(void)
 			free(str);
 			continue;
 		}
-
-		expand_ast(node, 0);
-		// ft_ast_print(node,0);
-		// expand_ast(node, 0);
-		ft_ast_free(node);
+    
+        while(token)
+        {
+            expand_token(token);
+            token = token->next;
+        }
+		ft_ast_print(node,0);
 		free(str);
-	}
+	    ft_clear();
+    }
 	return (0);
 }
 

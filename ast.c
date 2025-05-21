@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft/libft.h"
 #include "parser.h"
 #include "tokenizer.h"
 
@@ -27,41 +28,30 @@ t_ast	*ft_ast_new(t_ast_type ast_type)
 	return (node);
 }
 
-void	*ft_token_dup(t_token *token)
+t_list	*ft_ast_push(t_ast *parent, t_ast *child)
 {
-	t_token	*token_cp;
+	t_list	*lst;
 
-	if (token == NULL)
+	if (parent == NULL)
 		return (NULL);
-	token_cp = ft_malloc(sizeof(t_token));
-	if (token_cp == NULL)
+	lst = ft_lstnew(child);
+	ft_collector_track(lst);
+	if (lst == NULL)
 		return (NULL);
-	token_cp->next = NULL;
-	token_cp->length = token->length;
-	token_cp->type = token->type;
-	token_cp->value = token->value;
-	return (token_cp);
+	ft_lstadd_back(&parent->children, lst);
+	return (lst);
 }
 
-void	ft_lstnode_clear(t_list *head)
+t_list	*ft_list_token_push(t_list **head, t_token *token)
 {
-	t_list	*curr;
+	t_list	*lst;
 
-	while (head)
-	{
-		curr = head->next;
-		free(head);
-		head = curr;
-	}
-}
-
-t_ast	*ft_ast_free(t_ast *head)
-{
 	if (head == NULL)
 		return (NULL);
-	ft_lstnode_clear(head->args);
-	ft_lstnode_clear(head->children);
-	ft_lstnode_clear(head->redirect);
-	ft_free(head);
-	return (NULL);
+	lst = ft_lstnew(token);
+	if (lst == NULL)
+		return (NULL);
+	ft_collector_track(lst);
+	ft_lstadd_back(head, lst);
+	return (lst);
 }

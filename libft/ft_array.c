@@ -16,7 +16,7 @@ t_array	*ft_array_new(void)
 {
 	t_array	*array;
 
-	array = malloc(sizeof(t_array));
+	array = ft_malloc(sizeof(t_array));
 	if (array == NULL)
 		return (NULL);
 	array->head = NULL;
@@ -32,6 +32,7 @@ void	*ft_array_push(t_array **array, void *content)
 	if (array == NULL || content == NULL)
 		return (NULL);
 	node = ft_lstnew(content);
+	ft_collector_track(node);
 	if (node == NULL)
 		return (NULL);
 	if (*array == NULL)
