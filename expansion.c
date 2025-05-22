@@ -15,6 +15,7 @@
 #include "tokenizer_init.h"
 #include "word.h"
 #include <stdio.h>
+#include <unistd.h>
 
 extern char **environ;
 
@@ -310,46 +311,55 @@ void ft_word_print(t_word * word,char * label)
     printf("\n*************************\n%s\n",label);
 	while (word)
 	{
-		printf("- %s\n",word->value);
+        write(1,"- ", 2);
+		write(1,word->value,word->length);
+        write(1,"\n", 1);
         word = word->next;
 	}
 
 }
 
-void print(void * str)
+void print(void * p)
 {
-    printf("%s\n",(char *)str);
+    t_list * lst;
+    t_word * word;
+    
+    lst = p;
+    while (lst)
+    {
+        word = lst->content;
+        printf("- %s -> ",word->value);
+        lst = lst->next;
+    }
+    printf("(NULL)\n");
 }
 
 void expand_token(t_token *token)
 {
-	t_word *token_words;
+	t_word *words;
 	t_word *tmp;
     t_list * p;
 
-	token_words = ft_word_split(token);
-	ft_word_print(token_words, "WORDS SPLITTING");
-	if (!token_words)
+	words = ft_word_split(token);
+	ft_word_print(words, "WORDS SPLITTING");
+	if (!words)
 		return;
-	tmp = token_words;
+	tmp = words;
 	while (tmp)
 	{
 		expand_param(tmp);
         tmp = tmp->next;
 	}
-	ft_word_print(token_words, "EXPANSION VARAIBLE");
-	join_quotes(token_words);
-	ft_word_print(token_words, "QUOTE JOINNIG");
-	field_splitting(token, token_words);
+	ft_word_print(words, "EXPANSION VARAIBLE");
+	join_quotes(words);
+	ft_word_print(words, "QUOTE JOINNIG");
+	field_splitting(token, words);
     printf("\n*************************\nFIELD SPLITTING\n");
     if(token->fields)
     {
         p = token->fields->head;
-        while (p)
-        {
-            ft_lstiter(p->content, print);
-            p = p->next;
-        }
+        ft_lstiter(p, print);
+        p = p->next;
 
     }
 }
