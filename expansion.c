@@ -15,6 +15,7 @@
 #include "tokenizer_init.h"
 #include "word.h"
 
+<<<<<<< Updated upstream
 extern char **environ;
 
 int is_valid_var_name(char c)
@@ -302,6 +303,34 @@ void pathname_expansion(t_token *token)
 		}
 		field_node = field_node->next;
 	}
+=======
+void ft_word_print(t_word * word,char * label)
+{
+    printf("\n*************************\n%s\n",label);
+	while (word)
+	{
+        write(1,"- ", 2);
+		write(1,word->value,word->length);
+        write(1,"\n", 1);
+        word = word->next;
+	}
+
+}
+
+void print(void * p)
+{
+    t_list * lst;
+    t_word * word;
+    
+    lst = p;
+    while (lst)
+    {
+        word = lst->content;
+        printf("- %s -> ",word->value);
+        lst = lst->next;
+    }
+    printf("(NULL)\n");
+>>>>>>> Stashed changes
 }
 
 void expand_token(t_token *token)
