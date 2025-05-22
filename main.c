@@ -16,6 +16,7 @@
 #include "expansion.h"
 #include <stdio.h>
 #include <readline/readline.h>
+#include <readline/history.h>
 
 int main(void)
 {
@@ -29,7 +30,8 @@ int main(void)
 		str = readline("\033[32mMinishell\033[0m\033[31m>\033[0m ");
 		if (str == NULL)
 			break;
-
+        if(*str)
+            add_history(str);
 		token = tokenize(str);
 		if (!token)
 		{
@@ -55,6 +57,7 @@ int main(void)
 		free(str);
 	    ft_clear();
     }
+    clear_history();
 	return (0);
 }
 
