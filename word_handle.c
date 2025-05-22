@@ -27,7 +27,7 @@ static size_t	ft_quotelen(const char *str, char c)
 static int	ft_word_isquote(t_token *token, size_t index)
 {
 	return (index < token->length && token->value[index]
-		&& !ft_char_isquote(token->value[index]) && token->value[index] != '*');
+		&& !ft_char_isquote(token->value[index]));
 }
 
 size_t	ft_word_none(t_word **head, t_token *token, size_t i)

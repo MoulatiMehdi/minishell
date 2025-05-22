@@ -27,8 +27,6 @@ t_word	*ft_word_split(t_token *token)
 	{
 		if (ft_char_isquote(token->value[i]))
 			i += 2 + ft_word_quote(&head, token, i);
-		else if (token->value[i] == '*')
-			i += ft_word_wildcard(&head, token, i);
 		else
 			i += ft_word_none(&head, token, i);
 	}
