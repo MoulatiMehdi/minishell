@@ -2,7 +2,7 @@ CC = cc
 AR = ar
 RM = rm
 
-CCFLAGS = -Wall -Wextra   -g -fsanitize=address -f-no-pointer-addres
+CCFLAGS = -Wall -Wextra   -g -fsanitize=address 
 ARFLAGS = crs
 RMFLAGS = -rf
 

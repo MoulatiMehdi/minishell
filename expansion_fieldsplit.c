@@ -1,4 +1,5 @@
 # include "expansion.h"
+#include "word.h"
 
 int is_ifs(char c)
 {
@@ -44,21 +45,16 @@ static t_word *clone_word(t_word *src, const char *value, size_t len)
     return dst;
 }
 
-void field_splitting(t_token *token, t_word *word)
+t_array* field_splitting(t_token *token, t_word *word)
 {
     t_array *fields = NULL;
-    t_list  *curr   = NULL;
+    t_word  *curr   = NULL;
     t_word  *w      = word;
 
     while (w)
     {
-        if (w->type == WORD_QUOTE_SINGLE
-         || w->type == WORD_QUOTE_DOUBLE
-         || w->type == WORD_WILDCARD)
-        {
-            t_word *fw = clone_word(w, w->value, w->length);
-            ft_lstadd_back(&curr, ft_lstnew(fw));
-        }
+        if (w->type == WORD_QUOTE_SINGLE|| w->type == WORD_QUOTE_DOUBLE)
+            ft_word_push(&curr,w->type,w->value,w->length);
         else
         {
             const char *s = w->value;
@@ -69,10 +65,7 @@ void field_splitting(t_token *token, t_word *word)
                 if (is_ifs(s[i]))
                 {
                     if (i > start)
-                    {
-                        t_word *fw = clone_word(w, s + start, i - start);
-                        ft_lstadd_back(&curr, ft_lstnew(fw));
-                    }
+                        ft_word_push(&curr,w->type,s + start,i - start);
                     if (curr)
                     {
                         ft_array_push(&fields, curr);
@@ -88,15 +81,11 @@ void field_splitting(t_token *token, t_word *word)
                 }
             }
             if (start < len)
-            {
-                t_word *fw = clone_word(w, s + start, len - start);
-                ft_lstadd_back(&curr, ft_lstnew(fw));
-            }
+                ft_word_push(&curr,w->type,s + start,len - start);
         }
         w = w->next;
     }
     if (curr)
         ft_array_push(&fields, curr);
-
-    token->fields = fields;
+    return fields;
 }
