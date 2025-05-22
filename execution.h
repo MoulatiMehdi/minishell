@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 18:37:22 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/05/16 18:37:23 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/05/22 19:42:50 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,14 @@
 # include <termios.h>
 # include <unistd.h>
 
+//	pipeline utils
+//  void collect_cmds(t_ast *ast, t_ast **cmds, int ncmds);
+
 int		ft_execute_simplecommand(t_ast *ast);
+int		ft_execute_pipeline(t_ast *ast);
 int		ft_execute_buildin(t_list *redirect, char **args);
 int		ft_execute_file(t_list *redirect, char **args);
+void	ft_exec_external(t_ast *cmd, char **args);
 
 char	**ft_ast_getargs(t_ast *ast);
 int		ft_command_isbuildin(char *str);

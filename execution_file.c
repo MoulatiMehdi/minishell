@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_file.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 18:37:19 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/05/16 18:37:20 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/05/22 19:42:35 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,4 +109,27 @@ int	ft_execute_file(t_list *redirect, char **args)
 			return (WSTOPSIG(wstatus) + 128);
 	}
 	return (0);
+}
+
+void	ft_exec_external(t_ast *cmd, char **args)
+{
+	char	*path;
+
+	if (ft_redirect(cmd->redirect))
+		ft_status_exit(1);
+	if (ft_strchr(args[0], '/'))
+		path = args[0];
+	else
+		path = ft_command_search(args[0]);
+	if (path == NULL)
+	{
+		ft_perror(args[0], "command not found");
+		ft_status_exit(127);
+	}
+	execve(path, args, NULL);
+	if (ft_path_isdir(path))
+		ft_perror(path, strerror(EISDIR));
+	else
+		ft_perror(path, strerror(errno));
+	ft_status_exit(126);
 }

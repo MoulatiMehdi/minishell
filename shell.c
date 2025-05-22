@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 18:36:09 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/05/16 18:36:10 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/05/22 19:43:03 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	ft_shell_execute(char *str)
 	if (token && token->type == TOKEN_EOI)
 		return ;
 	lexer(token);
-	node = ft_ast_simplecommand(&token);
+	node = ft_ast_pipeline(&token);
 	if (*ft_sigint_recieved())
 	{
 		exit_code = SIGINT + 128;
@@ -41,7 +41,7 @@ void	ft_shell_execute(char *str)
 	else if (node == NULL)
 		exit_code = 2;
 	else
-		exit_code = ft_execute_simplecommand(node);
+		exit_code = ft_execute_pipeline(node);
 	ft_status_set(exit_code);
 	return ;
 }
