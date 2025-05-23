@@ -1,31 +1,31 @@
 #include "expansion.h"
 
-int is_joinable(t_word *word)
+int	is_joinable(t_word *word)
 {
-	size_t i;
+	size_t	i;
 
 	if (!word || word->type == WORD_WILDCARD)
-	// TODO need to go back here for the wildcard char.
+		// TODO need to go back here for the wildcard char.
 		return (0);
 	if (word->type == WORD_QUOTE_DOUBLE || word->type == WORD_QUOTE_SINGLE)
 		return (1);
 	i = 0;
 	while (i < word->length)
 	{
-		if (ft_strchr(IFS"*", word->value[i]))
+		if (ft_strchr(IFS "*", word->value[i]))
 			return (0);
 		i++;
 	}
 	return (1);
 }
 
-
-void join_quotes(t_word *head)
+void	join_quotes(t_word *head)
 {
-	t_word *curr = head;
-	t_word *next;
-	char *joined;
+	t_word	*curr;
+	t_word	*next;
+	char	*joined;
 
+	curr = head;
 	while (curr && curr->next)
 	{
 		next = curr->next;
@@ -33,7 +33,7 @@ void join_quotes(t_word *head)
 		{
 			joined = ft_strjoin(curr->value, next->value);
 			if (!joined)
-				return;
+				return ;
 			curr->value = joined;
 			curr->length = ft_strlen(joined);
 			curr->type = WORD_QUOTE_SINGLE;

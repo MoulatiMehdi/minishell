@@ -17,42 +17,41 @@
 #include <stdio.h>
 #include <unistd.h>
 
-void ft_word_print(t_word * word,char * label)
+void	ft_word_print(t_word *word, char *label)
 {
-    printf("\n*************************\n%s\n",label);
+	printf("\n*************************\n%s\n", label);
 	while (word)
 	{
-        write(1,"- ", 2);
-		write(1,word->value,word->length);
-        write(1,"\n", 1);
-        word = word->next;
+		write(1, "- ", 2);
+		write(1, word->value, word->length);
+		write(1, "\n", 1);
+		word = word->next;
 	}
-
 }
 
-void print(void * p)
+void	print(void *p)
 {
-    t_word * word;
-    
-    word = p;
-    while (word)
-    {
-        printf("\033[31m{\033[0m%s\033[31m}\033[0m -> ",word->value);
-        word = word->next;
-    }
-    printf("(NULL)\n");
+	t_word	*word;
+
+	word = p;
+	while (word)
+	{
+		printf("\033[31m{\033[0m%s\033[31m}\033[0m -> ", word->value);
+		word = word->next;
+	}
+	printf("(NULL)\n");
 }
 
-void expand_token(t_token *token)
+void	expand_token(t_token *token)
 {
-	t_word *words;
-	t_word *tmp;
-    t_array * fields;
+	t_word	*words;
+	t_word	*tmp;
+	t_array	*fields;
 
 	words = ft_word_split(token);
 	ft_word_print(words, "WORDS SPLITTING");
 	if (!words)
-		return;
+		return ;
 	tmp = words;
 	while (tmp)
 	{
@@ -63,9 +62,8 @@ void expand_token(t_token *token)
 	join_quotes(words);
 	ft_word_print(words, "QUOTE JOINNIG");
 	fields = field_splitting(words);
-    printf("\n*************************\nFIELD SPLITTING\n");
-    if(fields)
-        ft_lstiter(fields->head, print);
-    pathname_expansion(token,fields);
+	printf("\n*************************\nFIELD SPLITTING\n");
+	if (fields)
+		ft_lstiter(fields->head, print);
+	pathname_expansion(token, fields);
 }
-
