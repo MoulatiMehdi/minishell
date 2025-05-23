@@ -3,6 +3,7 @@
 #include "tokenizer.h"
 #include <stdio.h>
 #include <string.h>
+#include <unistd.h>
 
 #define STR_EMPTY   "        "
 #define STR_TBR "┣━━━━━━ "
@@ -94,8 +95,8 @@ void ft_char_repete(char* str,int n)
 void ft_ast_args_print(t_ast * ast,int depth)
 {
     t_list * head;
+    t_list * field;
     t_token * token;
-    char * lexeme;
 
     if(ast == NULL)
         return ;
@@ -103,12 +104,16 @@ void ft_ast_args_print(t_ast * ast,int depth)
     while(head)
     {
         token = head->content;
-        lexeme = NULL;
-        leaf_print(head,depth);
-        if(token->value)
-            lexeme = strndup(token->value, token->length);
-        printf("%s\n",lexeme);
-        free(lexeme); 
+        if(token->fields)
+        {
+            field = token->fields->head;
+            while(field)
+            {
+                leaf_print(field,depth);
+                printf("%s\n",(char *)field->content);
+                field = field->next;
+            }
+        }
         head = head->next;
     }
 }

@@ -47,7 +47,6 @@ void expand_token(t_token *token)
 {
 	t_word *words;
 	t_word *tmp;
-    t_list * p;
     t_array * fields;
 
 	words = ft_word_split(token);
@@ -63,7 +62,7 @@ void expand_token(t_token *token)
 	ft_word_print(words, "EXPANSION VARAIBLE");
 	join_quotes(words);
 	ft_word_print(words, "QUOTE JOINNIG");
-	fields = field_splitting(token, words);
+	fields = field_splitting(words);
     printf("\n*************************\nFIELD SPLITTING\n");
     if(fields)
         ft_lstiter(fields->head, print);

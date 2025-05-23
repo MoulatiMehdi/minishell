@@ -5,6 +5,7 @@ int is_ifs(char c)
 {
 	return (c == '\n' || c == '\t' || c == ' ');
 }
+
 int is_field_splitting_required(t_word *word)
 {
 	size_t i;
@@ -34,18 +35,7 @@ int is_ending_with_ifs(const char *str, size_t len)
 	return (is_ifs(str[len - 1]));
 }
 
-static t_word *clone_word(t_word *src, const char *value, size_t len)
-{
-    t_word *dst = malloc(sizeof(*dst));
-    if (!dst) return NULL;
-    dst->type = src->type;
-    dst->length = len;
-    dst->value = ft_strndup(value, len);
-    dst->next = NULL;
-    return dst;
-}
-
-t_array* field_splitting(t_token *token, t_word *word)
+t_array* field_splitting(t_word *word)
 {
     t_array *fields = NULL;
     t_word  *curr   = NULL;
