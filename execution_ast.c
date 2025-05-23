@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 18:37:17 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/05/22 19:42:16 by okhourss         ###   ########.fr       */
+/*   Updated: 2025/05/23 10:06:16 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,25 @@ static int	exec_segment(t_ast *cmd, int *fds, int idx, int ncmds)
 }
 		// waitpid(l_pid, &status, 0);
 
+static int wait_for_all(pid_t last_pid)
+{
+	pid_t wait_pid;
+	int   status;
+	int   exit_status;
 
+	exit_status = 0;
+	while ((wait_pid = wait(&status)) > 0)
+	{
+		if (wait_pid == last_pid)
+		{
+			if (WIFEXITED(status))
+				exit_status = WEXITSTATUS(status);
+			else if (WIFSIGNALED(status))
+				exit_status = WTERMSIG(status) + 128;
+		}
+	}
+	return (exit_status);
+}
 int	ft_execute_pipeline(t_ast *ast)
 {
 	int		ncmds;
@@ -150,8 +168,7 @@ int	ft_execute_pipeline(t_ast *ast)
 	int		fds[2 * (ncmds - 1)];
 	pid_t	l_pid;
 	int		i;
-	int	status;
-	int	last;
+	int exit_status;
 
 	collect_cmds(ast, cmds);
 	make_pipes(fds, ncmds - 1);
@@ -161,9 +178,7 @@ int	ft_execute_pipeline(t_ast *ast)
 		l_pid = exec_segment(cmds[i], fds, i, ncmds);
 		i++;
 	}
-	waitpid(-1, &status, 0);
-	if (WIFEXITED(status))
-		last = WEXITSTATUS(status);
 	close_pipes(fds, ncmds - 1);
-	return (last);
+	exit_status = wait_for_all(l_pid);
+	return (exit_status);
 }
