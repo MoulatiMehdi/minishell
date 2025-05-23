@@ -23,9 +23,9 @@
 # define IFS "\n\t "
 
 void	expand_token(t_token *token);
-void join_quotes(t_word *head);
-void field_splitting(t_token *token, t_word *word);
-void pathname_expansion(t_token *token);
-void expand_param(t_word *word);
+void	join_quotes(t_word *head);
+t_array	*field_splitting(t_word *word);
+void	pathname_expansion(t_token *token, t_array *fields);
+void	expand_param(t_word *word);
 
 #endif
