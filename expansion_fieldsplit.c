@@ -88,9 +88,7 @@ t_array	*field_splitting(t_word *word)
 					start = i;
 				}
 				else
-				{
 					i++;
-				}
 			}
 			if (start < len)
 				ft_word_push(&curr, w->type, s + start, len - start);

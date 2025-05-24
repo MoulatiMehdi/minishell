@@ -6,7 +6,7 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 10:00:55 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/05/24 15:31:24 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/05/24 15:45:04 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ t_list	*ft_pathname_files(t_word *words)
 				is_path);
 		ft_list_sort(&head, (int (*)(void *, void *))ft_strcmp);
 	}
-	else
+	if (!head)
 		ft_lstadd_back(&head, ft_lstnew(word[0]));
 	free(dirname);
 	free(word[1]);
@@ -137,6 +137,7 @@ void	ft_pathname_expansion(t_token *token, t_array *fields)
 		while (files)
 		{
 			tmp = files->next;
+			ft_collector_track(files->content);
 			ft_array_push(&token->fields, files->content);
 			free(files);
 			files = tmp;
