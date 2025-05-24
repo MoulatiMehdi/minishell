@@ -6,7 +6,7 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 10:01:00 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/05/24 10:39:08 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/05/24 12:01:08 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ static int	ft_pattern_ismatch(char *pattern, char *path, char *mask)
 
 	i = 0;
 	j = 0;
+	if (pattern[0] == '\0' && path[0] != '\0')
+		return (0);
 	while (pattern[i])
 	{
 		if (mask[i] == '1')
@@ -106,5 +108,7 @@ t_list	*ft_pattern_matchall(char *word, char *mask, char *prefix,
 	closedir(stream_dir);
 	if (is_path)
 		is_path[0] = '/';
+	if (is_path)
+		ft_list_strconcat(head, "/");
 	return (head);
 }
