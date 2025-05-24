@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 11:06:49 by okhourss          #+#    #+#             */
-/*   Updated: 2025/05/24 15:36:19 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/05/24 18:19:13 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	expand_token(t_token *token)
 	while (tmp)
 	{
 		expand_param(tmp);
-        tmp = tmp->next;
+		tmp = tmp->next;
 	}
 	ft_word_print(words, "EXPANSION VARAIBLE");
 	join_quotes(words);
