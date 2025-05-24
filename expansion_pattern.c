@@ -83,32 +83,31 @@ static int	ft_pattern_ismatch(char *pattern, char *path, char *mask)
 	return (1);
 }
 
-t_list	*ft_pattern_matchall(char *word, char *mask, char *prefix,
-		char *is_path)
+t_list	*ft_pattern_matchall(char *word, char *mask, char *path[2])
 {
 	t_list	*head;
 	DIR		*stream_dir;
 	char	*name;
 
 	head = NULL;
-	stream_dir = ft_diren_open(prefix);
-	if (is_path)
-		is_path[0] = '\0';
+	stream_dir = ft_diren_open(path[0]);
+	if (path[1])
+		path[1][0] = '\0';
 	while (1)
 	{
 		name = ft_diren_getname(stream_dir);
 		if (!name)
 			break ;
-		if ((is_path && !ft_path_isdir(name)) || (mask[0] == '1'
+		if ((path[1] && !ft_path_isdir(name)) || (mask[0] == '1'
 				&& name[0] == '.'))
 			continue ;
 		if (ft_pattern_ismatch(word, name, mask))
-			ft_lstadd_back(&head, ft_lstnew(ft_strjoin(prefix, name)));
+			ft_lstadd_back(&head, ft_lstnew(ft_strjoin(path[0], name)));
 	}
 	closedir(stream_dir);
-	if (is_path)
-		is_path[0] = '/';
-	if (is_path)
+	if (path[1])
+		path[1][0] = '/';
+	if (path[1])
 		ft_list_strconcat(head, "/");
 	return (head);
 }

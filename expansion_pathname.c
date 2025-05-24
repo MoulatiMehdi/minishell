@@ -6,7 +6,7 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 10:00:55 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/05/24 15:45:04 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/05/24 16:24:40 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,27 +97,27 @@ t_list	*ft_pathname_files(t_word *words)
 {
 	size_t	idx;
 	t_list	*head;
-	char	*is_path;
-	char	*dirname;
+	char	*path[2];
 	char	*word[2];
 
 	if (words == NULL)
 		return (NULL);
 	word[0] = ft_word_join(words);
 	word[1] = ft_word_mask(words);
-	dirname = ft_pathname_dirname(word[0], word[1]);
+	path[0] = ft_pathname_dirname(word[0], word[1]);
 	head = NULL;
-	if (word[0] && ft_pathname_isvalid(word[0], word[1], dirname))
+	if (word[0] && ft_pathname_isvalid(word[0], word[1], path[0]))
 	{
 		idx = ft_pathname_lastslash(word[0], word[1]);
-		is_path = ft_strchr(&word[0][idx + 1], '/');
-		head = ft_pattern_matchall(&word[0][idx], &word[1][idx], dirname,
-				is_path);
+		path[1] = ft_strchr(&word[0][idx + 1], '/');
+		head = ft_pattern_matchall(&word[0][idx], &word[1][idx], path);
 		ft_list_sort(&head, (int (*)(void *, void *))ft_strcmp);
 	}
 	if (!head)
 		ft_lstadd_back(&head, ft_lstnew(word[0]));
-	free(dirname);
+	else
+		free(word[0]);
+	free(path[0]);
 	free(word[1]);
 	return (head);
 }

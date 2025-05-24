@@ -30,8 +30,7 @@ void	expand_param(t_word *word);
 
 DIR		*ft_diren_open(char *path);
 char	*ft_diren_getname(DIR *stream);
-t_list	*ft_pattern_matchall(char *word, char *mask, char *prefix,
-			char *is_path);
+t_list	*ft_pattern_matchall(char *word, char *mask, char *path[2]);
 char	*get_env_value(const char *var_name, size_t len);
 int		ft_path_iscurrentdir(char *prefix);
 #endif
