@@ -44,3 +44,26 @@ t_word	*ft_word_push(t_word **head, t_word_type type, const char *value,
 		p = p->next;
 	return (p->next = elem);
 }
+
+char	*ft_word_mask(t_word *word)
+{
+	char	*mask;
+	size_t	i;
+	size_t	total;
+
+	mask = ft_word_join(word);
+	total = 0;
+	while (word)
+	{
+		i = 0;
+		while (i < word->length)
+		{
+			mask[total] = '0';
+			mask[total] += word->type == WORD_NONE && word->value[i] == '*';
+			i++;
+			total++;
+		}
+		word = word->next;
+	}
+	return (mask);
+}
