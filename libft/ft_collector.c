@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   collector.c                                        :+:      :+:    :+:   */
+/*   ft_collector.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:12:31 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/04/17 11:55:13 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/05/24 17:57:25 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,24 +56,7 @@ void	ft_free(void *addr)
 	header = ft_collecter_get();
 	if (header == NULL || addr == NULL)
 		return ;
-	node_prev = NULL;
-	node_curr = *header;
-	if (node_curr->content == addr)
-	{
-		*header = node_curr->next;
-		return (ft_lstdelone(node_curr, free));
-	}
-	while (node_curr)
-	{
-		if (node_curr->content == addr)
-		{
-			node_prev->next = node_curr->next;
-			ft_lstdelone(node_curr, free);
-			break ;
-		}
-		node_prev = node_curr;
-		node_curr = node_curr->next;
-	}
+	ft_lstremove(header, addr);
 }
 
 int	ft_clear(void)
