@@ -16,8 +16,7 @@ int	is_joinable(t_word *word)
 {
 	size_t	i;
 
-	if (!word || word->type == WORD_WILDCARD)
-		// TODO need to go back here for the wildcard char.
+	if (!word)
 		return (0);
 	if (word->type == WORD_QUOTE_DOUBLE || word->type == WORD_QUOTE_SINGLE)
 		return (1);

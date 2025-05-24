@@ -6,7 +6,7 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 10:00:55 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/05/24 10:25:45 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/05/24 15:31:24 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-char	*ft_pattern_prefix(char *word, char *mask)
+char	*ft_pathname_dirname(char *word, char *mask)
 {
 	size_t	len;
 	size_t	slash;
@@ -28,7 +28,7 @@ char	*ft_pattern_prefix(char *word, char *mask)
 	len = 0;
 	slash = 0;
 	found = 0;
-	if (word == NULL)
+	if (word == NULL || mask == NULL)
 		return (NULL);
 	while (word[len])
 	{
@@ -48,7 +48,7 @@ char	*ft_pattern_prefix(char *word, char *mask)
 	return (NULL);
 }
 
-int	ft_pattern_isvalid(char *word, char *mask, char *prefix)
+int	ft_pathname_isvalid(char *word, char *mask, char *prefix)
 {
 	int		is_slash;
 	int		wild;
@@ -77,7 +77,7 @@ int	ft_pattern_isvalid(char *word, char *mask, char *prefix)
 	return (wild != 0);
 }
 
-size_t	ft_pattern_lastslash(char *word, char *mask)
+size_t	ft_pathname_lastslash(char *word, char *mask)
 {
 	size_t	idx;
 	size_t	slash_idx;
@@ -93,92 +93,53 @@ size_t	ft_pattern_lastslash(char *word, char *mask)
 	return (slash_idx);
 }
 
-int	ft_namecmp(void *name1, void *name2)
-{
-	size_t	i;
-	char	*str1;
-	char	*str2;
-	int		test;
-
-	str1 = name1;
-	str2 = name2;
-	if (name1 == NULL || name2 == NULL)
-		return (name1 - name2);
-	i = 0;
-	while (1)
-	{
-		test = ft_tolower(str1[i]) - ft_tolower(str2[i]);
-		if (test != 0 || !str2[i])
-			return (test);
-		i++;
-	}
-	i = 0;
-	while (1)
-	{
-		if (str2[i] - str1[i] != 0 || !str2[i])
-			return (str2[i] - str1[i]);
-		i++;
-	}
-	return (0);
-}
-
-t_list	*ft_pattern_files(char *word, char *mask)
+t_list	*ft_pathname_files(t_word *words)
 {
 	size_t	idx;
 	t_list	*head;
-	t_list	*p;
 	char	*is_path;
-	char	*prefix;
+	char	*dirname;
+	char	*word[2];
 
-	head = NULL;
-	prefix = ft_pattern_prefix(word, mask);
-	if (!word || !ft_pattern_isvalid(word, mask, prefix))
+	if (words == NULL)
 		return (NULL);
-	idx = ft_pattern_lastslash(word, mask);
-	is_path = ft_strchr(&word[idx + 1], '/');
-	head = ft_pattern_matchall(&word[idx], &mask[idx], prefix, is_path);
-	ft_list_sort(&head, ft_namecmp);
-	if (is_path)
+	word[0] = ft_word_join(words);
+	word[1] = ft_word_mask(words);
+	dirname = ft_pathname_dirname(word[0], word[1]);
+	head = NULL;
+	if (word[0] && ft_pathname_isvalid(word[0], word[1], dirname))
 	{
-		p = head;
-		while (p)
-		{
-			ft_strconcat((char **)&p->content, "/");
-			p = p->next;
-		}
+		idx = ft_pathname_lastslash(word[0], word[1]);
+		is_path = ft_strchr(&word[0][idx + 1], '/');
+		head = ft_pattern_matchall(&word[0][idx], &word[1][idx], dirname,
+				is_path);
+		ft_list_sort(&head, (int (*)(void *, void *))ft_strcmp);
 	}
-	free(prefix);
+	else
+		ft_lstadd_back(&head, ft_lstnew(word[0]));
+	free(dirname);
+	free(word[1]);
 	return (head);
 }
 
-void	pathname_expansion(t_token *token, t_array *fields)
+void	ft_pathname_expansion(t_token *token, t_array *fields)
 {
 	t_list	*files;
 	t_list	*tmp;
 	t_list	*field;
-	char	*mask;
-	char	*word;
 
 	if (!fields || !fields->head)
 		return ;
 	field = fields->head;
 	while (field)
 	{
-		word = ft_word_join(field->content);
-		mask = ft_word_mask(field->content);
-		files = ft_pattern_files(word, mask);
-		free(mask);
-		if (files == NULL)
-			ft_array_push(&token->fields, word);
-		else
+		files = ft_pathname_files(field->content);
+		while (files)
 		{
-			while (files)
-			{
-				tmp = files->next;
-				ft_array_push(&token->fields, files->content);
-				free(files);
-				files = tmp;
-			}
+			tmp = files->next;
+			ft_array_push(&token->fields, files->content);
+			free(files);
+			files = tmp;
 		}
 		field = field->next;
 	}
