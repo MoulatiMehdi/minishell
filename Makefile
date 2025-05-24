@@ -3,7 +3,7 @@ AR = ar
 RM = rm
 
 CCFLAGS = -Wall -Wextra   -g $(CCSANIT)
-CCSANIT = -fsanitize=address
+CCSANIT = #-fsanitize=address
 ARFLAGS = crs
 RMFLAGS = -rf
 
