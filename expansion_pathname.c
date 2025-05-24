@@ -137,6 +137,7 @@ void	ft_pathname_expansion(t_token *token, t_array *fields)
 		while (files)
 		{
 			tmp = files->next;
+			ft_collector_track(files->content);
 			ft_array_push(&token->fields, files->content);
 			free(files);
 			files = tmp;
