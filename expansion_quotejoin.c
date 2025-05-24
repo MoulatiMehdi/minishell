@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "expansion.h"
+#include "libft/libft.h"
 
 int	is_joinable(t_word *word)
 {
@@ -34,25 +35,26 @@ void	join_quotes(t_word *head)
 {
 	t_word	*curr;
 	t_word	*next;
-	char	*joined;
 
 	curr = head;
+	if (!curr->next)
+		ft_collector_track((void *)curr->value);
 	while (curr && curr->next)
 	{
 		next = curr->next;
 		if (is_joinable(curr) && is_joinable(next))
 		{
-			joined = ft_strjoin(curr->value, next->value);
-			if (!joined)
-				return ;
-			curr->value = joined;
-			curr->length = ft_strlen(joined);
+			ft_strconcat((char **)&curr->value, next->value);
+			curr->length = ft_strlen(curr->value);
 			curr->type = WORD_QUOTE_SINGLE;
 			curr->next = next->next;
-			ft_free((void *)next->value);
+			free((void *)next->value);
 			ft_free(next);
 		}
 		else
+		{
+			ft_collector_track((void *)curr->value);
 			curr = curr->next;
+		}
 	}
 }
