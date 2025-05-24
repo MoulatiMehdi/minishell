@@ -6,7 +6,7 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 10:00:52 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/05/24 10:43:50 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/05/24 17:11:37 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,12 @@ void	expand_param(t_word *word)
 	ssize_t	len;
 	char	*new_value;
 
-	if (word->type == WORD_QUOTE_SINGLE || word->type == WORD_WILDCARD)
+	if (word->type == WORD_QUOTE_SINGLE)
+	{
+		word->value = ft_strndup(word->value, word->length);
 		return ;
+	}
 	i = 0;
-	len = 0;
 	new_value = ft_calloc(1, 1);
 	while (i < word->length)
 	{
@@ -71,7 +73,6 @@ void	expand_param(t_word *word)
 			len = ft_expand_noparam(word, i, &new_value);
 		i += len;
 	}
-	ft_collector_track(new_value);
 	word->value = new_value;
 	word->length = ft_strlen(new_value);
 }
