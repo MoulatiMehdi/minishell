@@ -40,11 +40,11 @@ t_array	*field_splitting(t_word *word)
 	t_array	*fields;
 	t_word	*curr;
 	t_word	*w;
-			const char *s = w->value;
 	size_t	len;
 	size_t	i = 0, start;
-
-	fields = NULL;
+    char *s;
+	
+    fields = NULL;
 	curr = NULL;
 	w = word;
 	while (w)
@@ -53,6 +53,7 @@ t_array	*field_splitting(t_word *word)
 			ft_word_push(&curr, w->type, w->value, w->length);
 		else
 		{
+			s = (char *) w->value;
 			len = w->length;
 			i = 0, start = 0;
 			while (i < len)
