@@ -77,6 +77,12 @@ void				ft_lstdelone(t_list *lst, void (*del)(void *));
 void				ft_lstclear(t_list **lst, void (*del)(void *));
 void				ft_lstiter(t_list *lst, void (*f)(void *));
 
+void				ft_sorted_list_merge(t_list **head1, t_list *head2,
+						int (*cmp)(void *s1, void *s2));
+void				ft_sorted_list_insert(t_list **head, void *content,
+						int (*cmp)(void *s1, void *s2));
+void				ft_list_sort(t_list **head, int (*cmp)(void *s1, void *s2));
+
 int					ft_putchar_fd(char c, int fd);
 int					ft_putstr_fd(char *s, int fd);
 int					ft_putendl_fd(char *s, int fd);

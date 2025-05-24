@@ -16,6 +16,7 @@ SRCS = \
 	ft_isdigit.c \
 	ft_isprint.c \
 	ft_itoa.c \
+	ft_list_sort.c \
 	ft_lstadd_back.c \
 	ft_lstadd_front.c \
 	ft_lstclear.c \
@@ -34,8 +35,11 @@ SRCS = \
 	ft_putendl_fd.c \
 	ft_putnbr_fd.c \
 	ft_putstr_fd.c \
+	ft_sorted_list_insert.c \
+	ft_sorted_list_merge.c \
 	ft_split.c \
 	ft_strchr.c \
+	ft_strcmp.c \
 	ft_strconcat.c \
 	ft_strdup.c \
 	ft_stridx.c \
@@ -53,7 +57,6 @@ SRCS = \
 	ft_substr.c \
 	ft_tolower.c \
 	ft_toupper.c \
-	ft_strcmp.c \
 	get_next_line.c
 OBJS = $(SRCS:.c=.o)
 
