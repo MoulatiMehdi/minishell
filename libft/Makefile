@@ -5,6 +5,7 @@ CFLAGS = -Wall -Wextra -Werror -g
 ARFLAGS = crs
 
 SRCS = \
+ft_array.c\
 ft_atoi.c \
 ft_bzero.c \
 ft_calloc.c \
