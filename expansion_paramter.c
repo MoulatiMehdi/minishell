@@ -1,30 +1,52 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expansion_paramter.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/24 10:00:52 by mmoulati          #+#    #+#             */
+/*   Updated: 2025/05/24 10:00:52 by mmoulati         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "expansion.h"
+#include "libft/libft.h"
 
 int	is_valid_var_name(char c)
 {
 	return (c == '_' || ft_isalpha(c));
 }
+
 int	is_valid_char(char c)
 {
 	return (c == '_' || ft_isalnum(c));
 }
 
-char	*get_env_value(const char *var_name, size_t len)
+size_t	ft_expand_param(t_word *word, size_t i, char **val)
 {
-	int			i;
-	extern char	**environ;
+	size_t	len;
 
-	if (var_name == NULL || len <= 0)
-		return (NULL);
-	i = 0;
-	while (environ[i])
+	len = 0;
+	while (i + len < word->length && is_valid_char(word->value[len + i]))
+		len++;
+	ft_strconcat(val, get_env_value(&word->value[i], len));
+	return (len);
+}
+
+size_t	ft_expand_nonparam(t_word *word, size_t i, char **val)
+{
+	size_t	len;
+
+	len = 1;
+	while (i + len < word->length)
 	{
-		if (ft_strncmp(environ[i], var_name, len) == 0
-			&& environ[i][len] == '=')
-			return (&environ[i][len + 1]);
-		i++;
+		if (word->value[i + len] && word->value[i + len] != '$')
+			break ;
+		len++;
 	}
-	return (NULL);
+	ft_strnconcat(val, &word->value[i], len);
+	return (len);
 }
 
 void	expand_param(t_word *word)
@@ -38,28 +60,15 @@ void	expand_param(t_word *word)
 	i = 0;
 	len = 0;
 	new_value = ft_calloc(1, 1);
-	// ! example -> "Hello $USER"
 	while (i < word->length)
 	{
-		len = 0;
 		if (word->value[i] == '$' && is_valid_var_name(word->value[i + 1]))
-		{
-			i++;
-			while (i + len < word->length && is_valid_char(word->value[len
-					+ i]))
-				len++;
-			ft_strconcat(&new_value, get_env_value(&word->value[i], len));
-		}
+			len = ft_expand_param(word, ++i, &new_value);
 		else
-		{
-			len++;
-			while (i + len < word->length && word->value[i + len]
-				&& word->value[i + len] != '$')
-				len++;
-			ft_strnconcat(&new_value, &word->value[i], len);
-		}
+			ft_expand_param(word, i, &new_value);
 		i += len;
 	}
+	ft_collector_track(new_value);
 	word->value = new_value;
 	word->length = ft_strlen(new_value);
 }

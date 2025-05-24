@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expansion_fieldsplit.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/24 10:00:47 by mmoulati          #+#    #+#             */
+/*   Updated: 2025/05/24 10:38:01 by mmoulati         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "expansion.h"
 #include "word.h"
 
@@ -28,6 +40,7 @@ int	is_starting_with_ifs(const char *str)
 		return (0);
 	return (is_ifs(*str));
 }
+
 int	is_ending_with_ifs(const char *str, size_t len)
 {
 	if (len == 0)
@@ -41,10 +54,12 @@ t_array	*field_splitting(t_word *word)
 	t_word	*curr;
 	t_word	*w;
 	size_t	len;
-	size_t	i = 0, start;
-    char *s;
-	
-    fields = NULL;
+	size_t	i;
+	char	*s;
+	size_t	start;
+
+	i = 0;
+	fields = NULL;
 	curr = NULL;
 	w = word;
 	while (w)
@@ -53,9 +68,10 @@ t_array	*field_splitting(t_word *word)
 			ft_word_push(&curr, w->type, w->value, w->length);
 		else
 		{
-			s = (char *) w->value;
+			s = (char *)w->value;
 			len = w->length;
-			i = 0, start = 0;
+			i = 0;
+			start = 0;
 			while (i < len)
 			{
 				if (is_ifs(s[i]))
