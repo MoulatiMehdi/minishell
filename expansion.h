@@ -28,4 +28,10 @@ t_array	*field_splitting(t_word *word);
 void	pathname_expansion(t_token *token, t_array *fields);
 void	expand_param(t_word *word);
 
+DIR		*ft_diren_open(char *path);
+char	*ft_diren_getname(DIR *stream);
+t_list	*ft_pattern_matchall(char *word, char *mask, char *prefix,
+			char *is_path);
+char	*get_env_value(const char *var_name, size_t len);
+int		ft_path_iscurrentdir(char *prefix);
 #endif

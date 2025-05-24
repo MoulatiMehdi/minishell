@@ -41,5 +41,5 @@ char				*ft_word_join(t_word *word);
 size_t				ft_word_none(t_word **head, t_token *token, size_t i);
 size_t				ft_word_quote(t_word **head, t_token *token, size_t i);
 size_t				ft_word_wildcard(t_word **head, t_token *token, size_t i);
-
+char				*ft_word_mask(t_word *word);
 #endif

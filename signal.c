@@ -6,7 +6,7 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 18:36:00 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/05/16 18:36:00 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/05/24 10:15:48 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ void	ft_signal_init(void)
 	size_t		i;
 	size_t		size;
 	static int	sigs[] = {SIGHUP, SIGILL, SIGTRAP, SIGABRT, SIGFPE, SIGBUS,
-		SIGSEGV, SIGSYS, SIGPIPE, SIGALRM, SIGXCPU, SIGXFSZ, SIGVTALRM,
-		SIGUSR1, SIGUSR2, SIGINT, SIGQUIT, SIGTERM};
+			SIGSEGV, SIGSYS, SIGPIPE, SIGALRM, SIGXCPU, SIGXFSZ, SIGVTALRM,
+			SIGUSR1, SIGUSR2, SIGINT, SIGQUIT, SIGTERM};
 
 	i = 0;
 	size = sizeof(sigs) / sizeof(sigs[0]);

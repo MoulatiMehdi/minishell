@@ -60,3 +60,15 @@ char	**ft_path_get(void)
 	}
 	return (strs);
 }
+
+int	ft_path_iscurrentdir(char *prefix)
+{
+	struct stat	curr;
+	struct stat	path;
+
+	if (!prefix)
+		return (1);
+	if (stat(".", &curr) != 0 || stat(prefix, &path) != 0)
+		return (0);
+	return (curr.st_ino == path.st_ino && path.st_dev == curr.st_dev);
+}
