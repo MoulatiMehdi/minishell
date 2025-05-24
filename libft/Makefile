@@ -15,7 +15,7 @@ ft_isascii.c \
 ft_isdigit.c \
 ft_isprint.c \
 ft_itoa.c \
-ft_list_remove_if.c \
+ft_lstremove.c \
 ft_list_sort.c \
 ft_list_strconcat.c \
 ft_lstadd_back.c \
