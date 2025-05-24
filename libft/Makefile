@@ -17,6 +17,7 @@ SRCS = \
 	ft_isprint.c \
 	ft_itoa.c \
 	ft_list_sort.c \
+	ft_list_strconcat.c \
 	ft_lstadd_back.c \
 	ft_lstadd_front.c \
 	ft_lstclear.c \
@@ -57,7 +58,8 @@ SRCS = \
 	ft_substr.c \
 	ft_tolower.c \
 	ft_toupper.c \
-	get_next_line.c
+	get_next_line.c 
+
 OBJS = $(SRCS:.c=.o)
 
 
