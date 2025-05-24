@@ -49,8 +49,6 @@ int	ft_pattern_ismatch(char *pattern, char *path, char *mask)
 
 	i = 0;
 	j = 0;
-	if (mask[0] == '1' && path[0] == '.')
-		return (0);
 	while (pattern[i])
 	{
 		if (mask[i] == '1')

@@ -152,7 +152,7 @@ t_list	*ft_pattern_matchall(char *word, char *mask, char *prefix,
 		name = ft_diren_getname(stream_dir);
 		if (!name)
 			break ;
-		if (is_path && !ft_path_isdir(name))
+		if (( is_path && !ft_path_isdir(name) ) || (mask[0] == '1' && name[0] == '.'))
 			continue ;
 		if (ft_pattern_ismatch(word, name, mask))
 			ft_lstadd_back(&head, ft_lstnew(ft_strjoin(prefix, name)));
