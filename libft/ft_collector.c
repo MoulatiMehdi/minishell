@@ -6,7 +6,7 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:12:31 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/05/24 17:57:25 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/05/24 18:01:43 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,6 @@ void	*ft_malloc(size_t size)
 
 void	ft_free(void *addr)
 {
-	t_list	*node_curr;
-	t_list	*node_prev;
 	t_list	**header;
 
 	header = ft_collecter_get();
