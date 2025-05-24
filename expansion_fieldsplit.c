@@ -6,11 +6,12 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 10:00:47 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/05/24 10:38:01 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/05/24 18:04:26 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expansion.h"
+#include "libft.h"
 #include "word.h"
 
 int	is_ifs(char c)
