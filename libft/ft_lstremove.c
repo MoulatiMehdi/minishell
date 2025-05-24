@@ -42,7 +42,6 @@ void	ft_lstremove(t_list **head, void *content)
 	{
 		if (content == curr->content)
 		{
-			free(curr->content);
 			prev->next = curr->next;
 			free(curr);
 		}
