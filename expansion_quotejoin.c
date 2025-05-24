@@ -6,7 +6,7 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 10:01:07 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/05/24 10:01:08 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/05/24 18:33:00 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,24 +37,18 @@ void	join_quotes(t_word *head)
 	t_word	*next;
 
 	curr = head;
-	if (!curr->next)
-		ft_collector_track((void *)curr->value);
 	while (curr && curr->next)
 	{
 		next = curr->next;
 		if (is_joinable(curr) && is_joinable(next))
 		{
-			ft_strconcat((char **)&curr->value, next->value);
+			ft_strjoin_track((char *)curr->value, next->value);
 			curr->length = ft_strlen(curr->value);
 			curr->type = WORD_QUOTE_SINGLE;
 			curr->next = next->next;
-			free((void *)next->value);
 			ft_free(next);
 		}
 		else
-		{
-			ft_collector_track((void *)curr->value);
 			curr = curr->next;
-		}
 	}
 }

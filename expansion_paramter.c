@@ -57,7 +57,7 @@ void	expand_param(t_word *word)
 
 	if (word->type == WORD_QUOTE_SINGLE)
 	{
-		word->value = ft_strndup(word->value, word->length);
+		word->value = ft_strndup_track(word->value, word->length);
 		return ;
 	}
 	i = 0;
@@ -73,6 +73,7 @@ void	expand_param(t_word *word)
 			len = ft_expand_noparam(word, i, &new_value);
 		i += len;
 	}
+	ft_collector_track(new_value);
 	word->value = new_value;
 	word->length = ft_strlen(new_value);
 }
