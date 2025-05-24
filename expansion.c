@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 11:06:49 by okhourss          #+#    #+#             */
-/*   Updated: 2025/05/24 15:36:19 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/05/24 18:38:49 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,17 +55,15 @@ void	expand_token(t_token *token)
 	while (tmp)
 	{
 		expand_param(tmp);
-		free(tmp->value);
-		tmp->value = NULL;
 		tmp = tmp->next;
 	}
-	/*ft_word_print(words, "EXPANSION VARAIBLE");*/
-	/*join_quotes(words);*/
-	/*ft_word_print(words, "QUOTE JOINNIG");*/
-	/*fields = field_splitting(words);*/
-	/*printf("\n*************************\nFIELD SPLITTING\n");*/
-	/*if (fields)*/
-	/*	ft_lstiter(fields->head, print);*/
-	/*ft_pathname_expansion(token, fields);*/
-	/*printf("*****************************\n");*/
+	ft_word_print(words, "EXPANSION VARAIBLE");
+	join_quotes(words);
+	ft_word_print(words, "QUOTE JOINNIG");
+	fields = field_splitting(words);
+	printf("\n*************************\nFIELD SPLITTING\n");
+	if (fields)
+		ft_lstiter(fields->head, print);
+	ft_pathname_expansion(token, fields);
+	printf("*****************************\n");
 }
