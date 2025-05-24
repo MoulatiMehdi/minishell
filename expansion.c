@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 11:06:49 by okhourss          #+#    #+#             */
-/*   Updated: 2025/05/17 19:36:37 by okhourss         ###   ########.fr       */
+/*   Updated: 2025/05/24 15:36:19 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,5 +64,6 @@ void	expand_token(t_token *token)
 	printf("\n*************************\nFIELD SPLITTING\n");
 	if (fields)
 		ft_lstiter(fields->head, print);
-	pathname_expansion(token, fields);
+	ft_pathname_expansion(token, fields);
+	printf("*****************************\n");
 }

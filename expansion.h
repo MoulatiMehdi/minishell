@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 16:31:18 by okhourss          #+#    #+#             */
-/*   Updated: 2025/05/17 18:16:07 by okhourss         ###   ########.fr       */
+/*   Updated: 2025/05/24 15:37:43 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 void	expand_token(t_token *token);
 void	join_quotes(t_word *head);
 t_array	*field_splitting(t_word *word);
-void	pathname_expansion(t_token *token, t_array *fields);
+void	ft_pathname_expansion(t_token *token, t_array *fields);
 void	expand_param(t_word *word);
 
 DIR		*ft_diren_open(char *path);
