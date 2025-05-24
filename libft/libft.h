@@ -67,10 +67,17 @@ void				*ft_malloc(size_t size);
 
 int					ft_lstsize(t_list *lst);
 
+t_list				*ft_lstnew_track(void *content);
 t_list				*ft_lstnew(void *content);
 t_list				*ft_lstlast(t_list *lst);
 t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 						void (*del)(void *));
+
+char				*ft_strjoin_track(char const *s1, char const *s2);
+char				*ft_strnjoin_track(char const *s1, char const *s2,
+						size_t len);
+char				*ft_strdup_track(const char *s1);
+char				*ft_strndup_track(const char *src, size_t n);
 
 void				ft_lstadd_front(t_list **lst, t_list *new);
 void				ft_lstadd_back(t_list **lst, t_list *new);
