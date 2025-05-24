@@ -6,7 +6,7 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 10:00:52 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/05/24 10:00:52 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/05/24 10:43:50 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ size_t	ft_expand_param(t_word *word, size_t i, char **val)
 	return (len);
 }
 
-size_t	ft_expand_nonparam(t_word *word, size_t i, char **val)
+size_t	ft_expand_noparam(t_word *word, size_t i, char **val)
 {
 	size_t	len;
 
@@ -63,9 +63,12 @@ void	expand_param(t_word *word)
 	while (i < word->length)
 	{
 		if (word->value[i] == '$' && is_valid_var_name(word->value[i + 1]))
-			len = ft_expand_param(word, ++i, &new_value);
+		{
+			i++;
+			len = ft_expand_param(word, i, &new_value);
+		}
 		else
-			ft_expand_param(word, i, &new_value);
+			len = ft_expand_noparam(word, i, &new_value);
 		i += len;
 	}
 	ft_collector_track(new_value);

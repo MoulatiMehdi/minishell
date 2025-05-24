@@ -135,7 +135,7 @@ t_list	*ft_pattern_files(char *word, char *mask)
 	if (!word || !ft_pattern_isvalid(word, mask, prefix))
 		return (NULL);
 	idx = ft_pattern_lastslash(word, mask);
-	is_path = ft_strchr(word, '/');
+	is_path = ft_strchr(&word[idx + 1], '/');
 	head = ft_pattern_matchall(&word[idx], &mask[idx], prefix, is_path);
 	ft_list_sort(&head, ft_namecmp);
 	if (is_path)
@@ -144,7 +144,6 @@ t_list	*ft_pattern_files(char *word, char *mask)
 		while (p)
 		{
 			ft_strconcat((char **)&p->content, "/");
-			ft_collector_track(p->content);
 			p = p->next;
 		}
 	}
