@@ -35,6 +35,8 @@ typedef struct s_array
 }					t_array;
 
 char				*get_next_line(int fd);
+int					ft_tolower(int c);
+int					ft_toupper(int c);
 int					ft_isalpha(int c);
 int					ft_isdigit(int c);
 int					ft_isalnum(int c);
