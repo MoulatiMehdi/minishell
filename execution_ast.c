@@ -6,28 +6,29 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 18:37:17 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/05/25 09:14:07 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/05/25 11:06:49 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 #include "expansion.h"
 #include "libft/libft.h"
+#include "parser.h"
 
-int	ft_execute_andor(t_ast *ast)
+int	ft_execute_pipeline(t_ast *ast)
 {
-	if (ast == NULL)
-		return (0);
+	return (0);
+}
+
+int	ft_execute_subshell(t_ast *ast)
+{
 	return (0);
 }
 
 void	ft_ast_expand(t_ast *ast)
 {
-	t_list	*p;
-
 	if (!ast)
 		return ;
-	p = ast->args;
 	ft_lstiter(ast->args, (void (*)(void *))expand_token);
 	ft_lstiter(ast->redirect, (void (*)(void *))expand_token);
 }
@@ -46,5 +47,34 @@ int	ft_execute_simplecommand(t_ast *ast)
 		status = ft_execute_buildin(ast->redirect, args);
 	else
 		status = ft_execute_file(ast->redirect, args);
+	return (status);
+}
+
+int	ft_execute_andor(t_ast *ast)
+{
+	t_list	*p;
+	t_ast	*child;
+	int		status;
+
+	if (ast == NULL)
+		return (0);
+	p = ast->children;
+	status = 0;
+	while (p)
+	{
+		child = p->content;
+		if (child->type == AST_SIMPLE_COMMAND)
+			status = ft_execute_simplecommand(child);
+		else if (child->type == AST_SUBSHELL)
+			status = ft_execute_subshell(child);
+		else if (child->type == AST_PIPELINE)
+			status = ft_execute_pipeline(child);
+		else if (child->type == AST_OR && status == 0)
+			p = ft_ast_nextchildwithtype(p, AST_AND);
+		else if (child->type == AST_AND && status != 0)
+			p = ft_ast_nextchildwithtype(p, AST_OR);
+		if (p)
+			p = p->next;
+	}
 	return (status);
 }

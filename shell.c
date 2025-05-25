@@ -18,7 +18,7 @@
 #include "tokenizer.h"
 #include <signal.h>
 
-t_ast	*ft_ast_simplecommand(t_token **token);
+int		ft_execute_andor(t_ast *ast);
 
 void	ft_shell_execute(char *str)
 {
@@ -32,7 +32,7 @@ void	ft_shell_execute(char *str)
 	if (token && token->type == TOKEN_EOI)
 		return ;
 	lexer(token);
-	node = ft_ast_simplecommand(&token);
+	node = parser(token);
 	if (*ft_sigint_recieved())
 	{
 		exit_code = SIGINT + 128;
@@ -41,7 +41,7 @@ void	ft_shell_execute(char *str)
 	else if (node == NULL)
 		exit_code = 2;
 	else
-		exit_code = ft_execute_simplecommand(node);
+		exit_code = ft_execute_andor(node);
 	ft_status_set(exit_code);
 	return ;
 }
