@@ -54,10 +54,10 @@ t_ast	*ft_ast_redirect(t_token **token, t_ast *node)
 	if ((*token)->type != TOKEN_REDIRECT_HERE)
 		return (node);
 	str = ft_heredoc((*token), ft_heredoc_quote_removal(*token));
+	ft_collector_track(str);
 	if (*ft_sigint_recieved())
 	{
-		while ((*token)->type != TOKEN_EOI)
-			*token = (*token)->next;
+		(*token)->type = TOKEN_EOI;
 		return (NULL);
 	}
 	if (ft_heredoc_isquote(*token))

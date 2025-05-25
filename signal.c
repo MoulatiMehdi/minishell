@@ -6,14 +6,13 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 18:36:00 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/05/16 18:36:00 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/05/25 17:17:50 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
-#include <signal.h>
 
-void	ft_signal_init(void)
+void	ft_signal_child(void)
 {
 	size_t		i;
 	size_t		size;
@@ -28,19 +27,12 @@ void	ft_signal_init(void)
 		signal(sigs[i], SIG_DFL);
 		i++;
 	}
-	signal(SIGQUIT, ft_signal_quit);
+}
+
+void	ft_signal_parent(void)
+{
+	signal(SIGTERM, SIG_IGN);
 	signal(SIGTSTP, SIG_IGN);
-}
-
-volatile sig_atomic_t	*ft_sigint_recieved(void)
-{
-	static volatile sig_atomic_t	received = 0;
-
-	return (&received);
-}
-
-void	ft_heredoc_sigint(int signal)
-{
-	(void)signal;
-	*ft_sigint_recieved() = 1;
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, ft_sigint_prompt);
 }
