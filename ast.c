@@ -6,7 +6,7 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 15:10:12 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/04/23 15:50:12 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/05/25 11:00:32 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,19 @@ t_list	*ft_list_token_push(t_list **head, t_token *token)
 	ft_collector_track(lst);
 	ft_lstadd_back(head, lst);
 	return (lst);
+}
+
+void	ft_ast_nextchild_withtype(t_list **p, t_ast_type type)
+{
+	t_ast	*child;
+
+	if (p == NULL || *p == NULL)
+		return ;
+	while ((*p)->next)
+	{
+		child = (*p)->content;
+		if (child->type == type)
+			break ;
+		*p = (*p)->next;
+	}
 }

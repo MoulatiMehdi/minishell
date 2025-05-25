@@ -53,4 +53,5 @@ void					ft_signal_quit(int signal);
 void					ft_signal_bashignore(void);
 void					ft_heredoc_sigint(int signal);
 t_list					*ft_list_token_push(t_list **head, t_token *token);
+void					ft_ast_nextchild_withtype(t_list **p, t_ast_type type);
 #endif // !PARSER_H
