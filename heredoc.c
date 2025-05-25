@@ -6,9 +6,10 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 15:38:34 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/05/15 15:38:35 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/05/25 17:10:18 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+#include "execution.h"
 #include "libft/libft.h"
 #include "parser.h"
 #include <fcntl.h>
@@ -53,24 +54,24 @@ char	*ft_heredoc(t_token *token, char *delimiter)
 	*ft_sigint_recieved() = 0;
 	rl_getc_function = ft_getc;
 	txt = NULL;
-	signal(SIGINT, ft_heredoc_sigint);
+	signal(SIGINT, ft_sigint_heredoc);
 	while (1)
 	{
-		line = readline("> ");
-		if (*ft_sigint_recieved())
+		if (ft_shell_isinteractive())
+			line = readline("> ");
+		else
+			line = readline("");
+		if (*ft_sigint_recieved() || ft_heredoc_eoferror(line, token))
 			break ;
-		if (ft_heredoc_eoferror(line, token))
-			break ;
-		if (*ft_sigint_recieved() || ft_strcmp(line, delimiter) == 0)
+		if (ft_strcmp(line, delimiter) == 0)
 			break ;
 		ft_strconcat(&txt, line);
 		ft_strconcat(&txt, "\n");
 		free(line);
 	}
 	free(line);
-	ft_collector_track(txt);
 	rl_getc_function = rl_getc;
-	signal(SIGINT, ft_signal_int);
+	signal(SIGINT, SIG_IGN);
 	return (txt);
 }
 
