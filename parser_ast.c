@@ -61,6 +61,8 @@ t_ast	*parser(t_token *token)
 	if (token == NULL)
 		return (NULL);
 	node = ft_ast_andor(&token);
+	if (*ft_sigint_recieved())
+		return (NULL);
 	if (token->type != TOKEN_EOI || node == NULL)
 	{
 		node = NULL;
