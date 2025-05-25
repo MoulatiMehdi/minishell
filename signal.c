@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "parser.h"
+#include <signal.h>
 
 void	ft_signal_init(void)
 {
@@ -28,6 +29,7 @@ void	ft_signal_init(void)
 		i++;
 	}
 	signal(SIGQUIT, ft_signal_quit);
+	signal(SIGTSTP, SIG_IGN);
 }
 
 volatile sig_atomic_t	*ft_sigint_recieved(void)
