@@ -6,12 +6,12 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:47:31 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/04/23 17:56:51 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/05/25 09:19:05 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
-#define PARSER_H
+# define PARSER_H
 # include "lexer.h"
 # include "libft/libft.h"
 # include "word.h"

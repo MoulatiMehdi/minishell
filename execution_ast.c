@@ -1,16 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execution.c                                        :+:      :+:    :+:   */
+/*   execution_ast.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 18:37:17 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/05/16 18:37:18 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/05/25 09:14:07 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
+#include "expansion.h"
+#include "libft/libft.h"
 
 int	ft_execute_andor(t_ast *ast)
 {
@@ -26,17 +28,8 @@ void	ft_ast_expand(t_ast *ast)
 	if (!ast)
 		return ;
 	p = ast->args;
-	while (p)
-	{
-		ft_token_expand(p->content);
-		p = p->next;
-	}
-	p = ast->redirect;
-	while (p)
-	{
-		ft_token_expand(p->content);
-		p = p->next;
-	}
+	ft_lstiter(ast->args, (void (*)(void *))expand_token);
+	ft_lstiter(ast->redirect, (void (*)(void *))expand_token);
 }
 
 int	ft_execute_simplecommand(t_ast *ast)

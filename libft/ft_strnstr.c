@@ -37,3 +37,23 @@ char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 	}
 	return (NULL);
 }
+
+char	*ft_strstr(char *str, char *to_find)
+{
+	size_t	i;
+	size_t	j;
+
+	if (!*to_find)
+		return (str);
+	i = 0;
+	while (str[i])
+	{
+		j = 0;
+		while (to_find[j] && to_find[j] == str[i + j])
+			j++;
+		if (!to_find[j])
+			return (str + i);
+		i++;
+	}
+	return (0);
+}

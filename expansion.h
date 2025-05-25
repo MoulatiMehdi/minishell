@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: okhourss <okhourss@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 16:31:18 by okhourss          #+#    #+#             */
-/*   Updated: 2025/04/25 16:31:18 by okhourss         ###   ########.fr       */
+/*   Updated: 2025/05/25 09:18:52 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,21 @@
 # include "libft/libft.h"
 # include "parser.h"
 # include "tokenizer.h"
+# include <dirent.h>
+# include <errno.h>
+# include <sys/stat.h>
 
-void	expand_ast(t_ast *node, int last_status);
+# define IFS "\n\t "
 
-void	ft_token_expand(t_token *token);
+void	expand_token(t_token *token);
+void	join_quotes(t_word *head);
+t_array	*field_splitting(t_word *word);
+void	ft_pathname_expansion(t_token *token, t_array *fields);
+void	expand_param(t_word *word);
+
+DIR		*ft_diren_open(char *path);
+char	*ft_diren_getname(DIR *stream);
+t_list	*ft_pattern_matchall(char *word, char *mask, char *path[2]);
+char	*get_env_value(const char *var_name, size_t len);
+int		ft_path_iscurrentdir(char *prefix);
 #endif
