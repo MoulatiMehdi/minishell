@@ -6,7 +6,7 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 18:37:43 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/05/16 18:37:45 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/05/25 09:08:50 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,16 @@ char	**ft_path_get(void)
 		strs = NULL;
 	}
 	return (strs);
+}
+
+int	ft_path_iscurrentdir(char *prefix)
+{
+	struct stat	curr;
+	struct stat	path;
+
+	if (!prefix)
+		return (1);
+	if (stat(".", &curr) != 0 || stat(prefix, &path) != 0)
+		return (0);
+	return (curr.st_ino == path.st_ino && path.st_dev == curr.st_dev);
 }

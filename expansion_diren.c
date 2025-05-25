@@ -1,37 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstnew.c                                        :+:      :+:    :+:   */
+/*   expansion_diren.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/10 13:17:04 by mmoulati          #+#    #+#             */
-/*   Updated: 2024/11/13 20:59:31 by mmoulati         ###   ########.fr       */
+/*   Created: 2025/05/24 09:57:42 by mmoulati          #+#    #+#             */
+/*   Updated: 2025/05/24 09:57:43 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "expansion.h"
+#include <dirent.h>
 
-t_list	*ft_lstnew(void *content)
+char	*ft_diren_getname(DIR *stream)
 {
-	t_list	*new_elem;
+	struct dirent	*dir;
 
-	new_elem = malloc(sizeof(t_list));
-	if (!new_elem)
-		return (0);
-	new_elem->content = content;
-	new_elem->next = NULL;
-	return (new_elem);
+	dir = readdir(stream);
+	if (dir == NULL)
+		return (NULL);
+	return (dir->d_name);
 }
 
-t_list	*ft_lstnew_track(void *content)
+DIR	*ft_diren_open(char *path)
 {
-	t_list	*new_elem;
-
-	new_elem = ft_malloc(sizeof(t_list));
-	if (!new_elem)
-		return (0);
-	new_elem->content = content;
-	new_elem->next = NULL;
-	return (new_elem);
+	if (path)
+		return (opendir(path));
+	else
+		return (opendir("."));
 }

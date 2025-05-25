@@ -6,7 +6,7 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 13:17:10 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/05/03 18:11:48 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/05/24 15:33:42 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ typedef struct s_array
 }					t_array;
 
 char				*get_next_line(int fd);
+int					ft_tolower(int c);
+int					ft_toupper(int c);
 int					ft_isalpha(int c);
 int					ft_isdigit(int c);
 int					ft_isalnum(int c);
@@ -65,16 +67,31 @@ void				*ft_malloc(size_t size);
 
 int					ft_lstsize(t_list *lst);
 
+t_list				*ft_lstnew_track(void *content);
 t_list				*ft_lstnew(void *content);
 t_list				*ft_lstlast(t_list *lst);
 t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 						void (*del)(void *));
+
+char				*ft_strjoin_track(char const *s1, char const *s2);
+char				*ft_strnjoin_track(char const *s1, char const *s2,
+						size_t len);
+char				*ft_strdup_track(const char *s1);
+char				*ft_strndup_track(const char *src, size_t n);
 
 void				ft_lstadd_front(t_list **lst, t_list *new);
 void				ft_lstadd_back(t_list **lst, t_list *new);
 void				ft_lstdelone(t_list *lst, void (*del)(void *));
 void				ft_lstclear(t_list **lst, void (*del)(void *));
 void				ft_lstiter(t_list *lst, void (*f)(void *));
+void				ft_list_strconcat(t_list *list, char *str);
+void				ft_lstremove(t_list **head, void *content);
+
+void				ft_sorted_list_merge(t_list **head1, t_list *head2,
+						int (*cmp)(void *s1, void *s2));
+void				ft_sorted_list_insert(t_list **head, void *content,
+						int (*cmp)(void *s1, void *s2));
+void				ft_list_sort(t_list **head, int (*cmp)(void *s1, void *s2));
 
 int					ft_putchar_fd(char c, int fd);
 int					ft_putstr_fd(char *s, int fd);
@@ -108,6 +125,7 @@ char				*ft_substr(char const *s, unsigned int start, size_t len);
 char				*ft_strjoin(char const *s1, char const *s2);
 char				*ft_strtrim(char const *s1, char const *set);
 char				*ft_strmapi(char const *s, char (*f)(unsigned int, char));
+char				*ft_strstr(char *str, char *to_find);
 char				*get_next_line(int fd);
 char				**ft_split(char const *s, char *charset);
 char				**ft_strs_dup(char **map);
