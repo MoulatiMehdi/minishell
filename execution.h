@@ -57,4 +57,6 @@ void	ft_heredoc_sigint(int signal);
 void	ft_signal_int(int signal);
 void	ft_signal_child(void);
 void	ft_signal_parent(void);
+void	ft_sigint_noiteractive(int signal);
+bool	ft_shell_isinteractive(void);
 #endif

@@ -6,7 +6,7 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 18:37:19 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/05/16 18:37:20 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/05/25 16:57:14 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,10 @@ char	*ft_command_search(char *name)
 
 int	ft_execute(t_list *redirect, char *pathname, char **args)
 {
-	pid_t	pid;
+	pid_t		pid;
+	extern char	**environ;
 
+	// TODO : replaec environ with local envrionment variable
 	pid = fork();
 	if (pid < 0)
 		perror(SHELL_NAME ": fork");
@@ -76,7 +78,7 @@ int	ft_execute(t_list *redirect, char *pathname, char **args)
 			ft_perror(args[0], "command not found");
 			ft_status_exit(127);
 		}
-		execve(pathname, args, NULL);
+		execve(pathname, args, environ);
 		if (ft_path_isdir(pathname))
 			ft_perror(pathname, strerror(EISDIR));
 		else

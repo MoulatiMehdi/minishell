@@ -6,7 +6,7 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 18:36:09 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/05/25 11:57:36 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/05/25 16:47:40 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,27 +60,25 @@ void	ft_shell_interactive(void)
 		str = readline(SHELL_PROMPT);
 		if (str == NULL)
 			break ;
-		signal(SIGINT, SIG_IGN);
-		ft_shell_execute(str);
 		if (*str)
 			add_history(str);
+		signal(SIGINT, SIG_IGN);
+		ft_shell_execute(str);
 		free(str);
 		ft_clear();
 	}
 	rl_clear_history();
-	write(2, "\nexit\n", 6);
+	write(2, "exit\n", 6);
 	return ;
 }
 
 void	ft_shell_noninteractive(void)
 {
-	char			*str;
-	unsigned char	exit_code;
+	char	*str;
 
-	exit_code = 0;
 	while (1)
 	{
-		signal(SIGINT, SIG_DFL);
+		signal(SIGINT, ft_sigint_noiteractive);
 		str = readline(NULL);
 		if (str == NULL)
 			break ;
@@ -89,4 +87,9 @@ void	ft_shell_noninteractive(void)
 		ft_clear();
 	}
 	return ;
+}
+
+bool	ft_shell_isinteractive(void)
+{
+	return (isatty(STDIN_FILENO) && isatty(STDERR_FILENO));
 }
