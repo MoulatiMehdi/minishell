@@ -6,7 +6,7 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:47:31 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/04/23 17:56:51 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/05/25 11:43:24 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,5 +53,5 @@ void					ft_signal_quit(int signal);
 void					ft_signal_bashignore(void);
 void					ft_heredoc_sigint(int signal);
 t_list					*ft_list_token_push(t_list **head, t_token *token);
-void					ft_ast_nextchild_withtype(t_list **p, t_ast_type type);
+t_list					*ft_ast_nextchildwithtype(t_list *p, t_ast_type type);
 #endif // !PARSER_H
