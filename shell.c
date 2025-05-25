@@ -6,7 +6,7 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 18:36:09 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/05/16 18:36:10 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/05/25 11:57:36 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	ft_shell_execute(char *str)
 	if (str == NULL)
 		return ;
 	token = tokenize(str);
-	if (token && token->type == TOKEN_EOI)
+	if (!token || token->type == TOKEN_EOI)
 		return ;
 	lexer(token);
 	node = parser(token);
@@ -41,15 +41,17 @@ void	ft_shell_execute(char *str)
 	else if (node == NULL)
 		exit_code = 2;
 	else
+	{
 		exit_code = ft_execute_andor(node);
+		if (exit_code == 128 + SIGINT || exit_code == SIGQUIT + 128)
+			write(2, "\n", 1);
+	}
 	ft_status_set(exit_code);
-	return ;
 }
 
 void	ft_shell_interactive(void)
 {
-	char			*str;
-	unsigned char	status;
+	char	*str;
 
 	rl_outstream = stderr;
 	while (1)
@@ -60,9 +62,6 @@ void	ft_shell_interactive(void)
 			break ;
 		signal(SIGINT, SIG_IGN);
 		ft_shell_execute(str);
-		status = ft_status_get() - 128;
-		if (status == SIGINT || status == SIGQUIT)
-			write(2, "\n", 1);
 		if (*str)
 			add_history(str);
 		free(str);
