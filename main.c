@@ -27,11 +27,6 @@ void	debug(t_ast *node)
 	printf("\n");
 }
 
-bool	ft_shell_isinteractive(void)
-{
-	return (isatty(STDIN_FILENO) && isatty(STDERR_FILENO));
-}
-
 int	main(void)
 {
 	if (ft_shell_isinteractive())
