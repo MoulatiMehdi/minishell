@@ -6,7 +6,7 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 18:37:22 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/05/16 18:37:23 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/05/25 17:08:09 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,15 @@ void	ft_token_error(t_token *token, char *msg);
 
 void	ft_shell_interactive(void);
 void	ft_shell_noninteractive(void);
-int		ft_redirect(t_list *redirect);
-void	ft_heredoc_sigint(int signal);
+bool	ft_shell_isinteractive(void);
 
-void	ft_signal_int(int signal);
+int		ft_redirect(t_list *redirect);
+
 void	ft_signal_child(void);
 void	ft_signal_parent(void);
+
+void	ft_sigint_heredoc(int signal);
+void	ft_sigint_noiteractive(int signal);
+void	ft_sigint_heredoc(int signal);
+void	ft_sigint_prompt(int signal);
 #endif
