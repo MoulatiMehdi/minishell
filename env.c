@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "env.h"
+#include "libft.h"
+#include <stdlib.h>
 
 static t_array	**ft_env_ptr(void)
 {
@@ -24,19 +26,10 @@ t_array	*ft_env_get(void)
 	return (*ft_env_ptr());
 }
 
-t_array	*ft_env_set(t_array *new_env)
+t_array	*ft_init_env(char **env)
 {
-	t_array	**ptr;
-
-	ptr = ft_env_ptr();
-	*ptr = new_env;
-	return (new_env);
-}
-
-t_array *ft_init_env(char **env)
-{
-	size_t i;
-	t_array *env_arr;
+	size_t	i;
+	t_array	*env_arr;
 
 	if (!env)
 		return (NULL);
@@ -48,22 +41,5 @@ t_array *ft_init_env(char **env)
 		i++;
 	}
 	ft_env_set(env_arr);
-	return(ft_env_get());
-}
-
-t_array *ft_copy_env(t_array *env)
-{
-    t_array *new_env;
-    t_list *node;
-
-	new_env = NULL;
-    if (!env)
-        return (NULL);
-    node = env->head;
-    while (node)
-    {
-        ft_array_push(&new_env, ft_strdup((char *)node->content));
-        node = node->next;
-    }
-    return (new_env);
+	return (ft_env_get());
 }
