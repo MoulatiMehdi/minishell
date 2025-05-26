@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 10:46:46 by okhourss          #+#    #+#             */
-/*   Updated: 2025/05/26 16:32:16 by okhourss         ###   ########.fr       */
+/*   Updated: 2025/05/26 18:34:49 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static void	exec_segment(t_ast *cmd, int out_fd, int fds[2], t_pipe_ctx *ctx)
 		ft_ast_expand(cmd);
 		args = ft_ast_getargs(cmd);
 		if (args && ft_command_isbuildin(args[0]))
-			exit(ft_execute_buildin(cmd->redirect, args));
+			ft_status_exit(ft_execute_buildin(cmd->redirect, args));
 		exec_external(cmd, args);
 	}
 	ctx->last_pid = pid;

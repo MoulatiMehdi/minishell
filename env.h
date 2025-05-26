@@ -17,6 +17,6 @@
 
 t_array	*ft_env_get(void);
 t_array	*ft_env_set(t_array *new_env);
-t_array *ft_init_env(char **env);
+t_array	*ft_init_env(char **env);
 
 #endif

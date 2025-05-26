@@ -89,8 +89,7 @@ void	lexer(t_token *curr_token)
 	if (ft_heredoc_islimit(curr_token))
 	{
 		ft_putstr_fd(ERR_HEREDOC_LIMIT, 2);
-		ft_clear();
-		exit(2);
+		ft_status_exit(2);
 	}
 	ft_lexer_recognition(curr_token);
 }
