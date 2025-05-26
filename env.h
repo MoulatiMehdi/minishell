@@ -1,25 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execution_subshell.c                               :+:      :+:    :+:   */
+/*   env.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/26 14:53:23 by okhourss          #+#    #+#             */
-/*   Updated: 2025/05/26 18:20:09 by mmoulati         ###   ########.fr       */
+/*   Created: 2025/05/23 14:24:26 by okhourss          #+#    #+#             */
+/*   Updated: 2025/05/24 13:20:30 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
-#include "execution.h"
-#include "expansion.h"
-#include "libft/libft.h"
-#include "parser.h"
+#ifndef ENV_H
+# define ENV_H
 
-void	ft_subshell_child(t_ast *ast)
-{
-	ft_signal_child();
-	if (ft_redirect(ast->redirect))
-		ft_status_exit(1);
-	ft_status_exit(ft_execute_andor(ast));
-}
+# include "libft/libft.h"
+
+t_array	*ft_env_get(void);
+t_array	*ft_env_set(t_array *new_env);
+t_array *ft_init_env(char **env);
+
+#endif

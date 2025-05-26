@@ -3,29 +3,50 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/24 10:14:12 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/05/24 10:14:12 by mmoulati         ###   ########.fr       */
+/*   Created: 2025/05/23 14:22:59 by okhourss          #+#    #+#             */
+/*   Updated: 2025/05/26 11:17:39 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "expansion.h"
+#include "env.h"
 
-char	*get_env_value(const char *var_name, size_t len)
+static t_array	**ft_env_ptr(void)
 {
-	int			i;
-	extern char	**environ;
+	static t_array	*env = NULL;
 
-	if (var_name == NULL || len <= 0)
+	return (&env);
+}
+
+t_array	*ft_env_get(void)
+{
+	return (*ft_env_ptr());
+}
+
+t_array	*ft_env_set(t_array *new_env)
+{
+	t_array	**ptr;
+
+	ptr = ft_env_ptr();
+	*ptr = new_env;
+	return (new_env);
+}
+
+t_array	*ft_init_env(char **env)
+{
+	size_t	i;
+	t_array	*env_arr;
+
+	if (!env)
 		return (NULL);
 	i = 0;
-	while (environ[i])
+	env_arr = ft_array_new();
+	while (env[i])
 	{
-		if (ft_strncmp(environ[i], var_name, len) == 0
-			&& environ[i][len] == '=')
-			return (&environ[i][len + 1]);
+		ft_array_push(&env_arr, ft_strdup(env[i]));
 		i++;
 	}
-	return (NULL);
+	ft_env_set(env_arr);
+	return (env);
 }

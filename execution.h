@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 18:37:22 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/05/26 16:15:34 by okhourss         ###   ########.fr       */
+/*   Updated: 2025/05/26 18:15:55 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int			wait_for_all(pid_t last_pid);
 void		run_pipeline(t_ast *ast, t_pipe_ctx *ctx);
 
 int			ft_execute_simplecommand(t_ast *ast);
+int			ft_execute_andor(t_ast *ast);
 int			ft_execute_pipeline(t_ast *ast);
 int			ft_execute_buildin(t_list *redirect, char **args);
 int			ft_execute_file(t_list *redirect, char **args);
