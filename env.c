@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 14:22:59 by okhourss          #+#    #+#             */
-/*   Updated: 2025/05/26 11:17:39 by okhourss         ###   ########.fr       */
+/*   Updated: 2025/05/26 15:00:02 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,30 @@ t_array *ft_init_env(char **env)
 
 	if (!env)
 		return (NULL);
+	env_arr = NULL;
 	i = 0;
-	env_arr = ft_array_new();
 	while (env[i])
 	{
 		ft_array_push(&env_arr, ft_strdup(env[i]));
 		i++;
 	}
 	ft_env_set(env_arr);
-	return(env);
+	return(ft_env_get());
+}
+
+t_array *ft_copy_env(t_array *env)
+{
+    t_array *new_env;
+    t_list *node;
+
+	new_env = NULL;
+    if (!env)
+        return (NULL);
+    node = env->head;
+    while (node)
+    {
+        ft_array_push(&new_env, ft_strdup((char *)node->content));
+        node = node->next;
+    }
+    return (new_env);
 }
