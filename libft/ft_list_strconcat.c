@@ -1,37 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstnew.c                                        :+:      :+:    :+:   */
+/*   ft_list_strconcat.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/10 13:17:04 by mmoulati          #+#    #+#             */
-/*   Updated: 2024/11/13 20:59:31 by mmoulati         ###   ########.fr       */
+/*   Created: 2025/05/24 14:58:27 by mmoulati          #+#    #+#             */
+/*   Updated: 2025/05/24 14:58:27 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "libft.h"
 
-t_list	*ft_lstnew(void *content)
+void	ft_list_strconcat(t_list *list, char *str)
 {
-	t_list	*new_elem;
-
-	new_elem = malloc(sizeof(t_list));
-	if (!new_elem)
-		return (0);
-	new_elem->content = content;
-	new_elem->next = NULL;
-	return (new_elem);
-}
-
-t_list	*ft_lstnew_track(void *content)
-{
-	t_list	*new_elem;
-
-	new_elem = ft_malloc(sizeof(t_list));
-	if (!new_elem)
-		return (0);
-	new_elem->content = content;
-	new_elem->next = NULL;
-	return (new_elem);
+	if (list == NULL || str == NULL)
+		return ;
+	while (list)
+	{
+		ft_strconcat((char **)&list->content, str);
+		list = list->next;
+	}
 }
