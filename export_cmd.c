@@ -109,7 +109,7 @@ int	export_cmd(char **args)
 
 	env = ft_env_get();
 	status = 0;
-	if (!args)
+	if (!args || !args[0])
 		return (print_export(env));
 	process_export_args(args, env, &status);
 	return (status);

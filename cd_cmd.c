@@ -61,7 +61,7 @@ static char	*fetch_oldpwd(t_array *env)
 
 	pwd = get_env_var(env, "PWD");
 	if (pwd)
-		oldpwd = strdup(pwd);
+		oldpwd = ft_strdup(pwd);
 	else
 		oldpwd = NULL;
 	return (oldpwd);
@@ -73,7 +73,7 @@ static int	update_directory(const char *target, t_array *env)
 	char	*newpwd;
 
 	oldpwd = fetch_oldpwd(env);
-	if (!oldpwd || chdir(target) != 0)
+	if (chdir(target) != 0)
 	{
 		perror("cd");
 		free(oldpwd);
