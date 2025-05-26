@@ -19,6 +19,7 @@ ft_itoa.c \
 ft_lstremove.c \
 ft_list_sort.c \
 ft_list_strconcat.c \
+ft_list_remove_if.c \
 ft_lstadd_back.c \
 ft_lstadd_front.c \
 ft_lstclear.c \
