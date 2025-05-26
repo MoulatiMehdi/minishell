@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 17:39:54 by okhourss          #+#    #+#             */
-/*   Updated: 2025/05/15 10:19:07 by okhourss         ###   ########.fr       */
+/*   Updated: 2025/05/26 11:38:00 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,18 +38,20 @@ void	ft_unset_var(char *var, t_array *env)
 	free(curr);
 }
 
-int	unset_cmd(t_cmd *cmd)
+int	unset_cmd(char **args)
 {
-	int	i;
+	int		i;
+	t_array	*env;
 
-	if (!cmd->args || !cmd->args[0])
+	env = ft_env_get();
+	if (!args || !args[0])
 	{
 		return (0);
 	}
 	i = 0;
-	while (cmd->args[i])
+	while (args[i])
 	{
-		ft_unset_var(cmd->args[i], cmd->env);
+		ft_unset_var(args[i], env);
 		i++;
 	}
 	return (0);

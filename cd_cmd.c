@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 15:20:00 by okhourss          #+#    #+#             */
-/*   Updated: 2025/05/15 13:35:59 by okhourss         ###   ########.fr       */
+/*   Updated: 2025/05/26 11:55:22 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,15 @@ static void	set_env_var(t_array *env, const char *key, const char *val)
 		ft_array_push(&env, nv);
 }
 
-static int	validate_args(t_cmd *cmd, char **target)
+static int	validate_args(char **args, char **target)
 {
-	if (cmd->args[0] && cmd->args[1])
+	if (args[0] && args[1])
 	{
 		if (ft_putendl_fd("cd: too many arguments", 2) < 0)
 			perror("cd");
 		return (1);
 	}
-	if (!cmd->args[0])
+	if (!args[0])
 	{
 		*target = getenv("HOME");
 		if (!*target)
@@ -50,8 +50,21 @@ static int	validate_args(t_cmd *cmd, char **target)
 		}
 	}
 	else
-		*target = cmd->args[0];
+		*target = args[0];
 	return (0);
+}
+
+static char	*fetch_oldpwd(t_array *env)
+{
+	char	*pwd;
+	char	*oldpwd;
+
+	pwd = get_env_var(env, "PWD");
+	if (pwd)
+		oldpwd = strdup(pwd);
+	else
+		oldpwd = NULL;
+	return (oldpwd);
 }
 
 static int	update_directory(const char *target, t_array *env)
@@ -59,7 +72,7 @@ static int	update_directory(const char *target, t_array *env)
 	char	*oldpwd;
 	char	*newpwd;
 
-	oldpwd = getcwd(NULL, 0);
+	oldpwd = fetch_oldpwd(env);
 	if (!oldpwd || chdir(target) != 0)
 	{
 		perror("cd");
@@ -74,19 +87,21 @@ static int	update_directory(const char *target, t_array *env)
 		return (1);
 	}
 	set_env_var(env, "OLDPWD", oldpwd);
-	free(oldpwd);
 	set_env_var(env, "PWD", newpwd);
+	free(oldpwd);
 	free(newpwd);
 	return (0);
 }
 
-int	cd_cmd(t_cmd *cmd)
+int	cd_cmd(char **args)
 {
 	char	*target;
+	t_array	*env;
 
-	if (!cmd || !cmd->env)
+	env = ft_env_get();
+	if (!env)
 		return (1);
-	if (validate_args(cmd, &target))
+	if (validate_args(args, &target))
 		return (1);
-	return (update_directory(target, cmd->env));
+	return (update_directory(target, env));
 }

@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 13:50:37 by okhourss          #+#    #+#             */
-/*   Updated: 2025/05/16 09:54:02 by okhourss         ###   ########.fr       */
+/*   Updated: 2025/05/26 12:34:19 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,9 @@
 
 static void	cleanup_and_exit(int code)
 {
-	if (isatty(STDIN_FILENO))
+	if (ft_shell_isinteractive())
 		ft_putendl_fd("exit", 2);
-	/*	
-		TODO: free resources here 
-	*/
+	ft_clear();
 	exit(code);
 }
 
@@ -74,16 +72,16 @@ static long	parse_exit_code(char *arg)
 	return ((long)(value * (unsigned long)sign));
 }
 
-int	exit_cmd(t_cmd *cmd, int last_return)
+int	exit_cmd(char **args)
 {
 	long	code;
+	int		last_return;
 
-	if (!cmd)
-		return (1);
-	if (!cmd->args || !cmd->args[0])
+	last_return = ft_status_get();
+	if (!args || !args[0])
 		cleanup_and_exit(last_return);
-	code = parse_exit_code(cmd->args[0]);
-	if (cmd->args[1])
+	code = parse_exit_code(args[0]);
+	if (args[1])
 	{
 		ft_putendl_fd("exit: too many arguments", 2);
 		return (1);

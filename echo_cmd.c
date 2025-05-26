@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 10:06:52 by okhourss          #+#    #+#             */
-/*   Updated: 2025/05/15 13:02:39 by okhourss         ###   ########.fr       */
+/*   Updated: 2025/05/26 11:31:04 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,15 +68,13 @@ static int	print_arguments(char *const args[], int start)
 	return (0);
 }
 
-int	echo_cmd(t_cmd *cmd)
+int	echo_cmd(char **args)
 {
 	int	arg_idx;
 	int	omit_nl;
 
-	if (!cmd)
-		return (1);
-	omit_nl = parse_flags(cmd->args, &arg_idx);
-	if (print_arguments(cmd->args, arg_idx))
+	omit_nl = parse_flags(args, &arg_idx);
+	if (print_arguments(args, arg_idx))
 		return (1);
 	if (omit_nl && write(1, "\n", 1) < 0)
 	{

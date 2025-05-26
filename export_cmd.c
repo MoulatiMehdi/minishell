@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 10:07:58 by okhourss          #+#    #+#             */
-/*   Updated: 2025/05/16 10:19:15 by okhourss         ###   ########.fr       */
+/*   Updated: 2025/05/26 11:36:25 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,15 +102,15 @@ static void	process_export_args(char **args, t_array *env, int *status)
 	}
 }
 
-int	export_cmd(t_cmd *cmd)
+int	export_cmd(char **args)
 {
-	int	status;
+	int		status;
+	t_array	*env;
 
+	env = ft_env_get();
 	status = 0;
-	if (!cmd)
-		return (1);
-	if (!cmd->args)
-		return (print_export(cmd->env));
-	process_export_args(cmd->args, cmd->env, &status);
+	if (!args)
+		return (print_export(env));
+	process_export_args(args, env, &status);
 	return (status);
 }
