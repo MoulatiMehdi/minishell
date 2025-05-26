@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 11:37:14 by okhourss          #+#    #+#             */
-/*   Updated: 2025/05/26 15:50:10 by okhourss         ###   ########.fr       */
+/*   Updated: 2025/05/26 17:08:16 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ void	redirect_fds(int in_fd, int out_fd)
 
 int	wait_for_all(pid_t last_pid)
 {
-	pid_t wait_pid;
-	int status;
-	int exit_status;
+	pid_t	wait_pid;
+	int		status;
+	int		exit_status;
 
 	exit_status = 0;
 	while (1)

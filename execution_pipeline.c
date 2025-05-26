@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 10:46:46 by okhourss          #+#    #+#             */
-/*   Updated: 2025/05/26 16:15:48 by okhourss         ###   ########.fr       */
+/*   Updated: 2025/05/26 16:32:16 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,7 @@ static void	exec_external(t_ast *cmd, char **args)
 	ft_status_exit(126);
 }
 
-static void	exec_segment(t_ast *cmd, int in_fd, int out_fd, int fds[2],
-		t_pipe_ctx *ctx)
+static void	exec_segment(t_ast *cmd, int out_fd, int fds[2], t_pipe_ctx *ctx)
 {
 	pid_t	pid;
 	char	**args;
@@ -47,7 +46,7 @@ static void	exec_segment(t_ast *cmd, int in_fd, int out_fd, int fds[2],
 	if (pid == 0)
 	{
 		ft_signal_child();
-		redirect_fds(in_fd, out_fd);
+		redirect_fds(ctx->in_fd, out_fd);
 		if (fds[0] >= 0)
 			close(fds[0]);
 		if (fds[1] >= 0)
@@ -63,9 +62,11 @@ static void	exec_segment(t_ast *cmd, int in_fd, int out_fd, int fds[2],
 
 static void	pipeline_segment(t_ast *cmd, t_pipe_ctx *ctx, int *cmds_left)
 {
-	int	fds[2] = {-1, -1};
+	int	fds[2];
 	int	out_fd;
 
+	fds[0] = -1;
+	fds[1] = -1;
 	out_fd = -1;
 	if ((*cmds_left)-- > 1)
 	{
@@ -74,7 +75,7 @@ static void	pipeline_segment(t_ast *cmd, t_pipe_ctx *ctx, int *cmds_left)
 	}
 	if (*cmds_left >= 1)
 		out_fd = fds[1];
-	exec_segment(cmd, ctx->in_fd, out_fd, fds, ctx);
+	exec_segment(cmd, out_fd, fds, ctx);
 	if (ctx->in_fd >= 0)
 		close(ctx->in_fd);
 	if (out_fd >= 0)
@@ -83,9 +84,7 @@ static void	pipeline_segment(t_ast *cmd, t_pipe_ctx *ctx, int *cmds_left)
 		ctx->in_fd = fds[0];
 	}
 	else
-	{
 		ctx->in_fd = -1;
-	}
 }
 
 void	run_pipeline(t_ast *ast, t_pipe_ctx *ctx)
