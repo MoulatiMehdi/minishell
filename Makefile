@@ -2,7 +2,7 @@ CC = cc
 AR = ar
 RM = rm
 
-CCFLAGS = -Wall -Wextra   -g -fsanitize=address
+CCFLAGS = -Wall -Wextra #-Werror  #-fsanitize=address -g
 ARFLAGS = crs
 RMFLAGS = -rf
 
@@ -10,7 +10,7 @@ DEPS = libft
 LIBFT = $(DEPS)/libft.a 
 SRCS = $(wildcard *.c) 
 OBJS = $(SRCS:.c=.o)
-NAME = builtins
+NAME = tokenizer
 
 
 all : $(NAME) 
