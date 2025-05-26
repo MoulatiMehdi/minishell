@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 18:37:17 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/05/26 15:27:23 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/05/26 16:16:00 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,16 @@
 #include "expansion.h"
 #include "libft/libft.h"
 #include "parser.h"
+
+int	ft_execute_pipeline(t_ast *ast)
+{
+	t_pipe_ctx	ctx;
+
+	ctx.in_fd = -1;
+	ctx.last_pid = 0;
+	run_pipeline(ast, &ctx);
+	return (wait_for_all(ctx.last_pid));
+}
 
 int	ft_execute_subshell(t_ast *ast)
 {

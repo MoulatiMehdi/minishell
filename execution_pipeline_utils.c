@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 11:37:14 by okhourss          #+#    #+#             */
-/*   Updated: 2025/05/23 12:58:34 by okhourss         ###   ########.fr       */
+/*   Updated: 2025/05/26 15:50:10 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,7 @@ int	count_cmds(t_ast *ast)
 	while (lst)
 	{
 		node = lst->content;
-		if (node->type != TOKEN_PIPE)
-			n++;
+		n++;
 		lst = lst->next;
 	}
 	return (n);
@@ -46,9 +45,9 @@ void	redirect_fds(int in_fd, int out_fd)
 
 int	wait_for_all(pid_t last_pid)
 {
-	pid_t	wait_pid;
-	int		status;
-	int		exit_status;
+	pid_t wait_pid;
+	int status;
+	int exit_status;
 
 	exit_status = 0;
 	while (1)
@@ -62,6 +61,8 @@ int	wait_for_all(pid_t last_pid)
 				exit_status = WEXITSTATUS(status);
 			else if (WIFSIGNALED(status))
 				exit_status = WTERMSIG(status) + 128;
+			else if (WIFSTOPPED(status))
+				exit_status = WSTOPSIG(status) + 128;
 		}
 	}
 	return (exit_status);
