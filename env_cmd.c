@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 13:01:54 by okhourss          #+#    #+#             */
-/*   Updated: 2025/05/26 11:41:06 by okhourss         ###   ########.fr       */
+/*   Updated: 2025/05/26 17:36:12 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	print_env(t_array *env)
 	{
 		if (ft_putendl_fd((char *)curr->content, 1) < 0)
 		{
-			perror("echo: write error");
+			perror(SHELL_NAME "env: write error");
 			break ;
 		}
 		curr = curr->next;
@@ -39,7 +39,7 @@ int	env_cmd(char **args)
 		return (1);
 	if (args && args[0])
 	{
-		ft_putendl_fd("env: too many arguments", 2);
+		ft_putendl_fd(SHELL_NAME "env: too many arguments", 2);
 		return (1);
 	}
 	print_env(env);

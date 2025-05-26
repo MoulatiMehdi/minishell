@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 10:05:05 by okhourss          #+#    #+#             */
-/*   Updated: 2025/05/26 11:52:16 by okhourss         ###   ########.fr       */
+/*   Updated: 2025/05/26 17:33:45 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "libft/libft.h"
 # include "status.h"
 # include "stdio.h"
+# include "config.h"
 
 int		echo_cmd(char **args);
 int		pwd_cmd(char **args);

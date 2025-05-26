@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 15:20:00 by okhourss          #+#    #+#             */
-/*   Updated: 2025/05/26 11:55:22 by okhourss         ###   ########.fr       */
+/*   Updated: 2025/05/26 17:34:56 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ static int	validate_args(char **args, char **target)
 {
 	if (args[0] && args[1])
 	{
-		if (ft_putendl_fd("cd: too many arguments", 2) < 0)
-			perror("cd");
+		if (ft_putendl_fd(SHELL_NAME "cd: too many arguments", 2) < 0)
+			perror(SHELL_NAME "cd");
 		return (1);
 	}
 	if (!args[0])
@@ -44,8 +44,8 @@ static int	validate_args(char **args, char **target)
 		*target = getenv("HOME");
 		if (!*target)
 		{
-			if (ft_putendl_fd("cd: HOME not set", 2) < 0)
-				perror("cd");
+			if (ft_putendl_fd(SHELL_NAME "cd: HOME not set", 2) < 0)
+				perror(SHELL_NAME "cd");
 			return (1);
 		}
 	}

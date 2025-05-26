@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 09:59:27 by okhourss          #+#    #+#             */
-/*   Updated: 2025/05/16 10:22:15 by okhourss         ###   ########.fr       */
+/*   Updated: 2025/05/26 17:35:31 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	print_export_error(char *arg)
 {
 	if (!arg)
 		return ;
-	ft_putstr_fd("export: ", 2);
+	ft_putstr_fd(SHELL_NAME "export: ", 2);
 	ft_putstr_fd(arg, 2);
 	ft_putendl_fd(": not a valid identifier", 2);
 }
