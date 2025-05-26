@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 18:37:22 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/05/25 17:08:09 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/05/26 14:54:01 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,7 @@ void	ft_sigint_heredoc(int signal);
 void	ft_sigint_noiteractive(int signal);
 void	ft_sigint_heredoc(int signal);
 void	ft_sigint_prompt(int signal);
+
+void	ft_subshell_child(t_ast *ast, t_ast *child);
+
 #endif
