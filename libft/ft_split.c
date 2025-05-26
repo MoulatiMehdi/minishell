@@ -6,12 +6,11 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 21:23:31 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/05/06 18:49:24 by vboxuser         ###   ########.fr       */
+/*   Updated: 2025/05/26 15:30:13 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
 
 static size_t	ft_count_word(const char *str, char *charset)
 {

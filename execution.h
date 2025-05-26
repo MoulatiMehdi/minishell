@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 18:37:22 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/05/25 17:08:09 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/05/26 15:37:36 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,32 +34,47 @@
 # include <termios.h>
 # include <unistd.h>
 
-int		ft_execute_simplecommand(t_ast *ast);
-int		ft_execute_buildin(t_list *redirect, char **args);
-int		ft_execute_file(t_list *redirect, char **args);
+typedef struct s_pipe_ctx
+{
+	int		in_fd;
+	pid_t	last_pid;
+}			t_pipe_ctx;
 
-char	**ft_ast_getargs(t_ast *ast);
-int		ft_command_isbuildin(char *str);
+// pipeline utils:
+int			count_cmds(t_ast *ast);
+void		redirect_fds(int in_fd, int out_fd);
+int			wait_for_all(pid_t last_pid);
 
-bool	ft_path_isdir(char *pathname);
-bool	ft_path_isfile(char *pathname);
-char	*ft_path_join(char *p1, char *p2);
-char	**ft_path_get(void);
+int			ft_execute_simplecommand(t_ast *ast);
+int			ft_execute_pipeline(t_ast *ast);
+int			ft_execute_buildin(t_list *redirect, char **args);
+int			ft_execute_file(t_list *redirect, char **args);
 
-void	ft_perror(char *name, char *msg);
-void	ft_token_error(t_token *token, char *msg);
+char		*ft_command_search(char *name);
 
-void	ft_shell_interactive(void);
-void	ft_shell_noninteractive(void);
-bool	ft_shell_isinteractive(void);
+void		ft_ast_expand(t_ast *ast);
+char		**ft_ast_getargs(t_ast *ast);
+int			ft_command_isbuildin(char *str);
 
-int		ft_redirect(t_list *redirect);
+void		ft_shell_interactive(void);
+void		ft_shell_noninteractive(void);
+bool		ft_shell_isinteractive(void);
 
-void	ft_signal_child(void);
-void	ft_signal_parent(void);
+int			ft_redirect(t_list *redirect);
 
-void	ft_sigint_heredoc(int signal);
-void	ft_sigint_noiteractive(int signal);
-void	ft_sigint_heredoc(int signal);
-void	ft_sigint_prompt(int signal);
+void		ft_signal_child(void);
+void		ft_signal_parent(void);
+
+void		ft_sigint_heredoc(int signal);
+void		ft_sigint_noiteractive(int signal);
+void		ft_sigint_heredoc(int signal);
+void		ft_sigint_prompt(int signal);
+
+bool		ft_path_isdir(char *pathname);
+bool		ft_path_isfile(char *pathname);
+char		*ft_path_join(char *p1, char *p2);
+char		**ft_path_get(void);
+
+void		ft_perror(char *name, char *msg);
+void		ft_token_error(t_token *token, char *msg);
 #endif

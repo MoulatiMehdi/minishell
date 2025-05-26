@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_ast.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 18:37:17 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/05/25 11:06:49 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/05/26 15:27:23 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,6 @@
 #include "expansion.h"
 #include "libft/libft.h"
 #include "parser.h"
-
-int	ft_execute_pipeline(t_ast *ast)
-{
-	return (0);
-}
 
 int	ft_execute_subshell(t_ast *ast)
 {

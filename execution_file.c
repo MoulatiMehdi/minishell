@@ -3,18 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   execution_file.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 18:37:19 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/05/25 16:57:14 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/05/26 15:27:39 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "config.h"
 #include "execution.h"
 #include "libft/libft.h"
-#include "parser.h"
-#include <signal.h>
 #include <string.h>
 #include <sys/wait.h>
 #include <unistd.h>
