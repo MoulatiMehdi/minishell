@@ -6,15 +6,15 @@
 /*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 10:46:46 by okhourss          #+#    #+#             */
-/*   Updated: 2025/05/23 11:45:07 by okhourss         ###   ########.fr       */
+/*   Updated: 2025/05/26 12:00:00 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-static void	exec_external(t_ast *cmd, char **args)
+static void exec_external(t_ast *cmd, char **args)
 {
-	char	*path;
+	char *path;
 
 	if (ft_redirect(cmd->redirect))
 		ft_status_exit(1);
@@ -35,10 +35,10 @@ static void	exec_external(t_ast *cmd, char **args)
 	ft_status_exit(126);
 }
 
-static void	exec_segment(t_ast *cmd, int in_fd, int out_fd, t_pipe_ctx *ctx)
+static void exec_segment(t_ast *cmd, int in_fd, int out_fd, int fds[2], t_pipe_ctx *ctx)
 {
-	pid_t	pid;
-	char	**args;
+	pid_t pid;
+	char **args;
 
 	pid = fork();
 	if (pid < 0)
@@ -47,6 +47,10 @@ static void	exec_segment(t_ast *cmd, int in_fd, int out_fd, t_pipe_ctx *ctx)
 	{
 		ft_signal_child();
 		redirect_fds(in_fd, out_fd);
+		if (fds[0] >= 0)
+			close(fds[0]);
+		if (fds[1] >= 0)
+			close(fds[1]);
 		ft_ast_expand(cmd);
 		args = ft_ast_getargs(cmd);
 		if (args && ft_command_isbuildin(args[0]))
@@ -56,53 +60,54 @@ static void	exec_segment(t_ast *cmd, int in_fd, int out_fd, t_pipe_ctx *ctx)
 	ctx->last_pid = pid;
 }
 
-static void	pipeline_segment(t_ast *cmd, t_pipe_ctx *ctx, int *cmds_left)
+static void pipeline_segment(t_ast *cmd, t_pipe_ctx *ctx, int *cmds_left)
 {
-	int	fds[2];
-	int	out_fd;
+	int fds[2] = {-1, -1};
+	int out_fd = -1;
 
-	out_fd = STDOUT_FILENO;
 	if ((*cmds_left)-- > 1)
+	{
 		if (pipe(fds) < 0)
 			perror(SHELL_NAME ": pipe");
+	}
 	if (*cmds_left >= 1)
 		out_fd = fds[1];
-	exec_segment(cmd, ctx->in_fd, out_fd, ctx);
-	if (ctx->in_fd != STDIN_FILENO)
+	exec_segment(cmd, ctx->in_fd, out_fd, fds, ctx);
+	if (ctx->in_fd >= 0)
 		close(ctx->in_fd);
-	if (out_fd != STDOUT_FILENO)
+	if (out_fd >= 0)
 	{
 		close(fds[1]);
 		ctx->in_fd = fds[0];
 	}
+	else
+	{
+		ctx->in_fd = -1;
+	}
 }
 
-static void	run_pipeline(t_ast *ast, t_pipe_ctx *ctx)
+static void run_pipeline(t_ast *ast, t_pipe_ctx *ctx)
 {
-	t_list	*lst;
-	int		cmds_left;
-	t_ast	*cmd;
+	t_list *lst;
+	int cmds_left;
 
 	lst = ast->children;
 	cmds_left = count_cmds(ast);
 	while (lst)
 	{
-		cmd = lst->content;
-		if (cmd->type != TOKEN_PIPE)
-			pipeline_segment(cmd, ctx, &cmds_left);
+		t_ast *cmd = lst->content;
+		pipeline_segment(cmd, ctx, &cmds_left);
 		lst = lst->next;
 	}
-	if (ctx->in_fd != STDIN_FILENO)
+	if (ctx->in_fd >= 0)
 		close(ctx->in_fd);
 }
 
-int	ft_execute_pipeline(t_ast *ast)
+int ft_execute_pipeline(t_ast *ast)
 {
-	int			ncmds;
-	t_pipe_ctx	ctx;
+	t_pipe_ctx ctx;
 
-	ncmds = count_cmds(ast);
-	ctx.in_fd = STDIN_FILENO;
+	ctx.in_fd = -1;
 	ctx.last_pid = 0;
 	run_pipeline(ast, &ctx);
 	return (wait_for_all(ctx.last_pid));

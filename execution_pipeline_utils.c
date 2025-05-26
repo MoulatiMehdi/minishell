@@ -12,25 +12,24 @@
 
 #include "execution.h"
 
-int	count_cmds(t_ast *ast)
+int count_cmds(t_ast *ast)
 {
-	t_list	*lst;
-	t_ast	*node;
-	int		n;
+	t_list *lst;
+	t_ast *node;
+	int n;
 
 	n = 0;
 	lst = ast->children;
 	while (lst)
 	{
 		node = lst->content;
-		if (node->type != TOKEN_PIPE)
-			n++;
+		n++;
 		lst = lst->next;
 	}
 	return (n);
 }
 
-void	redirect_fds(int in_fd, int out_fd)
+void redirect_fds(int in_fd, int out_fd)
 {
 	if (in_fd != STDIN_FILENO)
 	{
@@ -44,18 +43,18 @@ void	redirect_fds(int in_fd, int out_fd)
 	}
 }
 
-int	wait_for_all(pid_t last_pid)
+int wait_for_all(pid_t last_pid)
 {
-	pid_t	wait_pid;
-	int		status;
-	int		exit_status;
+	pid_t wait_pid;
+	int status;
+	int exit_status;
 
 	exit_status = 0;
 	while (1)
 	{
 		wait_pid = wait(&status);
 		if (wait_pid <= 0)
-			break ;
+			break;
 		if (wait_pid == last_pid)
 		{
 			if (WIFEXITED(status))
