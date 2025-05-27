@@ -38,7 +38,7 @@ size_t	ft_args_fields(t_token *token, char **strs)
 	t_list	*p;
 	t_array	*field;
 
-	if (token == NULL || !strs || !*strs)
+	if (token == NULL)
 		return (0);
 	field = token->fields;
 	if (field == NULL || field->length == 0)
