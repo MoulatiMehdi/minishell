@@ -12,8 +12,11 @@ SRCS = $(wildcard *.c)
 OBJS = $(SRCS:.c=.o)
 NAME = minishell
 
-
 all : $(NAME) 
+
+sanitize : $(OBJS) $(LIBFT)
+	$(CC) $(CCFLAGS) -fsanitize=address $^ -o $(NAME) -lft -Llibft  -lreadline $(addprefix -I,$(DEPS))
+
 
 $(NAME) : $(OBJS) $(LIBFT) 
 	$(CC) $(CCFLAGS) $^ -o $@ -lft -Llibft  -lreadline $(addprefix -I,$(DEPS))
@@ -33,5 +36,5 @@ fclean : clean
 
 re : fclean all
 
-.PHONY : all fclean clean
+.PHONY : all fclean clean re sanitize
 .SECONDARY : $(OBJS)
