@@ -10,6 +10,7 @@
 /* ************************************************************************** */
 
 #include "debug.h"
+#include "env.h"
 #include "expansion.h"
 #include "libft/libft.h"
 #include "parser.h"
@@ -18,12 +19,13 @@
 #include <readline/readline.h>
 #include <stdio.h>
 
-int	main(void)
+int	main(int argc,char ** argv,char ** envp)
 {
 	t_token	*token;
 	t_ast	*node;
 	char	*str;
 
+    ft_env_init(envp);
 	setvbuf(stdout, NULL, _IONBF, 0);
 	while (1)
 	{
@@ -40,6 +42,7 @@ int	main(void)
 		}
 		lexer(token);
 		node = parser(token);
+		ft_ast_print(node, 0);
 		if (!node)
 		{
 			printf("Parse error.\n");
@@ -48,10 +51,11 @@ int	main(void)
 		}
 		while (token)
 		{
+            if(ft_token_isredirect(token->type) || token->type == TOKEN_WORD)
 			expand_token(token);
-			token = token->next;
+            token = token->next;
 		}
-		ft_ast_print(node, 0);
+		ft_ast_expansion(node, 0);
 		free(str);
 		ft_clear();
 	}

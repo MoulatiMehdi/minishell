@@ -95,8 +95,8 @@ void ft_char_repete(char* str,int n)
 void ft_ast_args_print(t_ast * ast,int depth)
 {
     t_list * head;
-    t_list * field;
     t_token * token;
+    char * lexeme;
 
     if(ast == NULL)
         return ;
@@ -104,16 +104,14 @@ void ft_ast_args_print(t_ast * ast,int depth)
     while(head)
     {
         token = head->content;
-        if(token->fields)
-        {
-            field = token->fields->head;
-            while(field)
-            {
-                leaf_print(field,depth);
-                printf("%s\n",(char *)field->content);
-                field = field->next;
-            }
-        }
+        lexeme = NULL;
+        if(token->value)
+            lexeme = strndup(token->value, token->length);
+        else 
+            lexeme = NULL;
+        leaf_print(head,depth);
+        printf("%s\n",lexeme);
+        free(lexeme); 
         head = head->next;
     }
 }
@@ -144,6 +142,57 @@ void ft_ast_redirect_print(t_ast * ast,int depth)
 }
 
 
+void ft_ast_argsexp_print(t_ast * ast,int depth)
+{
+    t_list * head;
+    t_list * field;
+    t_token * token;
+
+    if(ast == NULL)
+        return ;
+    head = ast->args;
+    while(head)
+    {
+        token = head->content;
+        if(token->fields)
+        {
+            field = token->fields->head;
+            while(field)
+            {
+                leaf_print(field,depth);
+                printf("%s\n",(char *)field->content);
+                field = field->next;
+            }
+        }
+        head = head->next;
+    }
+}
+
+
+void ft_ast_redirectexp_print(t_ast * ast,int depth)
+{
+    t_list * head;
+    t_token * token;
+    t_list * field;
+    if(ast == NULL)
+        return ;
+    head = ast->redirect;
+    while(head)
+    {
+        token = head->content;
+        if(token->fields)
+        {
+            field = token->fields->head;
+            while(field)
+            {
+                leaf_print(field,depth);
+                printf("%s %s \n",ft_asttype_getstr(token->type),(char *)field->content);
+                field = field->next;
+            }
+        }
+        head = head->next;
+    }
+}
 void ft_ast_children_print(t_ast * ast)
 {
     t_list * head;
@@ -217,6 +266,25 @@ void ft_ast_print(t_ast * ast,int depth)
         node = p->content;
         leaf_print(p,depth);
         ft_ast_print(node,depth +1);
+        p = p->next;
+    }
+}
+
+void ft_ast_expansion(t_ast * ast,int depth)
+{
+    t_list * p;
+    t_ast * node;
+    if(ast == NULL)
+        return ;
+    printf("%s : \n",ft_ast_gettype(ast));
+    ft_ast_argsexp_print(ast,depth);
+    ft_ast_redirectexp_print(ast,depth);
+    p = ast->children;
+    while(p)
+    {
+        node = p->content;
+        leaf_print(p,depth);
+        ft_ast_expansion(node,depth +1);
         p = p->next;
     }
 }
