@@ -12,7 +12,6 @@
 
 #include "env.h"
 #include "libft/libft.h"
-#include <string.h>
 
 static char	*status_to_str(void)
 {
@@ -95,7 +94,7 @@ char	*ft_env_set(char *key, char *value)
 	str = malloc(sizeof(char) * (len1 + len2 + 2UL));
 	ft_memcpy(str, key, len1);
 	str[len1] = '=';
-	ft_memcpy(&str[len1 + 1], value, len1 + len2 + 1);
+	ft_memcpy(&str[len1 + 1], value, len2);
 	str[len1 + len2 + 1] = '\0';
 	ft_array_push(ft_env_ptr(), str);
 	return (str);
