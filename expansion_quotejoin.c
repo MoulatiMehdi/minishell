@@ -37,12 +37,12 @@ void	join_quotes(t_word *head)
 	t_word	*next;
 
 	curr = head;
-	while (curr && curr->next)
+    while (curr && curr->next)
 	{
 		next = curr->next;
 		if (is_joinable(curr) && is_joinable(next))
 		{
-			ft_strjoin_track((char *)curr->value, next->value);
+			curr->value = ft_strjoin_track((char *)curr->value, next->value);
 			curr->length = ft_strlen(curr->value);
 			curr->type = WORD_QUOTE_SINGLE;
 			curr->next = next->next;
