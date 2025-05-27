@@ -12,7 +12,7 @@
 
 #include "env.h"
 
-void	ft_add_env_fundamentals(t_array **env, int shlvl, int oldpwd, int pwd)
+void	ft_add_env_fundamentals(int shlvl, int oldpwd, int pwd)
 {
 	char	*curr_pwd;
 
@@ -33,14 +33,14 @@ void	ft_check_env_fundamentals(t_array **env)
 	char	*shlvl;
 
 	if (!env)
-		return (ft_add_env_fundamentals(env, 1, 1, 1));
+		return (ft_add_env_fundamentals( 1, 1, 1));
 	if (ft_env_getvalue("PWD") == NULL)
-		ft_add_env_fundamentals(env, 0, 0, 1);
+		ft_add_env_fundamentals( 0, 0, 1);
 	if (ft_env_getvalue("OLDPWD") == NULL)
-		ft_add_env_fundamentals(env, 0, 1, 0);
+		ft_add_env_fundamentals( 0, 1, 0);
 	shlvl = ft_env_getvalue("SHLVL");
 	if (shlvl == NULL)
-		ft_add_env_fundamentals(env, 1, 0, 0);
+		ft_add_env_fundamentals( 1, 0, 0);
 	else
 	{
 		shlvl = ft_itoa(ft_atoi(shlvl) + 1);

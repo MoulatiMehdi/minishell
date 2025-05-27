@@ -31,7 +31,7 @@ void	ft_env_clear(void);
 
 // utils
 
-void	ft_add_env_fundamentals(t_array **env, int shlvl, int oldpwd, int pwd);
+void	ft_add_env_fundamentals(int shlvl, int oldpwd, int pwd);
 void	ft_check_env_fundamentals(t_array **env);
 
 #endif
