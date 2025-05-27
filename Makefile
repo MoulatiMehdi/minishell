@@ -2,7 +2,7 @@ CC = cc
 AR = ar
 RM = rm
 
-CCFLAGS = -Wall -Wextra  -g #-fsanitize=address
+CCFLAGS = -Wall -Wextra  -g -fsanitize=address
 ARFLAGS = crs
 RMFLAGS = -rf
 
@@ -14,8 +14,8 @@ NAME = minishell
 
 all : $(NAME) 
 
-sanitize : $(OBJS) $(LIBFT)
-	$(CC) $(CCFLAGS) -fsanitize=address $^ -o $(NAME) -lft -Llibft  -lreadline $(addprefix -I,$(DEPS))
+sanitize :
+	$(CC) $(CCFLAGS)  $(OBJS) -o $(NAME) -lft -Llibft  -lreadline $(addprefix -I,$(DEPS))
 
 
 $(NAME) : $(OBJS) $(LIBFT) 
