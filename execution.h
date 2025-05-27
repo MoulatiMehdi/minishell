@@ -79,4 +79,5 @@ char		**ft_path_get(void);
 
 void		ft_perror(char *name, char *msg);
 void		ft_token_error(t_token *token, char *msg);
+void		ft_command_execute(t_list *redirect, char *pathname, char **args);
 #endif

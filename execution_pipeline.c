@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 10:46:46 by okhourss          #+#    #+#             */
-/*   Updated: 2025/05/26 18:34:49 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/05/27 08:57:24 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,11 @@ static void	exec_external(t_ast *cmd, char **args)
 {
 	char	*path;
 
-	if (ft_redirect(cmd->redirect))
-		ft_status_exit(1);
 	if (ft_strchr(args[0], '/'))
 		path = args[0];
 	else
 		path = ft_command_search(args[0]);
-	if (!path)
-	{
-		ft_perror(args[0], "command not found");
-		ft_status_exit(127);
-	}
-	execve(path, args, NULL);
-	if (ft_path_isdir(path))
-		ft_perror(path, strerror(EISDIR));
-	else
-		ft_perror(path, strerror(errno));
-	ft_status_exit(126);
+	ft_command_execute(cmd->redirect, path, args);
 }
 
 static void	exec_segment(t_ast *cmd, int out_fd, int fds[2], t_pipe_ctx *ctx)
