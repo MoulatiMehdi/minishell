@@ -23,5 +23,5 @@ int	main(int argc, char **argv, char **envp)
 		ft_shell_interactive();
 	else
 		ft_shell_noninteractive();
-	return (ft_status_get());
+	ft_status_exit(ft_status_get());
 }
