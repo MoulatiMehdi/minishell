@@ -50,6 +50,7 @@ int	ft_execute_simplecommand(t_ast *ast)
 	return (status);
 }
 
+// TODO: subshell not working with redirection
 int	ft_execute_andor(t_ast *ast)
 {
 	t_list	*p;
@@ -66,6 +67,8 @@ int	ft_execute_andor(t_ast *ast)
 		child = p->content;
 		if (child->type == AST_SIMPLE_COMMAND)
 			status = ft_execute_simplecommand(child);
+		else if (child->type == AST_SUBSHELL)
+                ft_execute_andor(child);
 		else if (child->type == AST_PIPELINE)
 			status = ft_execute_pipeline(child);
 		else if (child->type == AST_OR && status == 0)
