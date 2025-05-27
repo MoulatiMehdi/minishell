@@ -6,18 +6,47 @@
 /*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 18:37:17 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/05/26 15:27:23 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/05/27 09:26:11 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "env.h"
 #include "execution.h"
 #include "expansion.h"
 #include "libft/libft.h"
 #include "parser.h"
 
+int	ft_execute_pipeline(t_ast *ast)
+{
+	t_pipe_ctx	ctx;
+
+	ctx.in_fd = -1;
+	ctx.last_pid = 0;
+	run_pipeline(ast, &ctx);
+	return (wait_for_all(ctx.last_pid));
+}
+
 int	ft_execute_subshell(t_ast *ast)
 {
-	return (0);
+	pid_t	pid;
+	int		status;
+
+	if (!ast || !ast->children)
+		return (0);
+	pid = fork();
+	if (pid < 0)
+		return (perror(SHELL_NAME ": fork"), 1);
+	if (pid == 0)
+		ft_subshell_child(ast, ast->children->content);
+	ft_signal_parent();
+	waitpid(pid, &status, 0);
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	if (WIFSIGNALED(status))
+		return (WTERMSIG(status) + 128);
+	if (WIFSTOPPED(status))
+		return (WSTOPSIG(status) + 128);
+	return (status);
 }
 
 void	ft_ast_expand(t_ast *ast)

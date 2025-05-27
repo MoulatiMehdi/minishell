@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 18:37:22 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/05/26 15:37:36 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/05/27 09:25:43 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,10 @@ typedef struct s_pipe_ctx
 int			count_cmds(t_ast *ast);
 void		redirect_fds(int in_fd, int out_fd);
 int			wait_for_all(pid_t last_pid);
+void		run_pipeline(t_ast *ast, t_pipe_ctx *ctx);
 
 int			ft_execute_simplecommand(t_ast *ast);
+int			ft_execute_andor(t_ast *ast);
 int			ft_execute_pipeline(t_ast *ast);
 int			ft_execute_buildin(t_list *redirect, char **args);
 int			ft_execute_file(t_list *redirect, char **args);
@@ -77,4 +79,8 @@ char		**ft_path_get(void);
 
 void		ft_perror(char *name, char *msg);
 void		ft_token_error(t_token *token, char *msg);
+void		ft_command_execute(t_list *redirect, char *pathname, char **args);
+
+void		ft_subshell_child(t_ast *ast, t_ast *child);
+
 #endif

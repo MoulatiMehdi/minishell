@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "env.h"
 #include "status.h"
 
 static unsigned char	*ft_status_ptr(void)
@@ -35,6 +36,7 @@ unsigned char	ft_status_set(unsigned char status)
 
 void	ft_status_exit(int status)
 {
+	ft_env_clear();
 	ft_clear();
 	exit(status);
 }
