@@ -62,6 +62,7 @@ char	**ft_env_strs(void)
 		lst = lst->next;
 		i++;
 	}
+	strs[i] = NULL;
 	return (strs);
 }
 

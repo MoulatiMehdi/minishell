@@ -6,7 +6,7 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 08:58:54 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/05/27 08:58:54 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/05/27 11:11:19 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "execution.h"
@@ -66,6 +66,7 @@ void	ft_command_execute(t_list *redirect, char *pathname, char **args)
 	}
 	envp = ft_env_strs();
 	execve(pathname, args, envp);
+	free(envp);
 	if (ft_path_isdir(pathname))
 		ft_perror(pathname, strerror(EISDIR));
 	else
