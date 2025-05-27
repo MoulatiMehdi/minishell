@@ -34,13 +34,15 @@ char	**ft_env_strs(void)
 	return (strs);
 }
 
-char	*ft_env_valuebysubkey(char *key, size_t length)
+char	*ft_env_valuebystrn(char *key, size_t length)
 {
 	t_array	*array;
 	t_list	*lst;
 	char	*p;
 
 	array = ft_env_get();
+	if (array == NULL || key == NULL)
+		return (NULL);
 	lst = array->head;
 	while (lst)
 	{
@@ -60,6 +62,8 @@ char	*ft_env_value(char *key)
 	size_t	len;
 
 	array = ft_env_get();
+	if (array == NULL || key == NULL)
+		return (NULL);
 	lst = array->head;
 	len = ft_strlen(key);
 	while (lst)

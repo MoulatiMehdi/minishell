@@ -17,7 +17,9 @@
 
 t_array	*ft_env_get(void);
 t_array	*ft_env_set(t_array *new_env);
-t_array *ft_init_env(char **env);
-t_array *ft_copy_env(t_array *env);
+t_array	*ft_env_init(char **env);
 
+char	**ft_env_strs(void);
+char	*ft_env_valuebystrn(char *key, size_t length);
+char	*ft_env_value(char *key);
 #endif
