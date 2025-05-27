@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 14:22:59 by okhourss          #+#    #+#             */
-/*   Updated: 2025/05/27 09:25:31 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/05/27 10:44:27 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char	**ft_env_strs(void)
 	array = ft_env_get();
 	if (!array || array->length == 0)
 		return (NULL);
-	strs = ft_malloc((sizeof(char *) + 1) * array->length);
+	strs = malloc((sizeof(char *) + 1) * array->length);
 	lst = array->head;
 	i = 0;
 	while (lst)
