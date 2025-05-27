@@ -5,7 +5,8 @@ CFLAGS = -Wall -Wextra -Werror -g
 ARFLAGS = crs
 
 SRCS = \
-ft_array.c\
+ft_array.c \
+ft_array_remove.c \
 ft_atoi.c \
 ft_bzero.c \
 ft_calloc.c \
@@ -16,7 +17,7 @@ ft_isascii.c \
 ft_isdigit.c \
 ft_isprint.c \
 ft_itoa.c \
-ft_lstremove.c \
+ft_list_remove_if.c \
 ft_list_sort.c \
 ft_list_strconcat.c \
 ft_lstadd_back.c \
@@ -27,6 +28,7 @@ ft_lstiter.c \
 ft_lstlast.c \
 ft_lstmap.c \
 ft_lstnew.c \
+ft_lstremove.c \
 ft_lstsize.c \
 ft_memchr.c \
 ft_memcmp.c \
@@ -59,7 +61,7 @@ ft_strtrim.c \
 ft_substr.c \
 ft_tolower.c \
 ft_toupper.c \
-get_next_line.c 
+get_next_line.c
 
 OBJS = $(SRCS:.c=.o)
 

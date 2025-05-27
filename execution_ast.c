@@ -16,11 +16,6 @@
 #include "libft/libft.h"
 #include "parser.h"
 
-int	ft_execute_pipeline(t_ast *ast)
-{
-	return (0);
-}
-
 int	ft_execute_subshell(t_ast *ast)
 {
 	pid_t	pid;

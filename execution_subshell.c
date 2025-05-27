@@ -19,7 +19,6 @@
 void	ft_subshell_child(t_ast *ast, t_ast *child)
 {
 	ft_signal_child();
-	ft_env_set(ft_copy_env(ft_env_get()));
 	if (ft_redirect(ast->redirect))
 		ft_status_exit(1);
 	ft_status_exit(ft_execute_andor(child));
