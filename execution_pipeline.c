@@ -14,25 +14,33 @@
 #include "parser.h"
 #include "status.h"
 
-static void	exec_external(t_ast *cmd, char **args)
+static void	exec_external(t_ast *cmd)
 {
 	char	*path;
+	char	**args;
 
-    path = NULL;
-    if(args && args[0])
-    {
-        if (ft_strchr(args[0], '/'))
-            path = args[0];
-        else
-            path = ft_command_search(args[0]);
-    }
-	ft_command_execute(cmd->redirect, path, args);
+	args = NULL;
+	path = NULL;
+	ft_signal_child();
+	args = ft_ast_getargs(cmd);
+	if (args && ft_command_isbuildin(args[0]))
+		ft_status_exit(ft_execute_buildin(cmd->redirect, args));
+	else
+	{
+		if (args && args[0])
+		{
+			if (ft_strchr(args[0], '/'))
+				path = args[0];
+			else
+				path = ft_command_search(args[0]);
+		}
+		ft_command_execute(cmd->redirect, path, args);
+	}
 }
 
 static void	exec_segment(t_ast *cmd, int out_fd, int fds[2], t_pipe_ctx *ctx)
 {
 	pid_t	pid;
-	char	**args;
 
 	pid = fork();
 	if (pid < 0)
@@ -46,14 +54,7 @@ static void	exec_segment(t_ast *cmd, int out_fd, int fds[2], t_pipe_ctx *ctx)
 			close(fds[1]);
 		ft_ast_expand(cmd);
 		if (cmd->type == AST_SIMPLE_COMMAND)
-		{
-			ft_signal_child();
-			args = ft_ast_getargs(cmd);
-			if (args && ft_command_isbuildin(args[0]))
-				ft_status_exit(ft_execute_buildin(cmd->redirect, args));
-			else
-				exec_external(cmd, args);
-		}
+			exec_external(cmd);
 		else if (cmd->type == AST_SUBSHELL)
 			ft_status_exit(ft_execute_andor(cmd));
 	}
