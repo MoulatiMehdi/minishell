@@ -13,6 +13,7 @@
 #ifndef EXPANSION_H
 # define EXPANSION_H
 
+# include "env.h"
 # include "libft/libft.h"
 # include "parser.h"
 # include "tokenizer.h"

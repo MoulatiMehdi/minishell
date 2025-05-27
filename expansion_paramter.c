@@ -6,7 +6,7 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 10:00:52 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/05/24 17:11:37 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/05/27 08:47:33 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ size_t	ft_expand_param(t_word *word, size_t i, char **val)
 	len = 0;
 	while (i + len < word->length && is_valid_char(word->value[len + i]))
 		len++;
-	ft_strconcat(val, get_env_value(&word->value[i], len));
+	ft_strconcat(val, ft_env_getvaluebysubstr((char *)&word->value[i], len));
 	return (len);
 }
 
