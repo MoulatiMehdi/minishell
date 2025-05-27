@@ -139,6 +139,7 @@ t_array				*ft_array_new(void);
 void				*ft_array_push(t_array **array, void *content);
 void				ft_array_remove(t_array **array, void *content,
 						t_func_cmp cmp, t_func_free del);
+void				ft_array_destroy(t_array **array, t_func_free free_fct);
 
 int					ft_clear(void);
 void				ft_free(void *addr);
