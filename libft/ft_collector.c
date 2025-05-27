@@ -41,7 +41,7 @@ void	*ft_malloc(size_t size)
 {
 	void	*addr;
 
-	addr = ft_calloc(size,1);
+	addr = ft_calloc(size, 1);
 	if (addr == NULL)
 		return (NULL);
 	return (ft_collector_track(addr));
