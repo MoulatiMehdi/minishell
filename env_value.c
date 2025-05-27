@@ -3,16 +3,43 @@
 /*                                                        :::      ::::::::   */
 /*   env_value.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 19:02:29 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/05/27 08:34:22 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/05/27 14:47:17 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
-#include "libft.h"
+#include "libft/libft.h"
 #include <string.h>
+
+static char	*status_to_str(void)
+{
+	static char		buf[4];
+	unsigned char	s;
+	int				len;
+
+	s = ft_status_get();
+	len = 0;
+	if (s >= 100)
+	{
+		buf[len++] = '0' + (s / 100);
+		buf[len++] = '0' + ((s / 10) % 10);
+		buf[len++] = '0' + (s % 10);
+	}
+	else if (s >= 10)
+	{
+		buf[len++] = '0' + (s / 10);
+		buf[len++] = '0' + (s % 10);
+	}
+	else
+	{
+		buf[len++] = '0' + s;
+	}
+	buf[len] = '\0';
+	return (buf);
+}
 
 char	*ft_env_getvaluebysubstr(char *key, size_t length)
 {
@@ -23,6 +50,8 @@ char	*ft_env_getvaluebysubstr(char *key, size_t length)
 	array = ft_env_get();
 	if (array == NULL || key == NULL)
 		return (NULL);
+	if (ft_strncmp(key, "?", length) == 0)
+		return (status_to_str());
 	lst = array->head;
 	while (lst)
 	{
@@ -36,24 +65,12 @@ char	*ft_env_getvaluebysubstr(char *key, size_t length)
 
 char	*ft_env_getvalue(char *key)
 {
-	t_array	*array;
-	t_list	*lst;
-	char	*p;
 	size_t	len;
 
-	array = ft_env_get();
-	if (array == NULL || key == NULL)
+	if (key == NULL)
 		return (NULL);
-	lst = array->head;
 	len = ft_strlen(key);
-	while (lst)
-	{
-		p = lst->content;
-		if (ft_strncmp(key, p, len) == 0 && p[len] == '=')
-			return (&p[len + 1]);
-		lst = lst->next;
-	}
-	return (NULL);
+	return (ft_env_getvaluebysubstr(key, len));
 }
 
 int	ft_keycmp(char *key, char *key_env)

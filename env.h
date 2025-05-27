@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 14:24:26 by okhourss          #+#    #+#             */
-/*   Updated: 2025/05/27 08:39:57 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/05/27 14:48:55 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,4 +27,10 @@ char	*ft_env_getvaluebysubstr(char *key, size_t length);
 char	**ft_env_strs(void);
 
 void	ft_env_clear(void);
+
+// utils
+
+void	ft_add_env_fundamentals(t_array **env, int shlvl, int oldpwd, int pwd);
+void	ft_check_env_fundamentals(t_array **env);
+
 #endif

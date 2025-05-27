@@ -28,11 +28,11 @@ size_t	ft_expand_param(t_word *word, size_t i, char **val)
 	size_t	len;
 
 	len = word->value[i] == '?';
-    if(len == 0)
-    {
-	    while (i + len < word->length && is_valid_char(word->value[len + i]))
-		    len++;
-    }
+	if (len == 0)
+	{
+		while (i + len < word->length && is_valid_char(word->value[len + i]))
+			len++;
+	}
 	ft_strconcat(val, ft_env_getvaluebysubstr((char *)&word->value[i], len));
 	return (len);
 }
