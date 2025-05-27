@@ -32,7 +32,6 @@ void	*ft_array_push(t_array **array, void *content)
 	if (array == NULL || content == NULL)
 		return (NULL);
 	node = ft_lstnew(content);
-	ft_collector_track(node);
 	if (node == NULL)
 		return (NULL);
 	if (*array == NULL)

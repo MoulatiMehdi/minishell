@@ -15,7 +15,7 @@
 
 int	is_valid_var_name(char c)
 {
-	return (c == '_' || ft_isalpha(c));
+	return (c == '_' || ft_isalpha(c) || c == '?');
 }
 
 int	is_valid_char(char c)
@@ -27,9 +27,12 @@ size_t	ft_expand_param(t_word *word, size_t i, char **val)
 {
 	size_t	len;
 
-	len = 0;
-	while (i + len < word->length && is_valid_char(word->value[len + i]))
-		len++;
+	len = word->value[i] == '?';
+    if(len == 0)
+    {
+	    while (i + len < word->length && is_valid_char(word->value[len + i]))
+		    len++;
+    }
 	ft_strconcat(val, ft_env_getvaluebysubstr((char *)&word->value[i], len));
 	return (len);
 }
@@ -41,7 +44,7 @@ size_t	ft_expand_noparam(t_word *word, size_t i, char **val)
 	len = 1;
 	while (i + len < word->length)
 	{
-		if (word->value[i + len] && word->value[i + len] != '$')
+		if (!word->value[i + len] || word->value[i + len] == '$')
 			break ;
 		len++;
 	}
