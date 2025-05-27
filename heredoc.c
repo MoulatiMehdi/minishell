@@ -105,8 +105,8 @@ int	ft_heredoc_tempfile(char *str)
 		fd[1] = open(name, O_RDWR | O_CREAT | O_EXCL, 0600);
 		ft_putstr_fd(str, fd[1]);
 		fd[0] = open(name, O_RDONLY);
-        if(fd[1] >= 0)
-            close(fd[1]);
+		if (fd[1] >= 0)
+			close(fd[1]);
 		unlink(name);
 	}
 	else

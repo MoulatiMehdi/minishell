@@ -10,9 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include "execution.h"
+#include "status.h"
 
 int	ft_command_ispathfound(char *dir, char *name, char *path[2])
 {
+	if (!name || !dir)
+		return (0);
 	path[0] = ft_path_join(dir, name);
 	if (ft_path_isfile(path[0]))
 	{
@@ -36,6 +39,8 @@ char	*ft_command_search(char *name)
 	char	**strs;
 	size_t	i;
 
+	if (name == NULL)
+		return (NULL);
 	i = 0;
 	path[1] = NULL;
 	strs = ft_path_get();
@@ -59,6 +64,8 @@ void	ft_command_execute(t_list *redirect, char *pathname, char **args)
 	ft_signal_child();
 	if (ft_redirect(redirect))
 		ft_status_exit(1);
+	if (!args || !args[0])
+		ft_status_exit(0);
 	if (!pathname)
 	{
 		ft_perror(args[0], "command not found");

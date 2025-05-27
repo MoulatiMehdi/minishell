@@ -41,15 +41,15 @@ int	ft_execute_file(t_list *redirect, char **args)
 			path = args[0];
 		else
 			path = ft_command_search(args[0]);
-		if (ft_execute(redirect, path, args) < 0)
-			return (1);
-		waitpid(-1, &wstatus, 0);
-		if (WIFEXITED(wstatus))
-			return (WEXITSTATUS(wstatus));
-		if (WIFSIGNALED(wstatus))
-			return (WTERMSIG(wstatus) + 128);
-		if (WIFSTOPPED(wstatus))
-			return (WSTOPSIG(wstatus) + 128);
 	}
+	if (ft_execute(redirect, path, args) < 0)
+		return (1);
+	waitpid(-1, &wstatus, 0);
+	if (WIFEXITED(wstatus))
+		return (WEXITSTATUS(wstatus));
+	if (WIFSIGNALED(wstatus))
+		return (WTERMSIG(wstatus) + 128);
+	if (WIFSTOPPED(wstatus))
+		return (WSTOPSIG(wstatus) + 128);
 	return (0);
 }

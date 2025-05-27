@@ -18,6 +18,8 @@ int	ft_command_isbuildin(char *str)
 	static char	*buildins[] = {"echo", "env", "pwd", "unset", "export", "cd",
 		"exit", NULL};
 
+	if (str)
+		return (0);
 	i = 0;
 	while (buildins[i])
 	{
@@ -47,9 +49,9 @@ int	ft_execute_buildin(t_list *redirect, char **args)
 	}
 	dup2(fd[0], STDIN_FILENO);
 	dup2(fd[1], STDOUT_FILENO);
-	if(fd[0] >= 0)
-        close(fd[0]);
-	if(fd[1] >= 0)
-        close(fd[1]);
+	if (fd[0] >= 0)
+		close(fd[0]);
+	if (fd[1] >= 0)
+		close(fd[1]);
 	return (0);
 }

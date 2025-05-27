@@ -10,12 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
 #include "execution.h"
 #include "expansion.h"
 #include "libft/libft.h"
 #include "parser.h"
-#include <signal.h>
 
 int	ft_execute_pipeline(t_ast *ast)
 {
@@ -25,34 +23,6 @@ int	ft_execute_pipeline(t_ast *ast)
 	ctx.last_pid = 0;
 	run_pipeline(ast, &ctx);
 	return (wait_for_all(ctx.last_pid));
-}
-
-int	ft_execute_subshell(t_ast *ast)
-{
-	pid_t	pid;
-	int		status;
-
-	if (!ast || !ast->children)
-		return (0);
-	pid = fork();
-	if (pid < 0)
-		return (perror(SHELL_NAME ": fork"), 1);
-	if (pid == 0)
-	{
-		ft_signal_child();
-		if (ft_redirect(ast->redirect))
-			ft_status_exit(1);
-		ft_status_exit(ft_execute_andor(ast));
-	}
-	ft_signal_parent();
-	waitpid(pid, &status, 0);
-	if (WIFEXITED(status))
-		return (WEXITSTATUS(status));
-	if (WIFSIGNALED(status))
-		return (WTERMSIG(status) + 128);
-	if (WIFSTOPPED(status))
-		return (WSTOPSIG(status) + 128);
-	return (status);
 }
 
 void	ft_ast_expand(t_ast *ast)
@@ -88,16 +58,14 @@ int	ft_execute_andor(t_ast *ast)
 
 	if (ast == NULL)
 		return (0);
-    signal(SIGINT,SIG_IGN);
-    p = ast->children;
+	signal(SIGINT, SIG_IGN);
+	p = ast->children;
 	status = 0;
 	while (p)
 	{
 		child = p->content;
 		if (child->type == AST_SIMPLE_COMMAND)
 			status = ft_execute_simplecommand(child);
-		else if (child->type == AST_SUBSHELL)
-			status = ft_execute_subshell(child);
 		else if (child->type == AST_PIPELINE)
 			status = ft_execute_pipeline(child);
 		else if (child->type == AST_OR && status == 0)
