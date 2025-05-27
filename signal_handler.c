@@ -20,9 +20,8 @@ volatile sig_atomic_t	*ft_sigint_recieved(void)
 	return (&received);
 }
 
-void	ft_sigint_noiteractive(int signal)
+void	ft_sigint_clear(int signal)
 {
-	ft_clear();
 	ft_status_exit(signal + 128);
 	return ;
 }

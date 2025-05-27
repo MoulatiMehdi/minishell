@@ -55,7 +55,7 @@ volatile sig_atomic_t	*ft_sigint_recieved(void);
 void					ft_signal_noninteractive(void);
 t_list					*ft_ast_nextchildwithtype(t_list *p, t_ast_type type);
 
-void					ft_sigint_noiteractive(int signal);
+void	                ft_sigint_clear(int signal);
 void					ft_sigint_heredoc(int signal);
 void					ft_sigint_prompt(int signal);
 #endif // !PARSER_H

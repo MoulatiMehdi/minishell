@@ -78,7 +78,7 @@ void	ft_shell_noninteractive(void)
 
 	while (1)
 	{
-		signal(SIGINT, ft_sigint_noiteractive);
+		signal(SIGINT, ft_sigint_clear);
 		str = readline(NULL);
 		if (str == NULL)
 			break ;

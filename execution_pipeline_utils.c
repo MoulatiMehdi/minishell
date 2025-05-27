@@ -15,14 +15,12 @@
 int	count_cmds(t_ast *ast)
 {
 	t_list	*lst;
-	t_ast	*node;
 	int		n;
 
 	n = 0;
 	lst = ast->children;
 	while (lst)
 	{
-		node = lst->content;
 		n++;
 		lst = lst->next;
 	}
@@ -31,12 +29,12 @@ int	count_cmds(t_ast *ast)
 
 void	redirect_fds(int in_fd, int out_fd)
 {
-	if (in_fd != STDIN_FILENO)
+	if (in_fd >= 0)
 	{
 		dup2(in_fd, STDIN_FILENO);
 		close(in_fd);
 	}
-	if (out_fd != STDOUT_FILENO)
+	if (out_fd >= 0)
 	{
 		dup2(out_fd, STDOUT_FILENO);
 		close(out_fd);

@@ -11,8 +11,10 @@
 /* ************************************************************************** */
 
 #include "execution.h"
+#include "parser.h"
 #include "status.h"
 
+int	ft_execute_subshell(t_ast *ast);
 static void	exec_external(t_ast *cmd, char **args)
 {
 	char	*path;
@@ -41,13 +43,18 @@ static void	exec_segment(t_ast *cmd, int out_fd, int fds[2], t_pipe_ctx *ctx)
 		if (fds[1] >= 0)
 			close(fds[1]);
 		ft_ast_expand(cmd);
-		args = ft_ast_getargs(cmd);
-        if(args == NULL || args[0] == NULL)
-            ft_status_exit(0);
-        if (ft_command_isbuildin(args[0]))
-            ft_status_exit(ft_execute_buildin(cmd->redirect, args));
-        else
-            exec_external(cmd, args);
+        if(cmd->type == AST_SIMPLE_COMMAND)
+        {
+            args = ft_ast_getargs(cmd);
+            if(args == NULL || args[0] == NULL)
+                ft_status_exit(0);
+            if (ft_command_isbuildin(args[0]))
+                ft_status_exit(ft_execute_buildin(cmd->redirect, args));
+            else
+                exec_external(cmd, args);
+        }
+        else if(cmd->type == AST_SUBSHELL)
+            ft_status_exit(ft_execute_andor(cmd));
 	}
 	ctx->last_pid = pid;
 }
@@ -72,7 +79,8 @@ static void	pipeline_segment(t_ast *cmd, t_pipe_ctx *ctx, int *cmds_left)
 		close(ctx->in_fd);
 	if (out_fd >= 0)
 	{
-		close(fds[1]);
+        if(fds[1] >= 0)
+            close(fds[1]);
 		ctx->in_fd = fds[0];
 	}
 	else

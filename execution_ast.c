@@ -15,6 +15,7 @@
 #include "expansion.h"
 #include "libft/libft.h"
 #include "parser.h"
+#include <signal.h>
 
 int	ft_execute_pipeline(t_ast *ast)
 {
@@ -87,7 +88,8 @@ int	ft_execute_andor(t_ast *ast)
 
 	if (ast == NULL)
 		return (0);
-	p = ast->children;
+    signal(SIGINT,SIG_IGN);
+    p = ast->children;
 	status = 0;
 	while (p)
 	{
