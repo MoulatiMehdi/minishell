@@ -37,7 +37,7 @@ void	join_quotes(t_word *head)
 	t_word	*next;
 
 	curr = head;
-    while (curr && curr->next)
+	while (curr && curr->next)
 	{
 		next = curr->next;
 		if (is_joinable(curr) && is_joinable(next))

@@ -6,12 +6,12 @@
 /*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 14:22:59 by okhourss          #+#    #+#             */
-/*   Updated: 2025/05/27 10:44:27 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/05/27 14:48:29 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
-#include "libft.h"
+#include "libft/libft.h"
 #include <stdlib.h>
 
 t_array	**ft_env_ptr(void)
@@ -31,15 +31,14 @@ t_array	*ft_env_init(char **env)
 	size_t	i;
 	t_array	**env_arr;
 
-	if (!env)
-		return (NULL);
 	env_arr = ft_env_ptr();
 	i = 0;
-	while (env[i])
+	while (env && env[i])
 	{
 		ft_array_push(env_arr, ft_strdup(env[i]));
 		i++;
 	}
+	ft_check_env_fundamentals(env_arr);
 	return (*env_arr);
 }
 
