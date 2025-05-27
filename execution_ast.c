@@ -10,10 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "config.h"
 #include "execution.h"
 #include "expansion.h"
 #include "libft/libft.h"
 #include "parser.h"
+#include "status.h"
+#include <stdio.h>
 
 int	ft_execute_pipeline(t_ast *ast)
 {
@@ -50,6 +53,34 @@ int	ft_execute_simplecommand(t_ast *ast)
 	return (status);
 }
 
+int ft_execute_subshell(t_ast * ast)
+{
+    pid_t pid;
+    int wstatus;
+
+    pid = fork();
+    if(pid < 0)
+    {
+        perror(SHELL_NAME": fork: ");
+        return 1;
+    }
+    if(pid == 0)
+    {
+        if (ft_redirect(ast->redirect) < 0)
+            ft_status_exit(1);
+        ft_status_exit(ft_execute_andor(ast));
+    }
+
+	waitpid(pid, &wstatus, 0);
+	if (WIFEXITED(wstatus))
+		return (WEXITSTATUS(wstatus));
+	if (WIFSIGNALED(wstatus))
+		return (WTERMSIG(wstatus) + 128);
+	if (WIFSTOPPED(wstatus))
+		return (WSTOPSIG(wstatus) + 128);
+    return wstatus;
+}
+
 int	ft_execute_andor(t_ast *ast)
 {
 // TODO: subshell not working with redirection
@@ -68,7 +99,7 @@ int	ft_execute_andor(t_ast *ast)
 		if (child->type == AST_SIMPLE_COMMAND)
 			status = ft_execute_simplecommand(child);
 		else if (child->type == AST_SUBSHELL)
-                ft_execute_andor(child);
+            status = ft_execute_subshell(child);
 		else if (child->type == AST_PIPELINE)
 			status = ft_execute_pipeline(child);
 		else if (child->type == AST_OR && status == 0)
