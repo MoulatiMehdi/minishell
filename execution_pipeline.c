@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "execution.h"
+#include "status.h"
 
 static void	exec_external(t_ast *cmd, char **args)
 {
@@ -41,9 +42,12 @@ static void	exec_segment(t_ast *cmd, int out_fd, int fds[2], t_pipe_ctx *ctx)
 			close(fds[1]);
 		ft_ast_expand(cmd);
 		args = ft_ast_getargs(cmd);
-		if (args && ft_command_isbuildin(args[0]))
-			ft_status_exit(ft_execute_buildin(cmd->redirect, args));
-		exec_external(cmd, args);
+        if(args == NULL || args[0] == NULL)
+            ft_status_exit(0);
+        if (ft_command_isbuildin(args[0]))
+            ft_status_exit(ft_execute_buildin(cmd->redirect, args));
+        else
+            exec_external(cmd, args);
 	}
 	ctx->last_pid = pid;
 }
