@@ -6,7 +6,7 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 13:17:10 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/05/27 08:46:26 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/05/27 10:51:57 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,9 @@ void				*ft_array_push(t_array **array, void *content);
 void				ft_array_remove(t_array **array, void *content,
 						t_func_cmp cmp, t_func_free del);
 void				ft_array_destroy(t_array **array, t_func_free free_fct);
+
+void				*ft_tracked_array_push(t_array **array, void *content);
+t_array				*ft_tracked_array_new(void);
 
 int					ft_clear(void);
 void				ft_free(void *addr);
