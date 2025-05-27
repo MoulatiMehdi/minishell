@@ -6,10 +6,11 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 18:37:43 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/05/25 09:08:50 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/05/27 09:16:53 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "env.h"
 #include "execution.h"
 
 char	*ft_path_join(char *p1, char *p2)
@@ -49,7 +50,7 @@ char	**ft_path_get(void)
 	char	*value;
 	char	**strs;
 
-	value = getenv("PATH");
+	value = ft_env_getvalue("PATH");
 	if (value == NULL)
 		return (NULL);
 	strs = ft_split(value, ":");
