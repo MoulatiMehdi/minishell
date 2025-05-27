@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 10:07:58 by okhourss          #+#    #+#             */
-/*   Updated: 2025/05/26 11:36:25 by okhourss         ###   ########.fr       */
+/*   Updated: 2025/05/27 10:19:33 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,12 +91,9 @@ static void	process_export_args(char **args, t_array *env, int *status)
 		{
 			key = get_var_key(args[i]);
 			value = get_var_value(args[i]);
-			if (!value)
-				value = ft_strdup("");
-			if (ft_is_var_exist(args[i], env))
-				ft_add_env(key, value, env);
-			else
-				ft_update_env(key, value, env);
+			ft_env_set(key, value);
+			free(key);
+			free(value);
 		}
 		i++;
 	}

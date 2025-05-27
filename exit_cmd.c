@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 13:50:37 by okhourss          #+#    #+#             */
-/*   Updated: 2025/05/26 17:36:28 by okhourss         ###   ########.fr       */
+/*   Updated: 2025/05/27 10:33:14 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@ static void	cleanup_and_exit(int code)
 {
 	if (ft_shell_isinteractive())
 		ft_putendl_fd("exit", 2);
-	ft_clear();
-	exit(code);
+	ft_status_exit(code);
 }
 
 static void	numeric_error(char *arg)
@@ -84,7 +83,7 @@ int	exit_cmd(char **args)
 	if (args[1])
 	{
 		ft_putendl_fd(SHELL_NAME "exit: too many arguments", 2);
-		return (1);
+		return (last_return || 1);
 	}
 	code %= 256;
 	if (code < 0)
