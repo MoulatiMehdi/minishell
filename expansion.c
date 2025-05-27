@@ -6,15 +6,13 @@
 /*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 11:06:49 by okhourss          #+#    #+#             */
-/*   Updated: 2025/05/25 13:09:51 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/05/27 09:49:13 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expansion.h"
 #include "libft/libft.h"
 #include "word.h"
-#include <stdio.h>
-#include <unistd.h>
 
 void	expand_token(t_token *token)
 {
@@ -41,5 +39,5 @@ void	expand_token(t_token *token)
 	}
 	str = ft_word_join(words);
 	ft_collector_track(str);
-	ft_array_push(&token->fields, str);
+	ft_tracked_array_push(&token->fields, str);
 }

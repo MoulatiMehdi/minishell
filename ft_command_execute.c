@@ -55,6 +55,7 @@ void	ft_command_execute(t_list *redirect, char *pathname, char **args)
 {
 	char	**envp;
 
+	envp = NULL;
 	ft_signal_child();
 	if (ft_redirect(redirect))
 		ft_status_exit(1);
@@ -65,7 +66,6 @@ void	ft_command_execute(t_list *redirect, char *pathname, char **args)
 	}
 	envp = ft_env_strs();
 	execve(pathname, args, envp);
-	free(envp);
 	if (ft_path_isdir(pathname))
 		ft_perror(pathname, strerror(EISDIR));
 	else
