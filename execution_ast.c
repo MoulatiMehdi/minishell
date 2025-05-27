@@ -6,10 +6,11 @@
 /*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 18:37:17 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/05/26 18:27:38 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/05/27 09:26:11 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "env.h"
 #include "execution.h"
 #include "expansion.h"
 #include "libft/libft.h"
@@ -36,12 +37,8 @@ int	ft_execute_subshell(t_ast *ast)
 	if (pid < 0)
 		return (perror(SHELL_NAME ": fork"), 1);
 	if (pid == 0)
-	{
-		ft_signal_child();
-		if (ft_redirect(ast->redirect))
-			ft_status_exit(1);
-		ft_status_exit(ft_execute_andor(ast));
-	}
+		ft_subshell_child(ast, ast->children->content);
+	ft_signal_parent();
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));

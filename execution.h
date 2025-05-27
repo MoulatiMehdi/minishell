@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 18:37:22 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/05/26 18:15:55 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/05/27 09:25:43 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,7 @@ char		**ft_path_get(void);
 void		ft_perror(char *name, char *msg);
 void		ft_token_error(t_token *token, char *msg);
 void		ft_command_execute(t_list *redirect, char *pathname, char **args);
+
+void		ft_subshell_child(t_ast *ast, t_ast *child);
+
 #endif
