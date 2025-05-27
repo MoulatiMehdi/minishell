@@ -13,6 +13,7 @@
 #ifndef ENV_H
 # define ENV_H
 
+# include "status.h"
 # include "libft/libft.h"
 
 t_array	**ft_env_ptr(void);
