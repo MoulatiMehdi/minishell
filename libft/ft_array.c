@@ -6,7 +6,7 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 13:18:10 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/04/28 13:18:11 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/05/27 08:22:04 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_array	*ft_array_new(void)
 {
 	t_array	*array;
 
-	array = ft_malloc(sizeof(t_array));
+	array = malloc(sizeof(t_array));
 	if (array == NULL)
 		return (NULL);
 	array->head = NULL;
@@ -32,7 +32,6 @@ void	*ft_array_push(t_array **array, void *content)
 	if (array == NULL || content == NULL)
 		return (NULL);
 	node = ft_lstnew(content);
-	ft_collector_track(node);
 	if (node == NULL)
 		return (NULL);
 	if (*array == NULL)
@@ -49,4 +48,13 @@ void	*ft_array_push(t_array **array, void *content)
 	(*array)->last = ft_lstlast(node);
 	(*array)->length++;
 	return (content);
+}
+
+void	ft_array_destroy(t_array **array, t_func_free free_fct)
+{
+	if (array == NULL || *array == NULL)
+		return ;
+	ft_lstclear(&(*array)->head, free_fct);
+	free(*array);
+	*array = NULL;
 }
