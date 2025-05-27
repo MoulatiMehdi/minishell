@@ -6,7 +6,7 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:47:31 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/04/23 17:56:51 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/05/25 17:10:36 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,10 @@ t_list					*ft_ast_push(t_ast *parent, t_ast *child);
 int						ft_heredoc_tempfile(char *str);
 
 volatile sig_atomic_t	*ft_sigint_recieved(void);
-void					ft_signal_int(int signal);
-void					ft_signal_quit(int signal);
-void					ft_signal_bashignore(void);
-void					ft_heredoc_sigint(int signal);
 t_list					*ft_list_token_push(t_list **head, t_token *token);
+t_list					*ft_ast_nextchildwithtype(t_list *p, t_ast_type type);
+
+void					ft_sigint_noiteractive(int signal);
+void					ft_sigint_heredoc(int signal);
+void					ft_sigint_prompt(int signal);
 #endif // !PARSER_H

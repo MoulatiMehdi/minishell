@@ -6,7 +6,7 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 13:31:10 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/05/18 13:31:11 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/05/25 12:26:58 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ char	*ft_word_join(t_word *word)
 	str = NULL;
 	while (word)
 	{
-		ft_strnconcat(&str, word->value, word->length);
+		if (word->value)
+			ft_strnconcat(&str, word->value, word->length);
 		word = word->next;
 	}
 	return (str);

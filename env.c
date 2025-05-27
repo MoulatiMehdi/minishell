@@ -3,29 +3,70 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/24 10:14:12 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/05/24 10:14:12 by mmoulati         ###   ########.fr       */
+/*   Created: 2025/05/23 14:22:59 by okhourss          #+#    #+#             */
+/*   Updated: 2025/05/27 08:46:02 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "expansion.h"
+#include "env.h"
+#include "libft.h"
+#include <stdlib.h>
 
-char	*get_env_value(const char *var_name, size_t len)
+t_array	**ft_env_ptr(void)
 {
-	int			i;
-	extern char	**environ;
+	static t_array	*env = NULL;
 
-	if (var_name == NULL || len <= 0)
+	return (&env);
+}
+
+t_array	*ft_env_get(void)
+{
+	return (*ft_env_ptr());
+}
+
+t_array	*ft_env_init(char **env)
+{
+	size_t	i;
+	t_array	**env_arr;
+
+	if (!env)
 		return (NULL);
+	env_arr = ft_env_ptr();
 	i = 0;
-	while (environ[i])
+	while (env[i])
 	{
-		if (ft_strncmp(environ[i], var_name, len) == 0
-			&& environ[i][len] == '=')
-			return (&environ[i][len + 1]);
+		ft_array_push(env_arr, ft_strdup(env[i]));
 		i++;
 	}
-	return (NULL);
+	return (*env_arr);
+}
+
+char	**ft_env_strs(void)
+{
+	t_array	*array;
+	char	**strs;
+	t_list	*lst;
+	size_t	i;
+
+	array = ft_env_get();
+	if (!array || array->length == 0)
+		return (NULL);
+	strs = ft_malloc((sizeof(char *) + 1) * array->length);
+	lst = array->head;
+	i = 0;
+	while (lst)
+	{
+		strs[i] = lst->content;
+		lst = lst->next;
+		i++;
+	}
+	return (strs);
+}
+
+void	ft_env_clear(void)
+{
+	ft_array_destroy(ft_env_ptr(), free);
+	*ft_env_ptr() = NULL;
 }

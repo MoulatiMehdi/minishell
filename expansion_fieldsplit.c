@@ -6,7 +6,7 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 10:00:47 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/05/24 18:04:26 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/05/27 09:43:55 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	ft_field_push(t_word *w, t_word **curr, t_array **fields)
 			if (i > start)
 				ft_word_push(curr, w->type, w->value + start, i - start);
 			if (curr)
-				ft_array_push(fields, curr);
+				ft_tracked_array_push(fields, *curr);
 			curr = NULL;
 			while (i < len && is_ifs(w->value[i]))
 				i++;
@@ -66,6 +66,6 @@ t_array	*field_splitting(t_word *word)
 		w = w->next;
 	}
 	if (curr)
-		ft_array_push(&fields, curr);
+		ft_tracked_array_push(&fields, curr);
 	return (fields);
 }

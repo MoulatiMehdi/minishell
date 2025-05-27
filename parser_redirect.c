@@ -6,7 +6,7 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 15:24:36 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/05/18 15:24:37 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/05/27 09:46:47 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,16 +54,16 @@ t_ast	*ft_ast_redirect(t_token **token, t_ast *node)
 	if ((*token)->type != TOKEN_REDIRECT_HERE)
 		return (node);
 	str = ft_heredoc((*token), ft_heredoc_quote_removal(*token));
+	ft_collector_track(str);
 	if (*ft_sigint_recieved())
 	{
-		while ((*token)->type != TOKEN_EOI)
-			*token = (*token)->next;
+		(*token)->type = TOKEN_EOI;
 		return (NULL);
 	}
 	if (ft_heredoc_isquote(*token))
 		(*token)->value = NULL;
 	if ((*token)->value == NULL)
-		ft_array_push(&(*token)->fields, str);
+		ft_tracked_array_push(&(*token)->fields, str);
 	else
 		(*token)->value = str;
 	(*token)->length = ft_strlen((*token)->value);

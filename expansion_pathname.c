@@ -6,7 +6,7 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 10:00:55 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/05/24 16:24:40 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/05/27 09:44:31 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ void	ft_pathname_expansion(t_token *token, t_array *fields)
 		{
 			tmp = files->next;
 			ft_collector_track(files->content);
-			ft_array_push(&token->fields, files->content);
+			ft_tracked_array_push(&token->fields, files->content);
 			free(files);
 			files = tmp;
 		}
