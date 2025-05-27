@@ -50,9 +50,9 @@ int	ft_execute_simplecommand(t_ast *ast)
 	return (status);
 }
 
-// TODO: subshell not working with redirection
 int	ft_execute_andor(t_ast *ast)
 {
+// TODO: subshell not working with redirection
 	t_list	*p;
 	t_ast	*child;
 	int		status;
