@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 18:37:17 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/05/28 13:54:42 by okhourss         ###   ########.fr       */
+/*   Updated: 2025/05/28 18:41:23 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	ft_ast_expand(t_ast *ast)
 	ft_lstiter(ast->redirect, (void (*)(void *))expand_token);
 }
 
-int	ft_execute_simplecommand(t_ast *ast)
+int		ft_execute_simplecommand(t_ast *ast)
 {
 	char	**args;
 	int		status;
@@ -66,6 +66,8 @@ int	ft_execute_subshell(t_ast *ast)
 	}
 	if (pid == 0)
 	{
+		ft_signal_child();
+		signal(SIGINT,SIG_IGN);
 		ft_ast_expand(ast);
 		if (ft_redirect(ast->redirect))
 			ft_status_exit(1);
