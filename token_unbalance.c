@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_unbalance.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 11:00:02 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/04/18 11:45:32 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/05/28 14:02:47 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	ft_str_isoperator(const char *str)
 	i = 0;
 	while (operators[i])
 	{
-		if (strncmp(str, operators[i], 2) == 0)
+		if (ft_strncmp(str, operators[i], 2) == 0)
 			return (1);
 		i++;
 	}

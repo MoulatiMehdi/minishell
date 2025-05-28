@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: okhourss <okhourss@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 22:23:41 by okhourss          #+#    #+#             */
-/*   Updated: 2025/04/19 18:00:46 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/05/28 14:02:08 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokenizer_init.h"
+# include "status.h"
 
 static void	ft_token_expansion(t_token **token_curr, const char *line,
 		size_t *i)
@@ -104,7 +105,7 @@ t_token	*tokenize(const char *line)
 	size_t	i;
 
 	if (is_unbalance(line))
-		return (NULL);
+		return (ft_status_set(2),NULL);
 	i = 0;
 	token_curr = NULL;
 	token_head = NULL;
