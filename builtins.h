@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 10:05:05 by okhourss          #+#    #+#             */
-/*   Updated: 2025/05/26 17:33:45 by okhourss         ###   ########.fr       */
+/*   Updated: 2025/05/28 10:29:55 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int		exit_cmd(char **args);
 int		export_cmd(char **args);
 int		unset_cmd(char **args);
 int		cd_cmd(char **args);
-void	*ft_get_env(char *key, t_array *env);
+// void	*ft_get_env(char *key, t_array *env);
 char	*get_var_key(char *var);
 char	*get_var_value(const char *var);
 void	compute_limit(int sign, unsigned long *limit);

@@ -6,72 +6,11 @@
 /*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 10:07:58 by okhourss          #+#    #+#             */
-/*   Updated: 2025/05/27 10:19:33 by okhourss         ###   ########.fr       */
+/*   Updated: 2025/05/28 10:38:09 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
-
-void	ft_add_env(char *key, char *value, t_array *env)
-{
-	char	*prefix;
-	char	*kv;
-
-	if (!key || !value)
-		return ;
-	prefix = ft_strjoin(key, "=");
-	free(key);
-	kv = ft_strjoin(prefix, value);
-	free(prefix);
-	free(value);
-	ft_array_push(&env, kv);
-}
-
-void	ft_update_env(char *key, char *value, t_array *env)
-{
-	t_list	*node;
-	char	*prefix;
-	char	*new_var;
-
-	if (!key || !value || !env)
-		return ;
-	node = ft_get_env(key, env);
-	if (node)
-	{
-		prefix = ft_strjoin(key, "=");
-		if (!prefix)
-		{
-			free(key);
-			free(value);
-			return ;
-		}
-		new_var = ft_strjoin(prefix, value);
-		free(prefix);
-		free(node->content);
-		node->content = new_var;
-		free(key);
-		free(value);
-	}
-	else
-		ft_add_env(key, value, env);
-}
-
-int	ft_is_var_exist(char *var, t_array *env)
-{
-	char	*key;
-	t_list	*node;
-	int		exists;
-
-	if (!var || !env)
-		return (1);
-	key = get_var_key(var);
-	if (!key)
-		return (1);
-	node = ft_get_env(key, env);
-	exists = (node == NULL);
-	free(key);
-	return (exists);
-}
 
 static void	process_export_args(char **args, t_array *env, int *status)
 {
@@ -90,10 +29,9 @@ static void	process_export_args(char **args, t_array *env, int *status)
 		else
 		{
 			key = get_var_key(args[i]);
-			value = get_var_value(args[i]);
+			value = ft_env_getvalue(key);
 			ft_env_set(key, value);
 			free(key);
-			free(value);
 		}
 		i++;
 	}

@@ -25,7 +25,7 @@ int	unset_cmd(char **args)
 	i = 0;
 	while (args[i])
 	{
-		ft_array_remove(&env, args[i], (t_func_cmp) ft_keycmp, free);
+		ft_array_remove(&env, args[i], (t_func_cmp)ft_keycmp, free);
 		i++;
 	}
 	return (0);
