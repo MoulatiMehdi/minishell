@@ -6,30 +6,11 @@
 /*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 15:20:00 by okhourss          #+#    #+#             */
-/*   Updated: 2025/05/26 17:34:56 by okhourss         ###   ########.fr       */
+/*   Updated: 2025/05/28 10:23:48 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
-
-static void	set_env_var(t_array *env, const char *key, const char *val)
-{
-	t_list	*node;
-	char	*kv;
-	char	*nv;
-
-	node = ft_get_env((char *)key, env);
-	kv = ft_strjoin((char *)key, "=");
-	nv = ft_strjoin(kv, val);
-	free(kv);
-	if (node)
-	{
-		free(node->content);
-		node->content = nv;
-	}
-	else
-		ft_array_push(&env, nv);
-}
 
 static int	validate_args(char **args, char **target)
 {
@@ -54,12 +35,12 @@ static int	validate_args(char **args, char **target)
 	return (0);
 }
 
-static char	*fetch_oldpwd(t_array *env)
+static char	*fetch_oldpwd(void)
 {
 	char	*pwd;
 	char	*oldpwd;
 
-	pwd = get_env_var(env, "PWD");
+	pwd = ft_env_getvalue("PWD");
 	if (pwd)
 		oldpwd = ft_strdup(pwd);
 	else
@@ -67,12 +48,12 @@ static char	*fetch_oldpwd(t_array *env)
 	return (oldpwd);
 }
 
-static int	update_directory(const char *target, t_array *env)
+static int	update_directory(const char *target)
 {
 	char	*oldpwd;
 	char	*newpwd;
 
-	oldpwd = fetch_oldpwd(env);
+	oldpwd = fetch_oldpwd();
 	if (chdir(target) != 0)
 	{
 		perror("cd");
@@ -86,8 +67,8 @@ static int	update_directory(const char *target, t_array *env)
 		free(oldpwd);
 		return (1);
 	}
-	set_env_var(env, "OLDPWD", oldpwd);
-	set_env_var(env, "PWD", newpwd);
+	ft_env_set("OLDPWD", oldpwd);
+	ft_env_set("PWD", newpwd);
 	free(oldpwd);
 	free(newpwd);
 	return (0);
@@ -98,10 +79,7 @@ int	cd_cmd(char **args)
 	char	*target;
 	t_array	*env;
 
-	env = ft_env_get();
-	if (!env)
-		return (1);
 	if (validate_args(args, &target))
 		return (1);
-	return (update_directory(target, env));
+	return (update_directory(target));
 }

@@ -6,15 +6,15 @@
 /*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 14:24:26 by okhourss          #+#    #+#             */
-/*   Updated: 2025/05/27 14:48:55 by okhourss         ###   ########.fr       */
+/*   Updated: 2025/05/28 10:45:58 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ENV_H
 # define ENV_H
 
-# include "status.h"
 # include "libft/libft.h"
+# include "status.h"
 
 t_array	**ft_env_ptr(void);
 
@@ -33,5 +33,7 @@ void	ft_env_clear(void);
 
 void	ft_add_env_fundamentals(t_array **env, int shlvl, int oldpwd, int pwd);
 void	ft_check_env_fundamentals(t_array **env);
+
+int		ft_keycmp(char *key, char *key_env);
 
 #endif

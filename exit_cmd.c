@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 13:50:37 by okhourss          #+#    #+#             */
-/*   Updated: 2025/05/27 10:33:14 by okhourss         ###   ########.fr       */
+/*   Updated: 2025/05/28 12:19:05 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,21 +73,18 @@ static long	parse_exit_code(char *arg)
 
 int	exit_cmd(char **args)
 {
-	long	code;
-	int		last_return;
+	unsigned char	code;
+	int				last_status;
 
-	last_return = ft_status_get();
+	last_status = ft_status_get();
 	if (!args || !args[0])
-		cleanup_and_exit(last_return);
+		cleanup_and_exit(last_status);
 	code = parse_exit_code(args[0]);
 	if (args[1])
 	{
 		ft_putendl_fd(SHELL_NAME "exit: too many arguments", 2);
-		return (last_return || 1);
+		return (last_status || 1);
 	}
-	code %= 256;
-	if (code < 0)
-		code += 256;
 	cleanup_and_exit((int)code);
 	return (0);
 }

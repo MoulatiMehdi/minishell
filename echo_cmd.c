@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 10:06:52 by okhourss          #+#    #+#             */
-/*   Updated: 2025/05/26 17:34:07 by okhourss         ###   ########.fr       */
+/*   Updated: 2025/05/28 10:26:11 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	echo_cmd(char **args)
 		return (1);
 	if (omit_nl && write(1, "\n", 1) < 0)
 	{
-		perror(SHELL_NAME "echo: write error");
+		perror(SHELL_NAME ": echo: write error");
 		return (1);
 	}
 	return (0);
