@@ -15,7 +15,8 @@
 int	pwd_cmd(char **args)
 {
 	char	*pwd;
-	(void) args;
+
+	(void)args;
 	pwd = getcwd(NULL, 0);
 	if (!pwd)
 	{

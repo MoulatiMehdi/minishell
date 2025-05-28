@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "status.h"
 #include "tokenizer_init.h"
-# include "status.h"
 
 static void	ft_token_expansion(t_token **token_curr, const char *line,
 		size_t *i)
@@ -105,7 +105,7 @@ t_token	*tokenize(const char *line)
 	size_t	i;
 
 	if (is_unbalance(line))
-		return (ft_status_set(2),NULL);
+		return (ft_status_set(2), NULL);
 	i = 0;
 	token_curr = NULL;
 	token_head = NULL;

@@ -6,12 +6,11 @@
 /*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 10:07:58 by okhourss          #+#    #+#             */
-/*   Updated: 2025/05/28 12:37:54 by okhourss         ###   ########.fr       */
+/*   Updated: 2025/05/28 14:04:37 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
-
 
 static int	is_valid_var_name(char c)
 {
@@ -22,6 +21,7 @@ static int	is_valid_char(char c)
 {
 	return (c == '_' || ft_isalnum(c));
 }
+
 static int	is_valid_identifier(const char *var)
 {
 	int	i;
@@ -39,6 +39,7 @@ static int	is_valid_identifier(const char *var)
 	}
 	return (1);
 }
+
 static void	process_export_args(char **args, int *status)
 {
 	int		i;
