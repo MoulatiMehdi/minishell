@@ -67,5 +67,5 @@ int	ft_execute_buildin(t_list *redirect, char **args)
 		close(fd[0]);
 	if (fd[1] >= 0)
 		close(fd[1]);
-	return (0);
+	return (status);
 }

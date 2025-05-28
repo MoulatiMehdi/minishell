@@ -13,7 +13,6 @@
 #include "builtins.h"
 #include "execution.h"
 #include <limits.h>
-#include <stdlib.h>
 #include <unistd.h>
 
 static void	cleanup_and_exit(int code)
@@ -28,7 +27,7 @@ static void	numeric_error(char *arg)
 	ft_putstr_fd(SHELL_NAME ": exit : ", 2);
 	ft_putstr_fd(arg, 2);
 	ft_putendl_fd(": numeric argument required", 2);
-	cleanup_and_exit(255);
+	cleanup_and_exit(2);
 }
 
 static unsigned long	parse_digits(const char *arg, unsigned long idx,
@@ -75,7 +74,7 @@ static long	parse_exit_code(char *arg)
 int	exit_cmd(char **args)
 {
 	unsigned char	code;
-	int				last_status;
+	unsigned char				last_status;
 
 	last_status = ft_status_get();
 	if (!args || !args[0])

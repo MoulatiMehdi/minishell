@@ -27,6 +27,7 @@ int		export_cmd(char **args);
 int		unset_cmd(char **args);
 int		cd_cmd(char **args);
 
+char	*get_var_value(const char *var);
 char	*get_var_key(char *var);
 void	compute_limit(int sign, unsigned long *limit);
 

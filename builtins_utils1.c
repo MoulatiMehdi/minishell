@@ -12,6 +12,14 @@
 
 #include "builtins.h"
 
+char	*get_var_value(const char *var)
+{
+	const char	*eq = ft_strchr(var, '=');
+	if (!eq)
+		return (NULL);
+	return (ft_strdup(eq + 1));
+}
+
 int	print_export(t_array *env)
 {
 	t_list	*curr;
