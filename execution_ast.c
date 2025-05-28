@@ -66,6 +66,7 @@ int	ft_execute_subshell(t_ast *ast)
 	}
 	if (pid == 0)
 	{
+		ft_ast_expand(ast);
 		if (ft_redirect(ast->redirect))
 			ft_status_exit(1);
 		ft_status_exit(ft_execute_andor(ast));
@@ -86,10 +87,8 @@ int	ft_execute_andor(t_ast *ast)
 	t_ast	*child;
 	int		status;
 
-	// TODO: subshell not working with redirection
 	if (ast == NULL)
 		return (0);
-	signal(SIGINT, SIG_IGN);
 	p = ast->children;
 	status = 0;
 	while (p)

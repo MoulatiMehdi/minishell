@@ -56,7 +56,10 @@ static void	exec_segment(t_ast *cmd, int out_fd, int fds[2], t_pipe_ctx *ctx)
 		if (cmd->type == AST_SIMPLE_COMMAND)
 			exec_external(cmd);
 		else if (cmd->type == AST_SUBSHELL)
+		{
+			ft_signal_parent();
 			ft_status_exit(ft_execute_andor(cmd));
+		}
 	}
 	ctx->last_pid = pid;
 }
