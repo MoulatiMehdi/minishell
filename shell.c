@@ -79,10 +79,10 @@ void	ft_shell_noninteractive(void)
 	while (1)
 	{
 		signal(SIGINT, ft_sigint_clear);
-		str = readline(NULL);
+		str = get_next_line(0);
+		str = ft_strtrim(str, "\n");
 		if (str == NULL)
 			break ;
-		ft_collector_track(str);
 		ft_shell_execute(str);
 		ft_clear();
 	}

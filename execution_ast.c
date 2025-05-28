@@ -36,7 +36,7 @@ void	ft_ast_expand(t_ast *ast)
 	ft_lstiter(ast->redirect, (void (*)(void *))expand_token);
 }
 
-int		ft_execute_simplecommand(t_ast *ast)
+int	ft_execute_simplecommand(t_ast *ast)
 {
 	char	**args;
 	int		status;
@@ -67,7 +67,7 @@ int	ft_execute_subshell(t_ast *ast)
 	if (pid == 0)
 	{
 		ft_signal_child();
-		signal(SIGINT,SIG_IGN);
+		signal(SIGINT, SIG_IGN);
 		ft_ast_expand(ast);
 		if (ft_redirect(ast->redirect))
 			ft_status_exit(1);

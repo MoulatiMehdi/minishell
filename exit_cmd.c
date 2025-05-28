@@ -74,7 +74,7 @@ static long	parse_exit_code(char *arg)
 int	exit_cmd(char **args)
 {
 	unsigned char	code;
-	unsigned char				last_status;
+	unsigned char	last_status;
 
 	last_status = ft_status_get();
 	if (!args || !args[0])

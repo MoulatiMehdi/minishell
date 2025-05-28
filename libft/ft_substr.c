@@ -24,7 +24,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		start = size;
 	if (size - start < len)
 		len = size - start;
-	p = malloc(len * sizeof(char) + 1);
+	p = ft_malloc(len * sizeof(char) + 1);
 	if (!p)
 		return (NULL);
 	ft_memcpy(p, s + start, len);

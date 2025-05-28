@@ -13,6 +13,7 @@
 #include "config.h"
 #include "execution.h"
 #include "libft/libft.h"
+#include <sys/stat.h>
 #include <sys/wait.h>
 #include <unistd.h>
 

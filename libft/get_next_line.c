@@ -35,20 +35,20 @@ static char	*get_next_cache(char **line)
 	i = indexof_nl(*line);
 	if (i < 0 || !(*line)[i + 1])
 		return (NULL);
-	to_cache = ft_strdup((*line) + i + 1);
+	to_cache = ft_strdup_track((*line) + i + 1);
 	(*line)[i + 1] = 0;
-	tmp = ft_strdup(*line);
-	free(*line);
+	tmp = ft_strdup_track(*line);
+	ft_free(*line);
 	if (!tmp || !to_cache)
 	{
-		free(tmp);
-		free(to_cache);
+		ft_free(tmp);
+		ft_free(to_cache);
 		return (*line = NULL);
 	}
 	*line = tmp;
 	if (to_cache && to_cache[0] == '\0')
 	{
-		free(to_cache);
+		ft_free(to_cache);
 		to_cache = NULL;
 	}
 	return (to_cache);
@@ -65,15 +65,15 @@ static char	*read_file(int fd, char *cache, char *buffer)
 		bytes = read(fd, buffer, BUFFER_SIZE);
 		if (bytes < 0)
 		{
-			free(cache);
+			ft_free(cache);
 			return (NULL);
 		}
 		if (bytes == 0)
 			break ;
 		buffer[bytes] = 0;
 		tmp = cache;
-		cache = ft_strjoin(cache, buffer);
-		free(tmp);
+		cache = ft_strjoin_track(cache, buffer);
+		ft_free(tmp);
 		if (indexof_nl(buffer) >= 0 || !cache)
 			break ;
 	}
@@ -88,12 +88,12 @@ char	*get_next_line(int fd)
 
 	line = NULL;
 	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (free(cache), cache = NULL);
-	buffer = (char *)malloc((BUFFER_SIZE + 1UL) * sizeof(char));
+		return (ft_free(cache), cache = NULL);
+	buffer = (char *)ft_malloc((BUFFER_SIZE + 1UL) * sizeof(char));
 	if (!buffer)
-		return (free(cache), free(buffer), cache = NULL);
+		return (ft_free(cache), ft_free(buffer), cache = NULL);
 	line = read_file(fd, cache, buffer);
-	free(buffer);
+	ft_free(buffer);
 	if (!line)
 		return (cache = NULL);
 	cache = get_next_cache(&line);

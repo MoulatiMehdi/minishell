@@ -60,7 +60,7 @@ static void	process_export_args(char **args, int *status)
 			value = get_var_value(args[i]);
 			ft_env_set(key, value);
 			free(key);
-            free(value);
+			free(value);
 		}
 		i++;
 	}

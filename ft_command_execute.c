@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 #include "execution.h"
 #include "status.h"
+#include <asm-generic/errno-base.h>
 
 int	ft_command_ispathfound(char *dir, char *name, char *path[2])
 {
@@ -74,9 +75,12 @@ void	ft_command_execute(t_list *redirect, char *pathname, char **args)
 	envp = ft_env_strs();
 	execve(pathname, args, envp);
 	free(envp);
-	if (ft_path_isdir(pathname))
+	if (errno == EACCES && ft_path_isdir(pathname))
 		ft_perror(pathname, strerror(EISDIR));
 	else
 		ft_perror(pathname, strerror(errno));
-	ft_status_exit(126);
+	if (errno == ENOENT)
+		ft_status_exit(127);
+	else
+		ft_status_exit(126);
 }
