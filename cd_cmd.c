@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 15:20:00 by okhourss          #+#    #+#             */
-/*   Updated: 2025/05/28 10:23:48 by okhourss         ###   ########.fr       */
+/*   Updated: 2025/05/28 12:48:19 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ static int	validate_args(char **args, char **target)
 {
 	if (args[0] && args[1])
 	{
-		if (ft_putendl_fd(SHELL_NAME "cd: too many arguments", 2) < 0)
-			perror(SHELL_NAME "cd");
+		if (ft_putendl_fd(SHELL_NAME ": cd: too many arguments", 2) < 0)
+			perror(SHELL_NAME ": cd");
 		return (1);
 	}
 	if (!args[0])
@@ -25,8 +25,8 @@ static int	validate_args(char **args, char **target)
 		*target = getenv("HOME");
 		if (!*target)
 		{
-			if (ft_putendl_fd(SHELL_NAME "cd: HOME not set", 2) < 0)
-				perror(SHELL_NAME "cd");
+			if (ft_putendl_fd(SHELL_NAME ": cd: HOME not set", 2) < 0)
+				perror(SHELL_NAME ": cd");
 			return (1);
 		}
 	}
@@ -56,14 +56,14 @@ static int	update_directory(const char *target)
 	oldpwd = fetch_oldpwd();
 	if (chdir(target) != 0)
 	{
-		perror("cd");
+		perror(SHELL_NAME": cd");
 		free(oldpwd);
 		return (1);
 	}
 	newpwd = getcwd(NULL, 0);
 	if (!newpwd)
 	{
-		perror("cd");
+		perror(SHELL_NAME": cd");
 		free(oldpwd);
 		return (1);
 	}
@@ -77,7 +77,6 @@ static int	update_directory(const char *target)
 int	cd_cmd(char **args)
 {
 	char	*target;
-	t_array	*env;
 
 	if (validate_args(args, &target))
 		return (1);

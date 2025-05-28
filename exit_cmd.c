@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 13:50:37 by okhourss          #+#    #+#             */
-/*   Updated: 2025/05/28 12:19:05 by okhourss         ###   ########.fr       */
+/*   Updated: 2025/05/28 12:47:42 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <limits.h>
 #include <stdlib.h>
 #include <unistd.h>
+# include "execution.h"
 
 static void	cleanup_and_exit(int code)
 {
@@ -24,7 +25,7 @@ static void	cleanup_and_exit(int code)
 
 static void	numeric_error(char *arg)
 {
-	ft_putstr_fd(SHELL_NAME "exit: ", 2);
+	ft_putstr_fd(SHELL_NAME ": exit : ", 2);
 	ft_putstr_fd(arg, 2);
 	ft_putendl_fd(": numeric argument required", 2);
 	cleanup_and_exit(255);
@@ -82,7 +83,7 @@ int	exit_cmd(char **args)
 	code = parse_exit_code(args[0]);
 	if (args[1])
 	{
-		ft_putendl_fd(SHELL_NAME "exit: too many arguments", 2);
+		ft_putendl_fd(SHELL_NAME ": exit: too many arguments", 2);
 		return (last_status || 1);
 	}
 	cleanup_and_exit((int)code);

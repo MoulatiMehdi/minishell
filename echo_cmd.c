@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 10:06:52 by okhourss          #+#    #+#             */
-/*   Updated: 2025/05/28 10:26:11 by okhourss         ###   ########.fr       */
+/*   Updated: 2025/05/28 12:47:00 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,12 @@ static int	print_arguments(char *const args[], int start)
 		ret = ft_putstr_fd(args[i], 1);
 		if (ret < 0)
 		{
-			perror(SHELL_NAME "echo: write error");
+			perror(SHELL_NAME ": echo: write error");
 			return (1);
 		}
 		if (args[i + 1] && write(1, " ", 1) < 0)
 		{
-			perror(SHELL_NAME "echo: write error");
+			perror(SHELL_NAME ": echo: write error");
 			return (1);
 		}
 		i++;
