@@ -66,7 +66,7 @@ int ft_execute_subshell(t_ast * ast)
     }
     if(pid == 0)
     {
-        if (ft_redirect(ast->redirect) < 0)
+        if (ft_redirect(ast->redirect) )
             ft_status_exit(1);
         ft_status_exit(ft_execute_andor(ast));
     }
