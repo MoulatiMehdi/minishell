@@ -13,16 +13,16 @@
 #ifndef BUILTINS_H
 # define BUILTINS_H
 
-# include <stdio.h>
+# include "config.h"
 # include "env.h"
 # include "libft/libft.h"
 # include "status.h"
-# include "config.h"
+# include <stdio.h>
 
 int		echo_cmd(char **args);
 int		pwd_cmd(char **args);
 int		env_cmd(char **args);
-int		exit_cmd(char **args);
+int		exit_cmd(char **args, int fd[2]);
 int		export_cmd(char **args);
 int		unset_cmd(char **args);
 int		cd_cmd(char **args);
