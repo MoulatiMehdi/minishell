@@ -2,7 +2,7 @@ CC = cc
 AR = ar
 RM = rm
 
-CCFLAGS = -Wall -Wextra -Werror  -g
+CCFLAGS = -Wall -Wextra -Werror
 ARFLAGS = crs
 RMFLAGS = -rf
 
@@ -92,5 +92,5 @@ fclean : clean
 
 re : fclean all
 
-.PHONY : all fclean clean re sanitize
+.PHONY : all fclean clean re
 .SECONDARY : $(OBJS)
