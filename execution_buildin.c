@@ -31,7 +31,7 @@ int	ft_command_isbuildin(char *str)
 	return (0);
 }
 
-int	ft_run_builtin(char **args)
+int	ft_run_builtin(char **args, int fd[2])
 {
 	if (ft_strcmp(args[0], "echo") == 0)
 		return (echo_cmd(&args[1]));
@@ -46,7 +46,7 @@ int	ft_run_builtin(char **args)
 	else if (ft_strcmp(args[0], "env") == 0)
 		return (env_cmd(&args[1]));
 	else if (ft_strcmp(args[0], "exit") == 0)
-		return (exit_cmd(&args[1]));
+		return (exit_cmd(&args[1], fd));
 	return (0);
 }
 
@@ -55,23 +55,17 @@ int	ft_execute_buildin(t_list *redirect, char **args)
 	int	status;
 	int	fd[2];
 
-	if (ft_strcmp("exit", args[0]))
-	{
-		fd[0] = dup(STDIN_FILENO);
-		fd[1] = dup(STDOUT_FILENO);
-	}
+	fd[0] = dup(STDIN_FILENO);
+	fd[1] = dup(STDOUT_FILENO);
 	status = ft_redirect(redirect);
 	if (status)
 		return (status);
-	status = ft_run_builtin(args);
+	status = ft_run_builtin(args, fd);
 	dup2(fd[0], STDIN_FILENO);
 	dup2(fd[1], STDOUT_FILENO);
-	if (ft_strcmp("exit", args[0]))
-	{
-		if (fd[0] >= 0)
-			close(fd[0]);
-		if (fd[1] >= 0)
-			close(fd[1]);
-	}
+	if (fd[0] >= 0)
+		close(fd[0]);
+	if (fd[1] >= 0)
+		close(fd[1]);
 	return (status);
 }
