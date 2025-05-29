@@ -55,17 +55,23 @@ int	ft_execute_buildin(t_list *redirect, char **args)
 	int	status;
 	int	fd[2];
 
-	fd[0] = dup(STDIN_FILENO);
-	fd[1] = dup(STDOUT_FILENO);
+	if (ft_strcmp("exit", args[0]))
+	{
+		fd[0] = dup(STDIN_FILENO);
+		fd[1] = dup(STDOUT_FILENO);
+	}
 	status = ft_redirect(redirect);
 	if (status)
 		return (status);
 	status = ft_run_builtin(args);
 	dup2(fd[0], STDIN_FILENO);
 	dup2(fd[1], STDOUT_FILENO);
-	if (fd[0] >= 0)
-		close(fd[0]);
-	if (fd[1] >= 0)
-		close(fd[1]);
+	if (ft_strcmp("exit", args[0]))
+	{
+		if (fd[0] >= 0)
+			close(fd[0]);
+		if (fd[1] >= 0)
+			close(fd[1]);
+	}
 	return (status);
 }

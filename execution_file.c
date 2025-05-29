@@ -54,3 +54,17 @@ int	ft_execute_file(t_list *redirect, char **args)
 		return (WSTOPSIG(wstatus) + 128);
 	return (0);
 }
+
+void	ft_execute_ast(t_ast *child, t_list **p, int *status)
+{
+	if (child->type == AST_SIMPLE_COMMAND)
+		*status = ft_execute_simplecommand(child);
+	else if (child->type == AST_SUBSHELL)
+		*status = ft_execute_subshell(child);
+	else if (child->type == AST_PIPELINE)
+		*status = ft_execute_pipeline(child);
+	else if (child->type == AST_OR && *status == 0)
+		*p = ft_ast_nextchildwithtype(*p, AST_AND);
+	else if (child->type == AST_AND && *status != 0)
+		*p = ft_ast_nextchildwithtype(*p, AST_OR);
+}

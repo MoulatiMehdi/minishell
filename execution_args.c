@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "execution.h"
+#include <stdio.h>
 
 size_t	ft_args_size(t_ast *ast)
 {

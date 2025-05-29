@@ -82,5 +82,7 @@ void		ft_token_error(t_token *token, char *msg);
 void		ft_command_execute(t_list *redirect, char *pathname, char **args);
 
 void		ft_subshell_child(t_ast *ast, t_ast *child);
+int			ft_execute_subshell(t_ast *ast);
+void		ft_execute_ast(t_ast *child, t_list **p, int *status);
 
 #endif

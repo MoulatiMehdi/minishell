@@ -28,14 +28,26 @@ char	*ft_word_type(t_word *word)
 		return ("WORD_UNKNOWN");
 }
 
+void	ft_expansion_push(t_word *words, t_array **fields)
+{
+	char	*str;
+
+	str = ft_word_join(words);
+	ft_collector_track(str);
+	ft_tracked_array_push(fields, str);
+}
+
 void	expand_token(t_token *token)
 {
 	t_word	*words;
 	t_array	*fields;
-	char	*str;
 	t_word	*tmp;
 
-	words = ft_word_split(token);
+	words = NULL;
+	if (token->type != TOKEN_REDIRECT_HERE)
+		words = ft_word_split(token);
+	else
+		ft_word_push(&words, WORD_QUOTE_DOUBLE, token->value, token->length);
 	if (!words)
 		return ;
 	tmp = words;
@@ -51,7 +63,5 @@ void	expand_token(t_token *token)
 		ft_pathname_expansion(token, fields);
 		return ;
 	}
-	str = ft_word_join(words);
-	ft_collector_track(str);
-	ft_tracked_array_push(&token->fields, str);
+	ft_expansion_push(words, &token->fields);
 }

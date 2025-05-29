@@ -13,6 +13,7 @@
 #include "builtins.h"
 #include "execution.h"
 #include <limits.h>
+#include <stdio.h>
 #include <unistd.h>
 
 static void	cleanup_and_exit(int code)
@@ -83,7 +84,10 @@ int	exit_cmd(char **args)
 	if (args[1])
 	{
 		ft_putendl_fd(SHELL_NAME ": exit: too many arguments", 2);
-		return (last_status || 1);
+		if (last_status)
+			return (last_status);
+		else
+			return (1);
 	}
 	cleanup_and_exit((int)code);
 	return (0);

@@ -12,6 +12,7 @@
 
 #include "env.h"
 #include "status.h"
+#include <readline/readline.h>
 
 static unsigned char	*ft_status_ptr(void)
 {
@@ -36,6 +37,7 @@ unsigned char	ft_status_set(unsigned char status)
 
 void	ft_status_exit(int status)
 {
+	rl_clear_history();
 	ft_env_clear();
 	ft_clear();
 	exit(status);

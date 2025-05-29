@@ -34,9 +34,9 @@ void	ft_field_push(t_word *w, t_word **curr, t_array **fields)
 		{
 			if (i > start)
 				ft_word_push(curr, w->type, w->value + start, i - start);
-			if (curr)
+			if (*curr)
 				ft_tracked_array_push(fields, *curr);
-			curr = NULL;
+			*curr = NULL;
 			while (i < len && is_ifs(w->value[i]))
 				i++;
 			start = i;
