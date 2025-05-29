@@ -60,10 +60,7 @@ int	ft_execute_subshell(t_ast *ast)
 
 	pid = fork();
 	if (pid < 0)
-	{
-		perror(SHELL_NAME ": fork: ");
-		return (1);
-	}
+		return (perror(SHELL_NAME ": fork: "), 1);
 	if (pid == 0)
 	{
 		ft_signal_child();
