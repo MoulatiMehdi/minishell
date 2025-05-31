@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: okhourss <okhourss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 12:55:36 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/04/22 08:06:03 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/05/31 12:41:05 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,8 @@ void	ft_lexer_type(t_token *const head)
 
 void	ft_lexer_recognition(t_token *curr_token)
 {
-	t_token	*prev_token;
 	t_token	*next_token;
 
-	prev_token = NULL;
 	next_token = NULL;
 	while (curr_token && curr_token->type != TOKEN_EOI)
 	{
@@ -66,7 +64,6 @@ void	ft_lexer_recognition(t_token *curr_token)
 				ft_free(next_token);
 			}
 		}
-		prev_token = curr_token;
 		curr_token = curr_token->next;
 	}
 }
