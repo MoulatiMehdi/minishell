@@ -11,17 +11,22 @@
 /* ************************************************************************** */
 
 #include "builtins.h"
+#include "libft/libft.h"
 
 static void	print_env(t_array *env)
 {
 	t_list	*curr;
+	char	*str;
 
 	if (!env)
 		return ;
 	curr = env->head;
 	while (curr)
 	{
-		if (ft_putendl_fd((char *)curr->content, 1) < 0)
+		str = ft_strchr((char *)curr->content, '=');
+		if (str && str[1] == '\0')
+			;
+		else if (str && ft_putendl_fd((char *)curr->content, 1) < 0)
 		{
 			perror(SHELL_NAME ": env: write error");
 			break ;
