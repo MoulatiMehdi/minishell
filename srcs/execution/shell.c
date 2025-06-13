@@ -12,7 +12,7 @@
 
 #include "config.h"
 #include "execution.h"
-#include "libft/libft.h"
+#include "libft.h"
 #include "parser.h"
 #include "status.h"
 #include "tokenizer.h"

@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "execution.h"
-#include "libft/libft.h"
+#include "libft.h"
 #include "parser.h"
 
 void	ft_signal_child(void)

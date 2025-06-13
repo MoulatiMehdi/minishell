@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "expansion.h"
-#include "libft/libft.h"
+#include "libft.h"
 
 int	is_joinable(t_word *word)
 {

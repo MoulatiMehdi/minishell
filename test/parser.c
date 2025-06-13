@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "debug.h"
-#include "libft/libft.h"
+#include "libft.h"
 #include "parser.h"
 
 char	*ft_asttype_getstr(t_token_type type);

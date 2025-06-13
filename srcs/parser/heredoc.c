@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include "execution.h"
-#include "libft/libft.h"
+#include "libft.h"
 #include "parser.h"
 #include <fcntl.h>
 #include <readline/readline.h>

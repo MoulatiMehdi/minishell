@@ -12,7 +12,7 @@
 
 #include "execution.h"
 #include "expansion.h"
-#include "libft/libft.h"
+#include "libft.h"
 #include "word.h"
 #include <stddef.h>
 #include <stdio.h>

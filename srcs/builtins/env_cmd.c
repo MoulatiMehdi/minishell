@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "builtins.h"
-#include "libft/libft.h"
+#include "libft.h"
 
 static void	print_env(t_array *env)
 {

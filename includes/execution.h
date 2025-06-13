@@ -16,7 +16,7 @@
 # include "config.h"
 # include "expansion.h"
 # include "libft.h"
-# include "libft/libft.h"
+# include "libft.h"
 # include "parser.h"
 # include "status.h"
 # include "tokenizer.h"

@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "env.h"
-#include "libft/libft.h"
+#include "libft.h"
 
 static char	*status_to_str(void)
 {

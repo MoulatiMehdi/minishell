@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "env.h"
-#include "libft/libft.h"
+#include "libft.h"
 #include <stdlib.h>
 
 t_array	**ft_env_ptr(void)

@@ -12,7 +12,7 @@
 #include "debug.h"
 #include "env.h"
 #include "expansion.h"
-#include "libft/libft.h"
+#include "libft.h"
 #include "parser.h"
 #include "tokenizer.h"
 #include <readline/history.h>

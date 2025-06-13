@@ -15,7 +15,7 @@
 
 # include "config.h"
 # include "env.h"
-# include "libft/libft.h"
+# include "libft.h"
 # include "status.h"
 # include <stdio.h>
 

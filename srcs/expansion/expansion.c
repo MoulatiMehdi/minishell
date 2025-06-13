@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "expansion.h"
-#include "libft/libft.h"
+#include "libft.h"
 #include "word.h"
 
 char	*ft_word_type(t_word *word)

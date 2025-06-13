@@ -13,7 +13,7 @@
 #include "config.h"
 #include "execution.h"
 #include "expansion.h"
-#include "libft/libft.h"
+#include "libft.h"
 #include "parser.h"
 #include "status.h"
 #include <stdio.h>

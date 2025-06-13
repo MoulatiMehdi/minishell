@@ -12,7 +12,7 @@
 
 #include "execution.h"
 #include "expansion.h"
-#include "libft/libft.h"
+#include "libft.h"
 #include <stddef.h>
 
 static int	ft_pattern_ismatch(char *pattern, char *path, char *mask);

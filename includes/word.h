@@ -13,7 +13,7 @@
 #ifndef WORD_H
 # define WORD_H
 
-# include "libft/libft.h"
+# include "libft.h"
 # include "tokenizer_init.h"
 
 typedef enum e_word_type
